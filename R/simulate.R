@@ -74,7 +74,7 @@ simulate_schint <- function(geno,
     p <- genes[[gn]]
     noise <- 1 - p$g - p$gxc - p$i - p$cov
     if (noise <= 0) stop("Variances of gene ", gn, " must sum to < 1.")
-    ## cell level: G x state
+    ## cell level: G×Cell-State
     g1 <- gscore(); g2 <- gscore(); di <- stats::rnorm(n)
     cell[[gn]] <- sqrt(p$g) * g1[ci] + sqrt(p$gxc) * g2[ci] * cell$state +
       sqrt(p$i) * z(di)[ci] + sqrt(p$cov) * z(cell_cov) + sqrt(noise) * stats::rnorm(N)

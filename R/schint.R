@@ -1,8 +1,8 @@
-#' Cell-level GxCell-State heritability model
+#' Cell-level G×Cell-State heritability model
 #'
 #' Haseman-Elston regression on pairs of cells that partitions the variance of
 #' one gene's expression into a main genetic component (`G`, one per GRM), genetic
-#' effects that change along a cell-state/context variable (`G x context`), a
+#' effects that change along a cell-state/context variable (`G×context`), a
 #' shared-donor component (`I`), context main effects and other covariates.
 #'
 #' For a pair of cells `a`, `b` from donors `i`, `j` the model regresses
@@ -58,12 +58,12 @@ schint_cell <- function(data, y, id, geno = NULL, grm = NULL, n_grm = 1L,
               scale_y, scale_x, jackknife, n_blocks, seed, match.call(), upper = TRUE)
 }
 
-#' Sample-level GxCell-Type heritability model
+#' Sample-level G×Cell-Type heritability model
 #'
 #' The sample-level (pseudobulk) counterpart of [schint_cell()]: each row is one
 #' donor x cell-type expression value. Variance is partitioned into a genetic
 #' component shared across cell types (`G`), cell-type-specific genetics
-#' (`G x celltype`, pairs from the same cell type), a donor component shared
+#' (`G×Cell-Type`, pairs from the same cell type), a donor component shared
 #' across cell types (`I`), a cell-type component (`celltype`) and covariates.
 #'
 #' @inheritParams schint_cell
@@ -72,7 +72,7 @@ schint_cell <- function(data, y, id, geno = NULL, grm = NULL, n_grm = 1L,
 #' @param gxc Fit cell-type-specific genetics (default `TRUE`); `FALSE` gives the
 #'   shared-genetics-only model.
 #' @param celltype_main Include the cell-type main-effect component (default `TRUE`).
-#' @param cat_mode `"pooled"` (one `G x celltype` component, default) or `"per_level"`
+#' @param cat_mode `"pooled"` (one `G×Cell-Type` component, default) or `"per_level"`
 #'   (a separate genetic variance for each cell type).
 #' @param covariates Other covariates (donor-level or observation-level).
 #' @inherit schint_cell return
@@ -101,14 +101,21 @@ schint_sample <- function(data, y, id, celltype, geno = NULL, grm = NULL, n_grm 
               scale_y, scale_x, jackknife, n_blocks, seed, match.call(), upper = FALSE)
 }
 
+.compact_summary <- function(s, digits) {
+  if (all(abs(s$fraction - s$variance) < 1e-8, na.rm = TRUE)) s$fraction <- NULL
+  if (!is.null(s$se_fraction) && all(abs(s$se_fraction - s$se) < 1e-8, na.rm = TRUE)) s$se_fraction <- NULL
+  s <- s[, !vapply(s, function(v) all(is.na(v)), TRUE), drop = FALSE]
+  num <- vapply(s, is.numeric, TRUE)
+  s[num] <- lapply(s[num], function(v) signif(v, digits))
+  s
+}
+
 #' @export
 print.schint <- function(x, digits = 3, ...) {
   cat("scHINT model: ", x$n_obs, " observations, ", x$n_donors, " donors, ",
       x$n_grm, " GRM", if (x$n_grm > 1) "s", "\n\n", sep = "")
-  cat("Variance components (fraction of Var(y)):\n")
-  s <- x$summary
-  s[-1] <- lapply(s[-1], signif, digits)
-  print(s, row.names = FALSE)
+  cat("Variance components (variance on the standardized-expression scale):\n")
+  print(.compact_summary(x$summary, digits), row.names = FALSE, na.print = "")
   if (!is.null(x$jackknife)) {
     cat("\nStandard errors: jackknife over ", x$jackknife$n_blocks, " donor blocks\n", sep = "")
   }

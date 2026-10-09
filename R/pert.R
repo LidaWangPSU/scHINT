@@ -197,8 +197,8 @@ print.schint_pert <- function(x, digits = 3, max_genes = 5, ...) {
       length(x$genes), " gene", if (length(x$genes) > 1) "s", "\n\n", sep = "")
   s <- x$summary
   s <- s[s$gene %in% utils::head(x$genes, max_genes), ]
-  s[-(1:2)] <- lapply(s[-(1:2)], signif, digits)
-  print(s, row.names = FALSE)
+  s <- .compact_summary(s, digits)
+  print(s, row.names = FALSE, na.print = "")
   if (length(x$genes) > max_genes) cat("... ", length(x$genes) - max_genes, " more genes in $summary\n", sep = "")
   if (!is.null(x$jackknife)) cat("\nStandard errors: jackknife over ", x$jackknife$n_blocks, " perturbation blocks\n", sep = "")
   invisible(x)

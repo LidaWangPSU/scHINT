@@ -2,7 +2,7 @@
 % Please edit documentation in R/schint.R
 \name{schint_cell}
 \alias{schint_cell}
-\title{Cell-level GxCell-State heritability model}
+\title{Cell-level G×Cell-State heritability model}
 \usage{
 schint_cell(
   data,
@@ -73,7 +73,7 @@ An object of class `"schint"` with `coefficients`, `summary` (grouped
 \description{
 Haseman-Elston regression on pairs of cells that partitions the variance of
 one gene's expression into a main genetic component (`G`, one per GRM), genetic
-effects that change along a cell-state/context variable (`G x context`), a
+effects that change along a cell-state/context variable (`G×context`), a
 shared-donor component (`I`), context main effects and other covariates.
 }
 \details{

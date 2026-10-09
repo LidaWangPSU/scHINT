@@ -2,7 +2,7 @@
 % Please edit documentation in R/schint.R
 \name{schint_sample}
 \alias{schint_sample}
-\title{Sample-level GxCell-Type heritability model}
+\title{Sample-level G×Cell-Type heritability model}
 \usage{
 schint_sample(
   data,
@@ -50,7 +50,7 @@ names, or a list of such matrices (one GRM each). Give either `geno` or `grm`.}
 \item{gxc}{Fit cell-type-specific genetics (default `TRUE`); `FALSE` gives the
 shared-genetics-only model.}
 
-\item{cat_mode}{`"pooled"` (one `G x celltype` component, default) or `"per_level"`
+\item{cat_mode}{`"pooled"` (one `G×Cell-Type` component, default) or `"per_level"`
 (a separate genetic variance for each cell type).}
 
 \item{ind_effect}{Include the shared-donor component `I` (default `TRUE`).}
@@ -74,7 +74,7 @@ An object of class `"schint"` with `coefficients`, `summary` (grouped
 The sample-level (pseudobulk) counterpart of [schint_cell()]: each row is one
 donor x cell-type expression value. Variance is partitioned into a genetic
 component shared across cell types (`G`), cell-type-specific genetics
-(`G x celltype`, pairs from the same cell type), a donor component shared
+(`G×Cell-Type`, pairs from the same cell type), a donor component shared
 across cell types (`I`), a cell-type component (`celltype`) and covariates.
 }
 \examples{

@@ -2,7 +2,24 @@ url: https://LidaWangPSU.github.io/scHINT/
 template:
   bootstrap: 5
   math-rendering: mathjax
+  bslib:
+    bg: "#ffffff"
+    fg: "#222222"
+    primary: "#0074d9"
+    link-color: "#0074d9"
+    link-hover-color: "#031634"
+    base_font:
+      google: {family: "Lora", wght: [400, 700], ital: [0, 1]}
+    heading_font:
+      google: {family: "Nunito", wght: [300, 400, 700, 800]}
+    code_font:
+      google: "Fira Mono"
+    font-size-base: "1.02rem"
+    navbar-light-color: "#222222"
+    navbar-light-hover-color: "#0074d9"
+    border-radius: "0.3rem"
 navbar:
+  bg: light
   structure:
     left: [intro, user_guide, tutorials, reference, news]
   components:
@@ -22,9 +39,9 @@ navbar:
     tutorials:
       text: Tutorials
       menu:
-        - text: G x Cell-State
+        - text: G×Cell-State
           href: articles/tutorial-cell-state.html
-        - text: G x Cell-Type (pseudobulk)
+        - text: G×Cell-Type (pseudobulk)
           href: articles/tutorial-cell-type.html
         - text: Perturbation
           href: articles/tutorial-perturbation.html

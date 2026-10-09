@@ -18,7 +18,7 @@ architecture (`ex$truth`):
 ex$truth
 ```
 
-* `GENE_A`: main genetic + G×state + donor effect
+* `GENE_A`: main genetic + G×Cell-State + donor effect
 * `GENE_B`: main genetic + donor effect, no interaction
 * `GENE_C`: no genetic effect
 
@@ -35,7 +35,7 @@ fitA
 varies with `state`, and `G_total` their sum. `h2` / `h2_upper` are the normalized
 heritabilities (see [Model](model.html), section 7).
 
-## 2. Is there G×state heritability?
+## 2. Is there G×Cell-State heritability?
 
 Compare the interaction estimate and its jackknife standard error across genes:
 
@@ -92,7 +92,7 @@ f3$summary[, c("term", "variance", "h2")]
 ```
 
 Here the cis SNPs are split into three MAF bins (rarest first), each with its own main
-and G×state variance; `G` and `GxC` are the sums over GRMs. Pass a list of genotype
+and G×Cell-State variance; `G` and `GxC` are the sums over GRMs. Pass a list of genotype
 matrices, or of GRMs, to split by any annotation.
 
 ## 6. Pre-computed GRMs

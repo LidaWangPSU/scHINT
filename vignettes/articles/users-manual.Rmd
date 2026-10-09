@@ -39,7 +39,7 @@ fit <- schint_cell(
   y          = "GENE",                 # expression column
   id         = "donor",
   geno       = geno_cis,               # donors x cis-SNPs
-  context    = paste0("PC", 1:5),      # G x PC1..PC5 interactions
+  context    = paste0("PC", 1:5),      # G×PC1..PC5 interactions
   covariates = c("PC6", "PC7", "pct_mt", "age", "sex"),
   jackknife  = TRUE
 )

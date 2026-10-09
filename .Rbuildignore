@@ -5,3 +5,5 @@
 ^_pkgdown\.yml$
 ^pkgdown$
 ^vignettes/articles$
+^README\.Rmd$
+^man/figures$
