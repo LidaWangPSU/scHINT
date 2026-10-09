@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet"><link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Nunito-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Sample-level G×Cell-Type heritability model — schint_sample"><meta name="description" content="The sample-level (pseudobulk) counterpart of [schint_cell()]: each row is one
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet"><link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Nunito-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Sample-level G×Cell-Type heritability model — schint_sample"><meta name="description" content="The sample-level (pseudobulk) counterpart of [schint_cell()]: each row is one
 donor x cell-type expression value. Variance is partitioned into a genetic
 component shared across cell types (`G`), cell-type-specific genetics
 (`G×Cell-Type`, pairs from the same cell type), a donor component shared
@@ -17,7 +17,7 @@ across cell types (`I`), a cell-type component (`celltype`) and covariates."></h
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">scHINT</a>
 
@@ -51,6 +51,12 @@ across cell types (`I`), a cell-type component (`celltype`) and covariates."></h
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/LidaWangPSU/scHINT/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch"><li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul></li>
       </ul></div>
 
 
@@ -81,8 +87,6 @@ across cell types (`I`), a cell-type component (`celltype`) and covariates.</p>
 <span>  <span class="va">celltype</span>,</span>
 <span>  geno <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  grm <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  n_grm <span class="op">=</span> <span class="fl">1L</span>,</span>
-<span>  grm_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"maf"</span>, <span class="st">"position"</span>, <span class="st">"random"</span><span class="op">)</span>,</span>
 <span>  covariates <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gxc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  cat_mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pooled"</span>, <span class="st">"per_level"</span><span class="op">)</span>,</span>
@@ -117,22 +121,14 @@ across cell types (`I`), a cell-type component (`celltype`) and covariates.</p>
 
 
 <dt id="arg-geno">geno<a class="anchor" aria-label="anchor" href="#arg-geno"></a></dt>
-<dd><p>Genotypes of the (cis) SNPs: a donors x SNPs dosage matrix with row
-names, or a list of such matrices (one GRM each). Give either `geno` or `grm`.</p></dd>
+<dd><p>Donors x SNPs dosage matrix of the cis SNPs, with donor IDs as row
+names; a single GRM is built from all SNPs. Give either `geno` or `grm`.</p></dd>
 
 
 <dt id="arg-grm">grm<a class="anchor" aria-label="anchor" href="#arg-grm"></a></dt>
 <dd><p>A pre-computed donor x donor GRM with donor IDs as dimnames, or a
-(named) list of GRMs for a multi-GRM model.</p></dd>
-
-
-<dt id="arg-n-grm">n_grm<a class="anchor" aria-label="anchor" href="#arg-n-grm"></a></dt>
-<dd><p>Number of GRMs to build from a single `geno` matrix (default `1`
-= one GRM from all SNPs). Values &gt; 1 split the SNPs with [split_snps()].</p></dd>
-
-
-<dt id="arg-grm-by">grm_by<a class="anchor" aria-label="anchor" href="#arg-grm-by"></a></dt>
-<dd><p>How to split SNPs when `n_grm &gt; 1`: `"maf"`, `"position"` or `"random"`.</p></dd>
+(named) list of GRMs for a multi-GRM model (one main genetic and one
+genotype-by-context component per GRM).</p></dd>
 
 
 <dt id="arg-covariates">covariates<a class="anchor" aria-label="anchor" href="#arg-covariates"></a></dt>

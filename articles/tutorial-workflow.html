@@ -12,7 +12,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
@@ -26,7 +26,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">scHINT</a>
 
@@ -68,6 +68,14 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/LidaWangPSU/scHINT/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -173,7 +181,7 @@ one job (the fits are independent).</p>
 <div class="section level2">
 <h2 id="summarizing">6. Summarizing<a class="anchor" aria-label="anchor" href="#summarizing"></a>
 </h2>
-<p>Typical summaries use the normalized heritabilities from
+<p>Typical summaries use the heritabilities (<code>h2</code>) from
 <code>summary</code>: the distribution of <code>h2</code> for
 <code>G</code> and <code>GxC</code>, the fraction of genes with <span class="math inline">\(z=\hat\sigma^2_{G\times
 C}/\mathrm{SE}&gt;\)</span> a threshold, or the mean of <code>GxC</code>
@@ -187,7 +195,7 @@ precision.</p>
 <ul>
 <li>
 <strong>Cis window.</strong> Heritability grows with the window;
-keep it constant across genes (the manuscript uses ±500 kb).</li>
+keep it constant across genes (±500 kb is a common choice).</li>
 <li>
 <strong>Number of state PCs</strong> in <code>context</code> – more
 axes give more flexibility but more parameters; 5 is a reasonable

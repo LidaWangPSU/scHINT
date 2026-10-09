@@ -12,7 +12,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
@@ -26,7 +26,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">scHINT</a>
 
@@ -68,6 +68,14 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/LidaWangPSU/scHINT/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -141,19 +149,17 @@ genetic.</li>
 <li>
 <code>context</code> - variance of cell-type mean differences.</li>
 </ul>
-<p><code>h2_upper</code> is only reported for the cell-level model; use
-<code>h2</code> here.</p>
 </div>
 <div class="section level2">
 <h2 id="shared-genetics-model-only">Shared-genetics model only<a class="anchor" aria-label="anchor" href="#shared-genetics-model-only"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/schint_sample.html">schint_sample</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">sample</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, <span class="st">"celltype"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, gxc <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">summary</span></span>
-<span><span class="co">#&gt;              term   variance   fraction        h2 h2_upper</span></span>
-<span><span class="co">#&gt; 1               G 0.11261510 0.11261510 0.1293135       NA</span></span>
-<span><span class="co">#&gt; 2               I 0.02610727 0.02610727 0.0299784       NA</span></span>
-<span><span class="co">#&gt; 3         context 0.73214679 0.73214679 0.8407081       NA</span></span>
-<span><span class="co">#&gt; 4 total_explained 0.87086915 0.87086915        NA       NA</span></span></code></pre></div>
+<span><span class="co">#&gt;              term   variance   fraction        h2</span></span>
+<span><span class="co">#&gt; 1               G 0.11261510 0.11261510 0.1293135</span></span>
+<span><span class="co">#&gt; 2               I 0.02610727 0.02610727 0.0299784</span></span>
+<span><span class="co">#&gt; 3         context 0.73214679 0.73214679 0.8407081</span></span>
+<span><span class="co">#&gt; 4 total_explained 0.87086915 0.87086915        NA</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="a-separate-genetic-variance-per-cell-type">A separate genetic variance per cell type<a class="anchor" aria-label="anchor" href="#a-separate-genetic-variance-per-cell-type"></a>

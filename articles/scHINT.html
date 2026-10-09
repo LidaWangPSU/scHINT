@@ -12,7 +12,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
@@ -26,7 +26,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">scHINT</a>
 
@@ -68,6 +68,14 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/LidaWangPSU/scHINT/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -156,9 +164,8 @@ perturb-seq screens</td>
 <div class="section level2">
 <h2 id="models">2. Models<a class="anchor" aria-label="anchor" href="#models"></a>
 </h2>
-<p>Notation follows the manuscript (Wang <em>et al.</em>). Full
-derivations, including the sufficient-statistics algorithm and the
-jackknife, are on the <a href="https://LidaWangPSU.github.io/scHINT/articles/model.html">Model
+<p>Full derivations, including the sufficient-statistics algorithm and
+the jackknife, are on the <a href="https://LidaWangPSU.github.io/scHINT/articles/model.html">Model
 page</a>.</p>
 <div class="section level3">
 <h3 id="gcell-state-heritability-cell-level">2.1 G×Cell-State heritability (cell level)<a class="anchor" aria-label="anchor" href="#gcell-state-heritability-cell-level"></a>
@@ -198,20 +205,22 @@ y_{im}y_{jn}\sim 1+K^G_{ij}+\mathbf
 <p>estimates the main genetic component, and the interaction model adds
 <span class="math inline">\(\sum_{k=1}^{K_{\rm
 int}}K^G_{ij}c_{imk}c_{jnk}\)</span>; the coefficients of <span class="math inline">\(K^G_{ij}\)</span> and <span class="math inline">\(K^G_{ij}c_{imk}c_{jnk}\)</span> are <span class="math inline">\(\hat\sigma_G^2\)</span> and <span class="math inline">\(\hat\sigma_{G\times C,k}^2\)</span>, and <span class="math inline">\(\hat\sigma_{G\times C}^2=\sum_k\hat\sigma_{G\times
-C,k}^2\)</span>. Normalized heritabilities, comparable to pseudobulk
-analyses, exclude the cell-level residual from the denominator:</p>
+C,k}^2\)</span>. To make the estimates comparable to population-level
+heritability, which is not diluted by cell-level noise, heritability can
+be defined with the cell-level residual removed from the
+denominator:</p>
 <p><span class="math display">\[
 h_G^2=\frac{\sigma_G^2}{\sigma_G^2+\sigma_{G\times
 C}^2+\sigma_C^2+\sigma_o^2+\sigma_I^2},\qquad
 h_{G\times C}^2=\frac{\sigma_{G\times C}^2}{\sigma_G^2+\sigma_{G\times
 C}^2+\sigma_C^2+\sigma_o^2+\sigma_I^2}.
 \]</span></p>
-<p>Several GRMs (e.g. MAF bins) give one <span class="math inline">\(\sigma_G^2\)</span> and one <span class="math inline">\(\sigma_{G\times C}^2\)</span> per GRM.</p>
+<p>A list of GRMs (e.g. MAF bins) gives one <span class="math inline">\(\sigma_G^2\)</span> and one <span class="math inline">\(\sigma_{G\times C}^2\)</span> per GRM.</p>
 </div>
 <div class="section level3">
 <h3 id="gcell-type-heritability-pseudobulk">2.2 G×Cell-Type heritability (pseudobulk)<a class="anchor" aria-label="anchor" href="#gcell-type-heritability-pseudobulk"></a>
 </h3>
-<p>For the pseudobulk expression <span class="math inline">\(y_{it}\)</span> of individual <span class="math inline">\(i\)</span> in cell type <span class="math inline">\(t=1,\dots,T\)</span> (Supplementary Note 1):</p>
+<p>For the pseudobulk expression <span class="math inline">\(y_{it}\)</span> of individual <span class="math inline">\(i\)</span> in cell type <span class="math inline">\(t=1,\dots,T\)</span>:</p>
 <p><span class="math display">\[
 y_{it}=g_i^\top\beta+g_i^\top\gamma_t+\alpha_t+o_{it}^\top\eta+e_i+\varepsilon_{it},
 \]</span></p>
@@ -236,26 +245,7 @@ shared across cell types and <span class="math inline">\(\sigma_{G\times
 CT}^2\)</span> is cell-type-specific genetic variance.</p>
 </div>
 <div class="section level3">
-<h3 id="cell-level-and-pseudobulk-heritability">2.3 Cell-level and pseudobulk heritability<a class="anchor" aria-label="anchor" href="#cell-level-and-pseudobulk-heritability"></a>
-</h3>
-<p>Pseudobulk averages out cell-specific variation, so cell-level and
-pseudobulk heritability have different denominators (Supplementary Note
-2). With <span class="math inline">\(m\)</span> cells per individual and
-<span class="math inline">\(q_{ik}=\alpha_1X_i+\alpha_2Z_{ik}+\beta
-G_i+I_i+\varepsilon_{ik}\)</span>,</p>
-<p><span class="math display">\[
-h^2_{\rm
-cell}=\frac{\beta^2}{\alpha_1^2+\alpha_2^2+\beta^2+\sigma_I^2+\sigma_\varepsilon^2},\qquad
-h^2_{\rm
-PB}=\frac{\beta^2}{\alpha_1^2+\beta^2+\sigma_I^2+(\alpha_2^2+\sigma_\varepsilon^2)/m}.
-\]</span></p>
-<p>scHINT reports <code>h2</code> (residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> removed from the
-denominator, a lower bound of the pseudobulk value) and
-<code>h2_upper</code> (also removing the cell-level covariate variance
-<span class="math inline">\(\alpha_2^2\)</span>).</p>
-</div>
-<div class="section level3">
-<h3 id="perturbation-context-heritability">2.4 Perturbation × context heritability<a class="anchor" aria-label="anchor" href="#perturbation-context-heritability"></a>
+<h3 id="perturbation-context-heritability">2.3 Perturbation × context heritability<a class="anchor" aria-label="anchor" href="#perturbation-context-heritability"></a>
 </h3>
 <p>For a gene, let <span class="math inline">\(p_m\)</span> be the
 perturbation of cell <span class="math inline">\(m\)</span> and <span class="math inline">\(c_m\in\mathbb{R}^K\)</span> its standardized
@@ -310,9 +300,9 @@ expression, donor ID, cell-state variables and covariates.</li>
 donor-ID columns.</li>
 <li>
 <code>geno</code> – donors × cis-SNPs dosage matrix (row names =
-donor IDs), <strong>or</strong> <code>grm</code> – a pre-computed GRM
-(or list of GRMs). <code>n_grm</code>/<code>grm_by</code> split the SNPs
-into several GRMs (default: one GRM from all cis-SNPs).</li>
+donor IDs); one GRM is built from all SNPs. <strong>Or</strong>
+<code>grm</code> – a pre-computed GRM, or a list of GRMs for a multi-GRM
+model.</li>
 <li>
 <code>context</code> – cell-state column(s) that interact with
 genetics (numeric = continuous, factor = categorical).</li>
@@ -338,14 +328,14 @@ genetics (numeric = continuous, factor = categorical).</li>
 <span><span class="co">#&gt; scHINT model: 12000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variance components (variance on the standardized-expression scale):</span></span>
-<span><span class="co">#&gt;             term variance     h2 h2_upper      se   se_h2 se_h2_upper</span></span>
-<span><span class="co">#&gt;                G  0.20500 0.4140    0.438 0.04700 0.08190      0.0860</span></span>
-<span><span class="co">#&gt;              GxC  0.16300 0.3290    0.348 0.03890 0.04980      0.0526</span></span>
-<span><span class="co">#&gt;          G_total  0.36900 0.7430    0.787 0.06680 0.07080      0.0732</span></span>
-<span><span class="co">#&gt;                I  0.07670 0.1550    0.164 0.03580 0.07430      0.0789</span></span>
-<span><span class="co">#&gt;          context  0.00704 0.0142       NA 0.00331 0.00617          NA</span></span>
-<span><span class="co">#&gt;        covariate  0.04360 0.0879    0.093 0.01130 0.02600      0.0278</span></span>
-<span><span class="co">#&gt;  total_explained  0.49600     NA       NA 0.06100      NA          NA</span></span>
+<span><span class="co">#&gt;             term variance     h2      se   se_h2</span></span>
+<span><span class="co">#&gt;                G  0.20500 0.4140 0.04700 0.08190</span></span>
+<span><span class="co">#&gt;              GxC  0.16300 0.3290 0.03890 0.04980</span></span>
+<span><span class="co">#&gt;          G_total  0.36900 0.7430 0.06680 0.07080</span></span>
+<span><span class="co">#&gt;                I  0.07670 0.1550 0.03580 0.07430</span></span>
+<span><span class="co">#&gt;          context  0.00704 0.0142 0.00331 0.00617</span></span>
+<span><span class="co">#&gt;        covariate  0.04360 0.0879 0.01130 0.02600</span></span>
+<span><span class="co">#&gt;  total_explained  0.49600     NA 0.06100      NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 50 donor blocks</span></span></code></pre></div>
 <p><strong>Output</strong> – <code>fit$summary</code> (grouped
@@ -353,12 +343,13 @@ components) and <code>fit$coefficients</code> (one row per regression
 term): <code>G</code> main genetic variance, <code>GxC</code>
 G×Cell-State variance, <code>G_total = G + GxC</code>, <code>I</code>
 donor, <code>context</code> and <code>covariate</code> components;
-<code>h2</code>/<code>h2_upper</code> normalized heritabilities;
-jackknife <code>se*</code> columns. Several GRMs and several context
-variables add per-GRM and per-variable rows.</p>
+<code>h2</code> population-level heritability (residual removed from the
+denominator); jackknife <code>se*</code> columns. Several GRMs and
+several context variables add per-GRM and per-variable rows.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># three MAF-binned GRMs, two cell-state axes</span></span>
-<span><span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, n_grm <span class="op">=</span> <span class="fl">3</span>, grm_by <span class="op">=</span> <span class="st">"maf"</span>,</span>
+<code class="sourceCode R"><span><span class="co"># several GRMs: e.g. cis SNPs split into three MAF bins, and two cell-state axes</span></span>
+<span><span class="va">grms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/split_snps.html">split_snps</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, <span class="fl">3</span>, by <span class="op">=</span> <span class="st">"maf"</span><span class="op">)</span>, <span class="va">make_grm</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, grm <span class="op">=</span> <span class="va">grms</span>,</span>
 <span>            context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"subtype"</span><span class="op">)</span>, covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
 <span><span class="co">#&gt;               term    variance    fraction</span></span>
 <span><span class="co">#&gt; 1                G  0.21304077  0.21304077</span></span>

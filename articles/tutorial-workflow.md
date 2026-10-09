@@ -90,7 +90,7 @@ Pass a named list of GRMs for a multi-GRM model.
 
 ## 6. Summarizing
 
-Typical summaries use the normalized heritabilities from `summary`: the
+Typical summaries use the heritabilities (`h2`) from `summary`: the
 distribution of `h2` for `G` and `GxC`, the fraction of genes with
 \\z=\hat\sigma^2\_{G\times C}/\mathrm{SE}\>\\ a threshold, or the mean
 of `GxC` over genes in a gene set. Weight by inverse variance (`1/se^2`)
@@ -99,7 +99,7 @@ when averaging across genes of unequal precision.
 ## 7. Choices that matter
 
 - **Cis window.** Heritability grows with the window; keep it constant
-  across genes (the manuscript uses ±500 kb).
+  across genes (±500 kb is a common choice).
 - **Number of state PCs** in `context` – more axes give more flexibility
   but more parameters; 5 is a reasonable default.
 - **Donor count.** Standard errors scale with the number of donors, not

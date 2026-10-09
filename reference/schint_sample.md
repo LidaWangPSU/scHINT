@@ -17,8 +17,6 @@ schint_sample(
   celltype,
   geno = NULL,
   grm = NULL,
-  n_grm = 1L,
-  grm_by = c("maf", "position", "random"),
   covariates = NULL,
   gxc = TRUE,
   cat_mode = c("pooled", "per_level"),
@@ -53,25 +51,15 @@ schint_sample(
 
 - geno:
 
-  Genotypes of the (cis) SNPs: a donors x SNPs dosage matrix with row
-  names, or a list of such matrices (one GRM each). Give either \`geno\`
-  or \`grm\`.
+  Donors x SNPs dosage matrix of the cis SNPs, with donor IDs as row
+  names; a single GRM is built from all SNPs. Give either \`geno\` or
+  \`grm\`.
 
 - grm:
 
   A pre-computed donor x donor GRM with donor IDs as dimnames, or a
-  (named) list of GRMs for a multi-GRM model.
-
-- n_grm:
-
-  Number of GRMs to build from a single \`geno\` matrix (default \`1\` =
-  one GRM from all SNPs). Values \> 1 split the SNPs with
-  \[split_snps()\].
-
-- grm_by:
-
-  How to split SNPs when \`n_grm \> 1\`: \`"maf"\`, \`"position"\` or
-  \`"random"\`.
+  (named) list of GRMs for a multi-GRM model (one main genetic and one
+  genotype-by-context component per GRM).
 
 - covariates:
 

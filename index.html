@@ -12,7 +12,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</script><script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/Lora-0.4.10/font.css" rel="stylesheet">
 <link href="deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
@@ -28,7 +28,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="index.html">scHINT</a>
 
@@ -70,6 +70,14 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/LidaWangPSU/scHINT/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -77,11 +85,51 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="schint">scHINT<a class="anchor" aria-label="anchor" href="#schint"></a>
+  <main id="main" class="col-md-9"><div class="sc-hero">
+<p class="sc-kicker">
+Gusev Lab · Dana-Farber Cancer Institute
+</p>
+<div class="page-header"><h1 class="sc-title">
+sc<span>HINT</span>
 </h1></div>
-<p><a href="https://github.com/LidaWangPSU/scHINT/actions" class="external-link"><img src="https://github.com/LidaWangPSU/scHINT/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></p>
-<p><em>Single-cell gene expression heritability with gene-by-cell-context interactions.</em> Documentation: <a href="https://LidaWangPSU.github.io/scHINT/" class="uri">https://LidaWangPSU.github.io/scHINT/</a></p>
+<p class="sc-tagline">
+Single-cell gene expression <strong>H</strong>eritability with gene-by-cell-context <strong>INT</strong>eractions
+</p>
+<p class="sc-lead">
+Estimate how much of a gene’s expression is genetic, and how much of that genetic effect changes with cell state, cell type or perturbation, directly from single-cell data.
+</p>
+<p class="sc-actions">
+<a class="sc-btn sc-btn-primary" href="articles/scHINT.html">Get started</a> <a class="sc-btn" href="articles/model.html">The model</a> <a class="external-link sc-btn" href="https://github.com/LidaWangPSU/scHINT">GitHub</a>
+</p>
+</div>
+<div class="sc-figure">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 980 330" role="img" aria-label="scHINT overview: cells nested in donors, pairs of cells, Haseman-Elston regression, variance components" font-family="Nunito, 'Helvetica Neue', Arial, sans-serif"><style>.t{font-size:13px;fill:#031634;font-weight:800;letter-spacing:.6px;text-transform:uppercase}.s{font-size:12px;fill:#51607a}.m{font-family:"Fira Mono",Menlo,monospace;font-size:11.5px;fill:#031634}.l{font-size:12px;fill:#031634;font-weight:700}</style>
+<rect width="980" height="330" rx="14" fill="#f6f9fd" stroke="#d5deea"></rect><text class="t" x="34" y="38">Data</text><text class="t" x="300" y="38">Pairs of cells</text><text class="t" x="560" y="38">Regression</text><text class="t" x="790" y="38">Output</text><rect x="34" y="62" width="200" height="62" rx="10" fill="#fff" stroke="#d5deea"></rect><text class="s" x="44" y="78">donor i</text><rect x="44" y="105" width="4" height="9" fill="#9aa7b8"></rect><rect x="51" y="104" width="4" height="10" fill="#9aa7b8"></rect><rect x="58" y="107" width="4" height="7" fill="#9aa7b8"></rect><rect x="65" y="97" width="4" height="17" fill="#9aa7b8"></rect><rect x="72" y="102" width="4" height="12" fill="#9aa7b8"></rect><rect x="79" y="101" width="4" height="13" fill="#9aa7b8"></rect><rect x="86" y="106" width="4" height="8" fill="#9aa7b8"></rect><circle cx="110.3" cy="107.2" r="5.2" fill="#bad9f6" stroke="#fff" stroke-width="1"></circle><circle cx="114.8" cy="91.3" r="5.2" fill="#b2d4f3" stroke="#fff" stroke-width="1"></circle><circle cx="118.5" cy="110.4" r="5.2" fill="#acd0f1" stroke="#fff" stroke-width="1"></circle><circle cx="141.6" cy="84.7" r="5.2" fill="#87b6e4" stroke="#fff" stroke-width="1"></circle><circle cx="149.8" cy="101.9" r="5.2" fill="#79addf" stroke="#fff" stroke-width="1"></circle><circle cx="168.4" cy="91.3" r="5.2" fill="#5b99d4" stroke="#fff" stroke-width="1"></circle><circle cx="171.7" cy="91.6" r="5.2" fill="#5595d2" stroke="#fff" stroke-width="1"></circle><circle cx="198.5" cy="88.6" r="5.2" fill="#2978c2" stroke="#fff" stroke-width="1"></circle><circle cx="222.8" cy="92.1" r="5.2" fill="#015db4" stroke="#fff" stroke-width="1"></circle><rect x="34" y="138" width="200" height="62" rx="10" fill="#fff" stroke="#d5deea"></rect><text class="s" x="44" y="154">donor j</text><rect x="44" y="173" width="4" height="17" fill="#9aa7b8"></rect><rect x="51" y="179" width="4" height="11" fill="#9aa7b8"></rect><rect x="58" y="183" width="4" height="7" fill="#9aa7b8"></rect><rect x="65" y="175" width="4" height="15" fill="#9aa7b8"></rect><rect x="72" y="179" width="4" height="11" fill="#9aa7b8"></rect><rect x="79" y="174" width="4" height="16" fill="#9aa7b8"></rect><rect x="86" y="178" width="4" height="12" fill="#9aa7b8"></rect><circle cx="118.4" cy="176.0" r="5.2" fill="#add0f1" stroke="#fff" stroke-width="1"></circle><circle cx="128.6" cy="184.7" r="5.2" fill="#9cc5eb" stroke="#fff" stroke-width="1"></circle><circle cx="142.8" cy="183.7" r="5.2" fill="#84b5e3" stroke="#fff" stroke-width="1"></circle><circle cx="162.9" cy="174.2" r="5.2" fill="#649fd7" stroke="#fff" stroke-width="1"></circle><circle cx="166.7" cy="171.6" r="5.2" fill="#5d9bd5" stroke="#fff" stroke-width="1"></circle><circle cx="171.5" cy="176.8" r="5.2" fill="#5595d2" stroke="#fff" stroke-width="1"></circle><circle cx="208.4" cy="172.1" r="5.2" fill="#196dbd" stroke="#fff" stroke-width="1"></circle><circle cx="213.4" cy="164.5" r="5.2" fill="#1167ba" stroke="#fff" stroke-width="1"></circle><circle cx="216.4" cy="168.5" r="5.2" fill="#0c64b8" stroke="#fff" stroke-width="1"></circle><rect x="34" y="214" width="200" height="62" rx="10" fill="#fff" stroke="#d5deea"></rect><text class="s" x="44" y="230">donor k</text><rect x="44" y="248" width="4" height="18" fill="#9aa7b8"></rect><rect x="51" y="260" width="4" height="6" fill="#9aa7b8"></rect><rect x="58" y="259" width="4" height="7" fill="#9aa7b8"></rect><rect x="65" y="260" width="4" height="6" fill="#9aa7b8"></rect><rect x="72" y="253" width="4" height="13" fill="#9aa7b8"></rect><rect x="79" y="250" width="4" height="16" fill="#9aa7b8"></rect><rect x="86" y="256" width="4" height="10" fill="#9aa7b8"></rect><circle cx="115.7" cy="241.1" r="5.2" fill="#b1d3f3" stroke="#fff" stroke-width="1"></circle><circle cx="124.8" cy="248.2" r="5.2" fill="#a2c9ee" stroke="#fff" stroke-width="1"></circle><circle cx="159.2" cy="252.5" r="5.2" fill="#6aa3da" stroke="#fff" stroke-width="1"></circle><circle cx="168.2" cy="253.8" r="5.2" fill="#5b99d4" stroke="#fff" stroke-width="1"></circle><circle cx="181.7" cy="241.6" r="5.2" fill="#458acc" stroke="#fff" stroke-width="1"></circle><circle cx="183.2" cy="245.1" r="5.2" fill="#4289cb" stroke="#fff" stroke-width="1"></circle><circle cx="186.2" cy="259.5" r="5.2" fill="#3d85ca" stroke="#fff" stroke-width="1"></circle><circle cx="189.3" cy="255.8" r="5.2" fill="#3882c8" stroke="#fff" stroke-width="1"></circle><circle cx="214.0" cy="243.8" r="5.2" fill="#1067b9" stroke="#fff" stroke-width="1"></circle><text class="s" x="34" y="296">genotype g (bars) · cell state c (light to dark)</text><path d="M250 170 L286 170" stroke="#0074d9" stroke-width="2" marker-end="url(#ar)"></path><defs><marker id="ar" markerwidth="9" markerheight="9" refx="7" refy="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#0074d9"></path></marker></defs><rect x="300" y="62" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><rect x="322" y="62" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="344" y="62" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="366" y="62" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="388" y="62" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="410" y="62" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="432" y="62" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="454" y="62" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="476" y="62" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="300" y="84" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="322" y="84" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><rect x="344" y="84" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="366" y="84" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="388" y="84" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="410" y="84" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="432" y="84" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="454" y="84" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="476" y="84" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="300" y="106" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="322" y="106" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="344" y="106" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><rect x="366" y="106" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="388" y="106" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="410" y="106" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="432" y="106" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="454" y="106" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="476" y="106" width="20" height="20" rx="3" fill="#0074d9" opacity="0.20"></rect><rect x="300" y="128" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="322" y="128" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="344" y="128" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="366" y="128" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><rect x="388" y="128" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="410" y="128" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="432" y="128" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="454" y="128" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="476" y="128" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="300" y="150" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="322" y="150" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="344" y="150" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="366" y="150" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="388" y="150" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><rect x="410" y="150" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="432" y="150" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="454" y="150" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="476" y="150" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="300" y="172" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="322" y="172" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="344" y="172" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="366" y="172" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="388" y="172" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="410" y="172" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><rect x="432" y="172" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="454" y="172" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="476" y="172" width="20" height="20" rx="3" fill="#0074d9" opacity="0.37"></rect><rect x="300" y="194" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="322" y="194" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="344" y="194" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="366" y="194" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="388" y="194" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="410" y="194" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="432" y="194" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><rect x="454" y="194" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="476" y="194" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="300" y="216" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="322" y="216" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="344" y="216" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="366" y="216" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="388" y="216" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="410" y="216" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="432" y="216" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="454" y="216" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><rect x="476" y="216" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="300" y="238" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="322" y="238" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="344" y="238" width="20" height="20" rx="3" fill="#0074d9" opacity="0.46"></rect><rect x="366" y="238" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="388" y="238" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="410" y="238" width="20" height="20" rx="3" fill="#0074d9" opacity="0.29"></rect><rect x="432" y="238" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="454" y="238" width="20" height="20" rx="3" fill="#009999" opacity="0.85"></rect><rect x="476" y="238" width="20" height="20" rx="3" fill="#f6f9fd" opacity="1.00"></rect><text class="s" x="300" y="280">product of expression for every pair of cells</text><rect x="300" y="294" width="11" height="11" rx="2" fill="#009999" opacity=".85"></rect><text class="s" x="317" y="304">same donor</text><rect x="404" y="294" width="11" height="11" rx="2" fill="#0074d9" opacity=".4"></rect><text class="s" x="421" y="304">related donors</text><path d="M515 170 L545 170" stroke="#0074d9" stroke-width="2" marker-end="url(#ar)"></path><text class="m" x="560" y="72">y<tspan baseline-shift="sub" font-size="9">im</tspan> y<tspan baseline-shift="sub" font-size="9">jn</tspan> ~</text><rect x="560" y="81" width="196" height="34" rx="8" fill="#fff" stroke="#d5deea"></rect><text class="m" x="572" y="96">1</text><text class="s" x="572" y="109">intercept</text><rect x="560" y="123" width="196" height="34" rx="8" fill="#fff" stroke="#d5deea"></rect><text class="m" x="572" y="138">K<tspan baseline-shift="sub" font-size="9">ij</tspan></text><text class="s" x="572" y="151">genetic relatedness (GRM)</text><rect x="560" y="165" width="196" height="34" rx="8" fill="#fff" stroke="#d5deea"></rect><text class="m" x="572" y="180">1(i = j)</text><text class="s" x="572" y="193">same donor</text><rect x="560" y="207" width="196" height="34" rx="8" fill="#fff" stroke="#d5deea"></rect><text class="m" x="572" y="222">c<tspan baseline-shift="sub" font-size="9">im</tspan> c<tspan baseline-shift="sub" font-size="9">jn</tspan></text><text class="s" x="572" y="235">cell state, covariates</text><rect x="560" y="249" width="196" height="34" rx="8" fill="#e6f4f4" stroke="#009999"></rect><text class="m" x="572" y="264">K<tspan baseline-shift="sub" font-size="9">ij</tspan> c<tspan baseline-shift="sub" font-size="9">im</tspan> c<tspan baseline-shift="sub" font-size="9">jn</tspan></text><text class="s" x="572" y="277">G×cell state</text><text class="s" x="560" y="314">least squares on donor-level sums</text><path d="M766 170 L786 170" stroke="#0074d9" stroke-width="2" marker-end="url(#ar)"></path><rect x="800" y="221.6" width="44" height="68.4" fill="#dbe3ee"></rect><text class="l" x="854" y="259.8">noise</text><rect x="800" y="203.4" width="44" height="18.2" fill="#9aa7b8"></rect><text class="l" x="854" y="216.5">covariate</text><rect x="800" y="176.0" width="44" height="27.4" fill="#0b2a5c"></rect><text class="l" x="854" y="193.7">donor I</text><rect x="800" y="125.8" width="44" height="50.2" fill="#009999"></rect><text class="l" x="854" y="154.9">G×cell state</text><rect x="800" y="62.0" width="44" height="63.8" fill="#0074d9"></rect><text class="l" x="854" y="97.9">G</text><rect x="800" y="62" width="44" height="228" rx="6" fill="none" stroke="#fff" stroke-width="3"></rect><text class="s" x="800" y="312">expression variance</text></svg>
+</div>
+<div class="sc-cards">
+<a class="sc-card" href="articles/tutorial-cell-state.html"> <span class="sc-tag sc-tag-blue">schint_cell()</span>
+<h3>
+G×Cell-State
+</h3>
+<p>
+Main genetic and genotype × cell-state heritability from single-cell expression of one cell type.
+</p>
+</a> <a class="sc-card" href="articles/tutorial-cell-type.html"> <span class="sc-tag sc-tag-teal">schint_sample()</span>
+<h3>
+G×Cell-Type
+</h3>
+<p>
+Cell-type-shared and cell-type-specific genetic variance from donor × cell-type pseudobulk.
+</p>
+</a> <a class="sc-card" href="articles/tutorial-perturbation.html"> <span class="sc-tag sc-tag-navy">schint_pert()</span>
+<h3>
+Perturbation × context
+</h3>
+<p>
+Perturbation and perturbation × cell-state / cell-type variance in perturb-seq screens.
+</p>
+<p></p></a>
+</div>
 <div class="section level2">
 <h2 id="id_1-introduction">1. Introduction<a class="anchor" aria-label="anchor" href="#id_1-introduction"></a>
 </h2>
@@ -96,9 +144,9 @@
 <p>The same framework extends to other contexts:</p>
 <table class="table">
 <colgroup>
-<col width="21%">
-<col width="13%">
-<col width="64%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
 <th>model</th>
@@ -129,7 +177,7 @@
 <div class="section level2">
 <h2 id="id_2-models">2. Models<a class="anchor" aria-label="anchor" href="#id_2-models"></a>
 </h2>
-<p>Notation follows the manuscript (Wang <em>et al.</em>). Full derivations, including the sufficient-statistics algorithm and the jackknife, are on the <a href="https://LidaWangPSU.github.io/scHINT/articles/model.html">Model page</a>.</p>
+<p>Full derivations, including the sufficient-statistics algorithm and the jackknife, are on the <a href="https://LidaWangPSU.github.io/scHINT/articles/model.html">Model page</a>.</p>
 <div class="section level3">
 <h3 id="id_21-gcell-state-heritability-cell-level">2.1 G×Cell-State heritability (cell level)<a class="anchor" aria-label="anchor" href="#id_21-gcell-state-heritability-cell-level"></a>
 </h3>
@@ -152,17 +200,17 @@ e_i\sim N(0,\sigma_I^2),\quad
 <p><span class="math display">\[
 y_{im}y_{jn}\sim 1+K^G_{ij}+\mathbf 1(i=j)+\sum_{k=1}^{K}c_{imk}c_{jnk}+\sum_{l=1}^{L}o_{iml}o_{jnl}
 \]</span></p>
-<p>estimates the main genetic component, and the interaction model adds <span class="math inline">\(\sum_{k=1}^{K_{\rm int}}K^G_{ij}c_{imk}c_{jnk}\)</span>; the coefficients of <span class="math inline">\(K^G_{ij}\)</span> and <span class="math inline">\(K^G_{ij}c_{imk}c_{jnk}\)</span> are <span class="math inline">\(\hat\sigma_G^2\)</span> and <span class="math inline">\(\hat\sigma_{G\times C,k}^2\)</span>, and <span class="math inline">\(\hat\sigma_{G\times C}^2=\sum_k\hat\sigma_{G\times C,k}^2\)</span>. Normalized heritabilities, comparable to pseudobulk analyses, exclude the cell-level residual from the denominator:</p>
+<p>estimates the main genetic component, and the interaction model adds <span class="math inline">\(\sum_{k=1}^{K_{\rm int}}K^G_{ij}c_{imk}c_{jnk}\)</span>; the coefficients of <span class="math inline">\(K^G_{ij}\)</span> and <span class="math inline">\(K^G_{ij}c_{imk}c_{jnk}\)</span> are <span class="math inline">\(\hat\sigma_G^2\)</span> and <span class="math inline">\(\hat\sigma_{G\times C,k}^2\)</span>, and <span class="math inline">\(\hat\sigma_{G\times C}^2=\sum_k\hat\sigma_{G\times C,k}^2\)</span>. To make the estimates comparable to population-level heritability, which is not diluted by cell-level noise, heritability can be defined with the cell-level residual removed from the denominator:</p>
 <p><span class="math display">\[
 h_G^2=\frac{\sigma_G^2}{\sigma_G^2+\sigma_{G\times C}^2+\sigma_C^2+\sigma_o^2+\sigma_I^2},\qquad
 h_{G\times C}^2=\frac{\sigma_{G\times C}^2}{\sigma_G^2+\sigma_{G\times C}^2+\sigma_C^2+\sigma_o^2+\sigma_I^2}.
 \]</span></p>
-<p>Several GRMs (e.g. MAF bins) give one <span class="math inline">\(\sigma_G^2\)</span> and one <span class="math inline">\(\sigma_{G\times C}^2\)</span> per GRM.</p>
+<p>A list of GRMs (e.g. MAF bins) gives one <span class="math inline">\(\sigma_G^2\)</span> and one <span class="math inline">\(\sigma_{G\times C}^2\)</span> per GRM.</p>
 </div>
 <div class="section level3">
 <h3 id="id_22-gcell-type-heritability-pseudobulk">2.2 G×Cell-Type heritability (pseudobulk)<a class="anchor" aria-label="anchor" href="#id_22-gcell-type-heritability-pseudobulk"></a>
 </h3>
-<p>For the pseudobulk expression <span class="math inline">\(y_{it}\)</span> of individual <span class="math inline">\(i\)</span> in cell type <span class="math inline">\(t=1,\dots,T\)</span> (Supplementary Note 1):</p>
+<p>For the pseudobulk expression <span class="math inline">\(y_{it}\)</span> of individual <span class="math inline">\(i\)</span> in cell type <span class="math inline">\(t=1,\dots,T\)</span>:</p>
 <p><span class="math display">\[
 y_{it}=g_i^\top\beta+g_i^\top\gamma_t+\alpha_t+o_{it}^\top\eta+e_i+\varepsilon_{it},
 \]</span></p>
@@ -179,17 +227,7 @@ y_{it}=g_i^\top\beta+g_i^\top\gamma_t+\alpha_t+o_{it}^\top\eta+e_i+\varepsilon_{
 <p>and the HE regression uses the kernels <span class="math inline">\(K^G_{ij}\)</span>, <span class="math inline">\(K^G_{ij}\mathbf 1(s=t)\)</span>, <span class="math inline">\(\mathbf 1(s=t)\)</span> and <span class="math inline">\(\mathbf 1(i=j)\)</span> (plus covariate kernels). <span class="math inline">\(\sigma_G^2\)</span> is genetic variance shared across cell types and <span class="math inline">\(\sigma_{G\times CT}^2\)</span> is cell-type-specific genetic variance.</p>
 </div>
 <div class="section level3">
-<h3 id="id_23-cell-level-and-pseudobulk-heritability">2.3 Cell-level and pseudobulk heritability<a class="anchor" aria-label="anchor" href="#id_23-cell-level-and-pseudobulk-heritability"></a>
-</h3>
-<p>Pseudobulk averages out cell-specific variation, so cell-level and pseudobulk heritability have different denominators (Supplementary Note 2). With <span class="math inline">\(m\)</span> cells per individual and <span class="math inline">\(q_{ik}=\alpha_1X_i+\alpha_2Z_{ik}+\beta G_i+I_i+\varepsilon_{ik}\)</span>,</p>
-<p><span class="math display">\[
-h^2_{\rm cell}=\frac{\beta^2}{\alpha_1^2+\alpha_2^2+\beta^2+\sigma_I^2+\sigma_\varepsilon^2},\qquad
-h^2_{\rm PB}=\frac{\beta^2}{\alpha_1^2+\beta^2+\sigma_I^2+(\alpha_2^2+\sigma_\varepsilon^2)/m}.
-\]</span></p>
-<p>scHINT reports <code>h2</code> (residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> removed from the denominator, a lower bound of the pseudobulk value) and <code>h2_upper</code> (also removing the cell-level covariate variance <span class="math inline">\(\alpha_2^2\)</span>).</p>
-</div>
-<div class="section level3">
-<h3 id="id_24-perturbation--context-heritability">2.4 Perturbation × context heritability<a class="anchor" aria-label="anchor" href="#id_24-perturbation--context-heritability"></a>
+<h3 id="id_23-perturbation--context-heritability">2.3 Perturbation × context heritability<a class="anchor" aria-label="anchor" href="#id_23-perturbation--context-heritability"></a>
 </h3>
 <p>For a gene, let <span class="math inline">\(p_m\)</span> be the perturbation of cell <span class="math inline">\(m\)</span> and <span class="math inline">\(c_m\in\mathbb{R}^K\)</span> its standardized cell-state features:</p>
 <p><span class="math display">\[
@@ -231,7 +269,7 @@ y_my_n\sim 1+\mathbf 1(p_m=p_n)+\sum_{k=1}^{K}c_{mk}c_{nk}+\mathbf 1(p_m=p_n)\su
 <li>
 <code>y</code>, <code>id</code> – names of the expression and donor-ID columns.</li>
 <li>
-<code>geno</code> – donors × cis-SNPs dosage matrix (row names = donor IDs), <strong>or</strong> <code>grm</code> – a pre-computed GRM (or list of GRMs). <code>n_grm</code>/<code>grm_by</code> split the SNPs into several GRMs (default: one GRM from all cis-SNPs).</li>
+<code>geno</code> – donors × cis-SNPs dosage matrix (row names = donor IDs); one GRM is built from all SNPs. <strong>Or</strong> <code>grm</code> – a pre-computed GRM, or a list of GRMs for a multi-GRM model.</li>
 <li>
 <code>context</code> – cell-state column(s) that interact with genetics (numeric = continuous, factor = categorical).</li>
 <li>
@@ -255,20 +293,21 @@ y_my_n\sim 1+\mathbf 1(p_m=p_n)+\sum_{k=1}^{K}c_{mk}c_{nk}+\mathbf 1(p_m=p_n)\su
 <span><span class="co">#&gt; scHINT model: 12000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variance components (variance on the standardized-expression scale):</span></span>
-<span><span class="co">#&gt;             term variance     h2 h2_upper      se   se_h2 se_h2_upper</span></span>
-<span><span class="co">#&gt;                G  0.20500 0.4140    0.438 0.04700 0.08190      0.0860</span></span>
-<span><span class="co">#&gt;              GxC  0.16300 0.3290    0.348 0.03890 0.04980      0.0526</span></span>
-<span><span class="co">#&gt;          G_total  0.36900 0.7430    0.787 0.06680 0.07080      0.0732</span></span>
-<span><span class="co">#&gt;                I  0.07670 0.1550    0.164 0.03580 0.07430      0.0789</span></span>
-<span><span class="co">#&gt;          context  0.00704 0.0142       NA 0.00331 0.00617          NA</span></span>
-<span><span class="co">#&gt;        covariate  0.04360 0.0879    0.093 0.01130 0.02600      0.0278</span></span>
-<span><span class="co">#&gt;  total_explained  0.49600     NA       NA 0.06100      NA          NA</span></span>
+<span><span class="co">#&gt;             term variance     h2      se   se_h2</span></span>
+<span><span class="co">#&gt;                G  0.20500 0.4140 0.04700 0.08190</span></span>
+<span><span class="co">#&gt;              GxC  0.16300 0.3290 0.03890 0.04980</span></span>
+<span><span class="co">#&gt;          G_total  0.36900 0.7430 0.06680 0.07080</span></span>
+<span><span class="co">#&gt;                I  0.07670 0.1550 0.03580 0.07430</span></span>
+<span><span class="co">#&gt;          context  0.00704 0.0142 0.00331 0.00617</span></span>
+<span><span class="co">#&gt;        covariate  0.04360 0.0879 0.01130 0.02600</span></span>
+<span><span class="co">#&gt;  total_explained  0.49600     NA 0.06100      NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 50 donor blocks</span></span></code></pre></div>
-<p><strong>Output</strong> – <code>fit$summary</code> (grouped components) and <code>fit$coefficients</code> (one row per regression term): <code>G</code> main genetic variance, <code>GxC</code> G×Cell-State variance, <code>G_total = G + GxC</code>, <code>I</code> donor, <code>context</code> and <code>covariate</code> components; <code>h2</code>/<code>h2_upper</code> normalized heritabilities; jackknife <code>se*</code> columns. Several GRMs and several context variables add per-GRM and per-variable rows.</p>
+<p><strong>Output</strong> – <code>fit$summary</code> (grouped components) and <code>fit$coefficients</code> (one row per regression term): <code>G</code> main genetic variance, <code>GxC</code> G×Cell-State variance, <code>G_total = G + GxC</code>, <code>I</code> donor, <code>context</code> and <code>covariate</code> components; <code>h2</code> population-level heritability (residual removed from the denominator); jackknife <code>se*</code> columns. Several GRMs and several context variables add per-GRM and per-variable rows.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># three MAF-binned GRMs, two cell-state axes</span></span>
-<span><span class="fu"><a href="reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, n_grm <span class="op">=</span> <span class="fl">3</span>, grm_by <span class="op">=</span> <span class="st">"maf"</span>,</span>
+<code class="sourceCode R"><span><span class="co"># several GRMs: e.g. cis SNPs split into three MAF bins, and two cell-state axes</span></span>
+<span><span class="va">grms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="reference/split_snps.html">split_snps</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, <span class="fl">3</span>, by <span class="op">=</span> <span class="st">"maf"</span><span class="op">)</span>, <span class="va">make_grm</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, grm <span class="op">=</span> <span class="va">grms</span>,</span>
 <span>            context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"subtype"</span><span class="op">)</span>, covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
 <span><span class="co">#&gt;               term    variance    fraction</span></span>
 <span><span class="co">#&gt; 1                G  0.21304077  0.21304077</span></span>
@@ -366,7 +405,7 @@ y_my_n\sim 1+\mathbf 1(p_m=p_n)+\sum_{k=1}^{K}c_{mk}c_{nk}+\mathbf 1(p_m=p_n)\su
 <p><strong>Citation.</strong> Wang L, Fadil C, Wang L, Van Dyke K, Gusev A. <em>Single-cell gene expression heritability informed by gene × cell-context interactions.</em> (manuscript)</p>
 </div>
 </div>
-</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

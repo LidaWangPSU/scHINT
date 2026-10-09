@@ -12,7 +12,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
@@ -26,7 +26,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">scHINT</a>
 
@@ -68,6 +68,14 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/LidaWangPSU/scHINT/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -182,35 +190,25 @@ dropped with a message.</li>
 <tr class="odd">
 <td><code>geno</code></td>
 <td>donors × SNPs dosage matrix (0/1/2, <code>NA</code> allowed),
-<strong>row names = donor IDs</strong> – the cis SNPs of the gene</td>
+<strong>row names = donor IDs</strong> – the cis SNPs of the gene; one
+GRM is built from all SNPs</td>
 </tr>
 <tr class="even">
-<td>
-<code>geno</code> as a list</td>
-<td>one matrix per GRM (e.g. SNPs per MAF bin or annotation)</td>
-</tr>
-<tr class="odd">
 <td><code>grm</code></td>
 <td>a pre-computed donor × donor GRM with donor IDs as dimnames, or a
-(named) list of GRMs</td>
-</tr>
-<tr class="even">
-<td>
-<code>n_grm</code>, <code>grm_by</code>
-</td>
-<td>split a single <code>geno</code> into <code>n_grm</code> GRMs by
-<code>"maf"</code>, <code>"position"</code> or
-<code>"random"</code>
-</td>
+(named) list of GRMs for a multi-GRM model</td>
 </tr>
 </tbody>
 </table>
-<p>The default is one GRM from all supplied cis SNPs. Select SNPs within
-±500 kb of the gene (<code><a href="../reference/select_cis_snps.html">select_cis_snps()</a></code>); genotypes are
-standardized by allele frequency and the GRM is <span class="math inline">\(XX^\top/p\)</span>. GRMs computed by GCTA can be
-loaded with <code><a href="../reference/read_grm_bin.html">read_grm_bin()</a></code>. PLINK files are read with
-<code><a href="../reference/read_plink.html">read_plink()</a></code> (needs the <code>BEDMatrix</code>
-package).</p>
+<p>With <code>geno</code> one GRM is built from all supplied cis SNPs;
+for several GRMs build them yourself (for example
+<code>lapply(split_snps(geno, 3), make_grm)</code>) and pass the list to
+<code>grm</code>. Select SNPs within ±500 kb of the gene
+(<code><a href="../reference/select_cis_snps.html">select_cis_snps()</a></code>); genotypes are standardized by allele
+frequency and the GRM is <span class="math inline">\(XX^\top/p\)</span>.
+GRMs computed by GCTA can be loaded with <code><a href="../reference/read_grm_bin.html">read_grm_bin()</a></code>.
+PLINK files are read with <code><a href="../reference/read_plink.html">read_plink()</a></code> (needs the
+<code>BEDMatrix</code> package).</p>
 </div>
 <div class="section level3">
 <h3 id="perturbation-input">Perturbation input<a class="anchor" aria-label="anchor" href="#perturbation-input"></a>
@@ -243,22 +241,22 @@ perturbation vectors.</p>
 components (what you usually report):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span><span class="op">$</span><span class="va">summary</span></span>
-<span><span class="co">#&gt;              term    variance    fraction         h2   h2_upper          se</span></span>
-<span><span class="co">#&gt; 1               G 0.205483423 0.205483423 0.41416751 0.43829624 0.047000781</span></span>
-<span><span class="co">#&gt; 2             GxC 0.163326375 0.163326375 0.32919676 0.34837524 0.038891575</span></span>
-<span><span class="co">#&gt; 3         G_total 0.368809799 0.368809799 0.74336427 0.78667148 0.066811617</span></span>
-<span><span class="co">#&gt; 4               I 0.076689304 0.076689304 0.15457314 0.16357832 0.035847480</span></span>
-<span><span class="co">#&gt; 5         context 0.007037157 0.007037157 0.01418393         NA 0.003309055</span></span>
-<span><span class="co">#&gt; 6       covariate 0.043599773 0.043599773 0.08787867 0.09299834 0.011296490</span></span>
-<span><span class="co">#&gt; 7 total_explained 0.496136034 0.496136034         NA         NA 0.060999075</span></span>
-<span><span class="co">#&gt;   se_fraction       se_h2 se_h2_upper</span></span>
-<span><span class="co">#&gt; 1 0.047000781 0.081921231  0.08602009</span></span>
-<span><span class="co">#&gt; 2 0.038891575 0.049752009  0.05257451</span></span>
-<span><span class="co">#&gt; 3 0.066811617 0.070786682  0.07320356</span></span>
-<span><span class="co">#&gt; 4 0.035847480 0.074297698  0.07890697</span></span>
-<span><span class="co">#&gt; 5 0.003309055 0.006174124          NA</span></span>
-<span><span class="co">#&gt; 6 0.011296490 0.026030513  0.02781032</span></span>
-<span><span class="co">#&gt; 7 0.060999075          NA          NA</span></span></code></pre></div>
+<span><span class="co">#&gt;              term    variance    fraction         h2          se se_fraction</span></span>
+<span><span class="co">#&gt; 1               G 0.205483423 0.205483423 0.41416751 0.047000781 0.047000781</span></span>
+<span><span class="co">#&gt; 2             GxC 0.163326375 0.163326375 0.32919676 0.038891575 0.038891575</span></span>
+<span><span class="co">#&gt; 3         G_total 0.368809799 0.368809799 0.74336427 0.066811617 0.066811617</span></span>
+<span><span class="co">#&gt; 4               I 0.076689304 0.076689304 0.15457314 0.035847480 0.035847480</span></span>
+<span><span class="co">#&gt; 5         context 0.007037157 0.007037157 0.01418393 0.003309055 0.003309055</span></span>
+<span><span class="co">#&gt; 6       covariate 0.043599773 0.043599773 0.08787867 0.011296490 0.011296490</span></span>
+<span><span class="co">#&gt; 7 total_explained 0.496136034 0.496136034         NA 0.060999075 0.060999075</span></span>
+<span><span class="co">#&gt;         se_h2</span></span>
+<span><span class="co">#&gt; 1 0.081921231</span></span>
+<span><span class="co">#&gt; 2 0.049752009</span></span>
+<span><span class="co">#&gt; 3 0.070786682</span></span>
+<span><span class="co">#&gt; 4 0.074297698</span></span>
+<span><span class="co">#&gt; 5 0.006174124</span></span>
+<span><span class="co">#&gt; 6 0.026030513</span></span>
+<span><span class="co">#&gt; 7          NA</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -290,17 +288,13 @@ several context variables also <code>GxC:&lt;variable&gt;</code>
 denominator)</td>
 </tr>
 <tr class="even">
-<td>
-<code>h2</code>, <code>h2_upper</code>
-</td>
-<td>normalized heritability (residual removed from the denominator;
-<code>h2_upper</code> also removes within-donor context/covariate
-variance; see <a href="model.html">Model</a>)</td>
+<td><code>h2</code></td>
+<td>population-level heritability (cell-level residual removed from the
+denominator; see <a href="model.html">Model</a>)</td>
 </tr>
 <tr class="odd">
 <td>
-<code>se</code>, <code>se_fraction</code>, <code>se_h2</code>,
-<code>se_h2_upper</code>
+<code>se</code>, <code>se_fraction</code>, <code>se_h2</code>
 </td>
 <td>jackknife standard errors (only with
 <code>jackknife = TRUE</code>)</td>

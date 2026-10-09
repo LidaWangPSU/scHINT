@@ -15,8 +15,6 @@ schint_cell(
   id,
   geno = NULL,
   grm = NULL,
-  n_grm = 1L,
-  grm_by = c("maf", "position", "random"),
   context = NULL,
   covariates = NULL,
   cat_mode = c("pooled", "per_level"),
@@ -47,25 +45,15 @@ schint_cell(
 
 - geno:
 
-  Genotypes of the (cis) SNPs: a donors x SNPs dosage matrix with row
-  names, or a list of such matrices (one GRM each). Give either \`geno\`
-  or \`grm\`.
+  Donors x SNPs dosage matrix of the cis SNPs, with donor IDs as row
+  names; a single GRM is built from all SNPs. Give either \`geno\` or
+  \`grm\`.
 
 - grm:
 
   A pre-computed donor x donor GRM with donor IDs as dimnames, or a
-  (named) list of GRMs for a multi-GRM model.
-
-- n_grm:
-
-  Number of GRMs to build from a single \`geno\` matrix (default \`1\` =
-  one GRM from all SNPs). Values \> 1 split the SNPs with
-  \[split_snps()\].
-
-- grm_by:
-
-  How to split SNPs when \`n_grm \> 1\`: \`"maf"\`, \`"position"\` or
-  \`"random"\`.
+  (named) list of GRMs for a multi-GRM model (one main genetic and one
+  genotype-by-context component per GRM).
 
 - context:
 
@@ -137,12 +125,12 @@ fit
 #> scHINT model: 12000 observations, 400 donors, 1 GRM
 #> 
 #> Variance components (variance on the standardized-expression scale):
-#>             term variance     h2 h2_upper
-#>                G  0.20500 0.4140    0.438
-#>              GxC  0.16300 0.3290    0.348
-#>          G_total  0.36900 0.7430    0.787
-#>                I  0.07670 0.1550    0.164
-#>          context  0.00704 0.0142       NA
-#>        covariate  0.04360 0.0879    0.093
-#>  total_explained  0.49600     NA       NA
+#>             term variance     h2
+#>                G  0.20500 0.4140
+#>              GxC  0.16300 0.3290
+#>          G_total  0.36900 0.7430
+#>                I  0.07670 0.1550
+#>          context  0.00704 0.0142
+#>        covariate  0.04360 0.0879
+#>  total_explained  0.49600     NA
 ```

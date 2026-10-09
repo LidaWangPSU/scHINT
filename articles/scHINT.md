@@ -36,9 +36,8 @@ The same framework extends to other contexts:
 
 ## 2. Models
 
-Notation follows the manuscript (Wang *et al.*). Full derivations,
-including the sufficient-statistics algorithm and the jackknife, are on
-the [Model
+Full derivations, including the sufficient-statistics algorithm and the
+jackknife, are on the [Model
 page](https://LidaWangPSU.github.io/scHINT/articles/model.html).
 
 ### 2.1 G×Cell-State heritability (cell level)
@@ -79,22 +78,23 @@ estimates the main genetic component, and the interaction model adds
 \\\sum\_{k=1}^{K\_{\rm int}}K^G\_{ij}c\_{imk}c\_{jnk}\\; the
 coefficients of \\K^G\_{ij}\\ and \\K^G\_{ij}c\_{imk}c\_{jnk}\\ are
 \\\hat\sigma_G^2\\ and \\\hat\sigma\_{G\times C,k}^2\\, and
-\\\hat\sigma\_{G\times C}^2=\sum_k\hat\sigma\_{G\times C,k}^2\\.
-Normalized heritabilities, comparable to pseudobulk analyses, exclude
-the cell-level residual from the denominator:
+\\\hat\sigma\_{G\times C}^2=\sum_k\hat\sigma\_{G\times C,k}^2\\. To make
+the estimates comparable to population-level heritability, which is not
+diluted by cell-level noise, heritability can be defined with the
+cell-level residual removed from the denominator:
 
 \\ h_G^2=\frac{\sigma_G^2}{\sigma_G^2+\sigma\_{G\times
 C}^2+\sigma_C^2+\sigma_o^2+\sigma_I^2},\qquad h\_{G\times
 C}^2=\frac{\sigma\_{G\times C}^2}{\sigma_G^2+\sigma\_{G\times
 C}^2+\sigma_C^2+\sigma_o^2+\sigma_I^2}. \\
 
-Several GRMs (e.g. MAF bins) give one \\\sigma_G^2\\ and one
+A list of GRMs (e.g. MAF bins) gives one \\\sigma_G^2\\ and one
 \\\sigma\_{G\times C}^2\\ per GRM.
 
 ### 2.2 G×Cell-Type heritability (pseudobulk)
 
 For the pseudobulk expression \\y\_{it}\\ of individual \\i\\ in cell
-type \\t=1,\dots,T\\ (Supplementary Note 1):
+type \\t=1,\dots,T\\:
 
 \\
 y\_{it}=g_i^\top\beta+g_i^\top\gamma_t+\alpha_t+o\_{it}^\top\eta+e_i+\varepsilon\_{it},
@@ -118,24 +118,7 @@ and the HE regression uses the kernels \\K^G\_{ij}\\, \\K^G\_{ij}\mathbf
 kernels). \\\sigma_G^2\\ is genetic variance shared across cell types
 and \\\sigma\_{G\times CT}^2\\ is cell-type-specific genetic variance.
 
-### 2.3 Cell-level and pseudobulk heritability
-
-Pseudobulk averages out cell-specific variation, so cell-level and
-pseudobulk heritability have different denominators (Supplementary Note
-2). With \\m\\ cells per individual and
-\\q\_{ik}=\alpha_1X_i+\alpha_2Z\_{ik}+\beta G_i+I_i+\varepsilon\_{ik}\\,
-
-\\ h^2\_{\rm
-cell}=\frac{\beta^2}{\alpha_1^2+\alpha_2^2+\beta^2+\sigma_I^2+\sigma\_\varepsilon^2},\qquad
-h^2\_{\rm
-PB}=\frac{\beta^2}{\alpha_1^2+\beta^2+\sigma_I^2+(\alpha_2^2+\sigma\_\varepsilon^2)/m}.
-\\
-
-scHINT reports `h2` (residual \\\sigma\_\varepsilon^2\\ removed from the
-denominator, a lower bound of the pseudobulk value) and `h2_upper` (also
-removing the cell-level covariate variance \\\alpha_2^2\\).
-
-### 2.4 Perturbation × context heritability
+### 2.3 Perturbation × context heritability
 
 For a gene, let \\p_m\\ be the perturbation of cell \\m\\ and
 \\c_m\in\mathbb{R}^K\\ its standardized cell-state features:
@@ -189,9 +172,9 @@ ex <- schint_example
 - `data` – one row per cell (of one cell type) with expression, donor
   ID, cell-state variables and covariates.
 - `y`, `id` – names of the expression and donor-ID columns.
-- `geno` – donors × cis-SNPs dosage matrix (row names = donor IDs),
-  **or** `grm` – a pre-computed GRM (or list of GRMs). `n_grm`/`grm_by`
-  split the SNPs into several GRMs (default: one GRM from all cis-SNPs).
+- `geno` – donors × cis-SNPs dosage matrix (row names = donor IDs); one
+  GRM is built from all SNPs. **Or** `grm` – a pre-computed GRM, or a
+  list of GRMs for a multi-GRM model.
 - `context` – cell-state column(s) that interact with genetics (numeric
   = continuous, factor = categorical).
 - `covariates` – other covariates (main effects only).
@@ -220,14 +203,14 @@ fit
 #> scHINT model: 12000 observations, 400 donors, 1 GRM
 #> 
 #> Variance components (variance on the standardized-expression scale):
-#>             term variance     h2 h2_upper      se   se_h2 se_h2_upper
-#>                G  0.20500 0.4140    0.438 0.04700 0.08190      0.0860
-#>              GxC  0.16300 0.3290    0.348 0.03890 0.04980      0.0526
-#>          G_total  0.36900 0.7430    0.787 0.06680 0.07080      0.0732
-#>                I  0.07670 0.1550    0.164 0.03580 0.07430      0.0789
-#>          context  0.00704 0.0142       NA 0.00331 0.00617          NA
-#>        covariate  0.04360 0.0879    0.093 0.01130 0.02600      0.0278
-#>  total_explained  0.49600     NA       NA 0.06100      NA          NA
+#>             term variance     h2      se   se_h2
+#>                G  0.20500 0.4140 0.04700 0.08190
+#>              GxC  0.16300 0.3290 0.03890 0.04980
+#>          G_total  0.36900 0.7430 0.06680 0.07080
+#>                I  0.07670 0.1550 0.03580 0.07430
+#>          context  0.00704 0.0142 0.00331 0.00617
+#>        covariate  0.04360 0.0879 0.01130 0.02600
+#>  total_explained  0.49600     NA 0.06100      NA
 #> 
 #> Standard errors: jackknife over 50 donor blocks
 ```
@@ -235,14 +218,15 @@ fit
 **Output** – `fit$summary` (grouped components) and `fit$coefficients`
 (one row per regression term): `G` main genetic variance, `GxC`
 G×Cell-State variance, `G_total = G + GxC`, `I` donor, `context` and
-`covariate` components; `h2`/`h2_upper` normalized heritabilities;
-jackknife `se*` columns. Several GRMs and several context variables add
-per-GRM and per-variable rows.
+`covariate` components; `h2` population-level heritability (residual
+removed from the denominator); jackknife `se*` columns. Several GRMs and
+several context variables add per-GRM and per-variable rows.
 
 ``` r
 
-# three MAF-binned GRMs, two cell-state axes
-schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno, n_grm = 3, grm_by = "maf",
+# several GRMs: e.g. cis SNPs split into three MAF bins, and two cell-state axes
+grms <- lapply(split_snps(ex$geno, 3, by = "maf"), make_grm)
+schint_cell(ex$cell, "GENE_A", "donor", grm = grms,
             context = c("state", "subtype"), covariates = c("pc1", "pc2"))$summary[, 1:3]
 #>               term    variance    fraction
 #> 1                G  0.21304077  0.21304077

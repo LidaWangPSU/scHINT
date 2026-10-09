@@ -47,13 +47,13 @@ head(ex$cell, 3)
 
 | argument | meaning |
 |----|----|
-| `geno` | donors × SNPs dosage matrix (0/1/2, `NA` allowed), **row names = donor IDs** – the cis SNPs of the gene |
-| `geno` as a list | one matrix per GRM (e.g. SNPs per MAF bin or annotation) |
-| `grm` | a pre-computed donor × donor GRM with donor IDs as dimnames, or a (named) list of GRMs |
-| `n_grm`, `grm_by` | split a single `geno` into `n_grm` GRMs by `"maf"`, `"position"` or `"random"` |
+| `geno` | donors × SNPs dosage matrix (0/1/2, `NA` allowed), **row names = donor IDs** – the cis SNPs of the gene; one GRM is built from all SNPs |
+| `grm` | a pre-computed donor × donor GRM with donor IDs as dimnames, or a (named) list of GRMs for a multi-GRM model |
 
-The default is one GRM from all supplied cis SNPs. Select SNPs within
-±500 kb of the gene
+With `geno` one GRM is built from all supplied cis SNPs; for several
+GRMs build them yourself (for example
+`lapply(split_snps(geno, 3), make_grm)`) and pass the list to `grm`.
+Select SNPs within ±500 kb of the gene
 ([`select_cis_snps()`](https://LidaWangPSU.github.io/scHINT/reference/select_cis_snps.md));
 genotypes are standardized by allele frequency and the GRM is
 \\XX^\top/p\\. GRMs computed by GCTA can be loaded with
@@ -93,22 +93,22 @@ report):
 ``` r
 
 fit$summary
-#>              term    variance    fraction         h2   h2_upper          se
-#> 1               G 0.205483423 0.205483423 0.41416751 0.43829624 0.047000781
-#> 2             GxC 0.163326375 0.163326375 0.32919676 0.34837524 0.038891575
-#> 3         G_total 0.368809799 0.368809799 0.74336427 0.78667148 0.066811617
-#> 4               I 0.076689304 0.076689304 0.15457314 0.16357832 0.035847480
-#> 5         context 0.007037157 0.007037157 0.01418393         NA 0.003309055
-#> 6       covariate 0.043599773 0.043599773 0.08787867 0.09299834 0.011296490
-#> 7 total_explained 0.496136034 0.496136034         NA         NA 0.060999075
-#>   se_fraction       se_h2 se_h2_upper
-#> 1 0.047000781 0.081921231  0.08602009
-#> 2 0.038891575 0.049752009  0.05257451
-#> 3 0.066811617 0.070786682  0.07320356
-#> 4 0.035847480 0.074297698  0.07890697
-#> 5 0.003309055 0.006174124          NA
-#> 6 0.011296490 0.026030513  0.02781032
-#> 7 0.060999075          NA          NA
+#>              term    variance    fraction         h2          se se_fraction
+#> 1               G 0.205483423 0.205483423 0.41416751 0.047000781 0.047000781
+#> 2             GxC 0.163326375 0.163326375 0.32919676 0.038891575 0.038891575
+#> 3         G_total 0.368809799 0.368809799 0.74336427 0.066811617 0.066811617
+#> 4               I 0.076689304 0.076689304 0.15457314 0.035847480 0.035847480
+#> 5         context 0.007037157 0.007037157 0.01418393 0.003309055 0.003309055
+#> 6       covariate 0.043599773 0.043599773 0.08787867 0.011296490 0.011296490
+#> 7 total_explained 0.496136034 0.496136034         NA 0.060999075 0.060999075
+#>         se_h2
+#> 1 0.081921231
+#> 2 0.049752009
+#> 3 0.070786682
+#> 4 0.074297698
+#> 5 0.006174124
+#> 6 0.026030513
+#> 7          NA
 ```
 
 | column | meaning |
@@ -116,8 +116,8 @@ fit$summary
 | `term` | `G`, `GxC` (sum over context variables), `G_total` = G + GxC, `I`, `context`, `covariate`, `total_explained`; with several GRMs also one row per GRM (`G1`, `G1:C`, …); with several context variables also `GxC:<variable>` |
 | `variance` | variance contribution on the standardized-expression scale |
 | `fraction` | `variance` / Var(y) (residual included in the denominator) |
-| `h2`, `h2_upper` | normalized heritability (residual removed from the denominator; `h2_upper` also removes within-donor context/covariate variance; see [Model](https://LidaWangPSU.github.io/scHINT/articles/model.md)) |
-| `se`, `se_fraction`, `se_h2`, `se_h2_upper` | jackknife standard errors (only with `jackknife = TRUE`) |
+| `h2` | population-level heritability (cell-level residual removed from the denominator; see [Model](https://LidaWangPSU.github.io/scHINT/articles/model.md)) |
+| `se`, `se_fraction`, `se_h2` | jackknife standard errors (only with `jackknife = TRUE`) |
 
 **`fit$coefficients`** – one row per HE-regression term:
 

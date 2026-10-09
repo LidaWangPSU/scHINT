@@ -46,7 +46,7 @@ are the non-genetic effects of state and covariates, \\e_i\\ is the
 donor effect shared across cells and \\\varepsilon\_{im}\\ is cell-level
 noise. In the package \\\sigma_C^2\\ and \\\sigma_o^2\\ denote the
 variance contributed by \\c^\top\alpha\\ and \\o^\top\eta\\ (treated as
-random, as in the manuscript).
+random).
 
 ## 2. Haseman-Elston regression on pairs of cells
 
@@ -94,12 +94,16 @@ standardized expression.
 
 ### Several GRMs
 
-Splitting the SNPs into \\M\\ sets (MAF bins, annotations, …) replaces
-\\K^G\\ by \\K^{G,1},\dots,K^{G,M}\\, each with its own main component
-\\\sigma^2\_{G,m}\\ and its own interaction \\\sigma^2\_{G\times
-C,m,k}\\ (`n_grm`, `grm_by`, or a list in `geno` / `grm`). Components of
-different GRMs enter the normal equations through the element-wise
-products \\K^{G,m}\circ K^{G,m'}\\.
+Passing a list of GRMs in `grm` (e.g. built from SNPs split by MAF bin
+or annotation with
+[`split_snps()`](https://LidaWangPSU.github.io/scHINT/reference/split_snps.md)
+and
+[`make_grm()`](https://LidaWangPSU.github.io/scHINT/reference/make_grm.md))
+replaces \\K^G\\ by \\K^{G,1},\dots,K^{G,M}\\, each with its own main
+component \\\sigma^2\_{G,m}\\ and its own interaction
+\\\sigma^2\_{G\times C,m,k}\\. Components of different GRMs enter the
+normal equations through the element-wise products \\K^{G,m}\circ
+K^{G,m'}\\.
 
 ### Categorical contexts
 
@@ -212,19 +216,17 @@ blocks and leave-one-block-out estimates \\\hat\theta\_{(b)}\\,
 By default every donor is a block (`n_blocks = NULL`); in
 [`schint_pert()`](https://LidaWangPSU.github.io/scHINT/reference/schint_pert.md)
 blocks are perturbations. Standard errors are also returned for derived
-quantities (sums of components, normalized heritabilities), because they
-are computed from the leave-block-out component vectors.
+quantities (sums of components, heritabilities), because they are
+computed from the leave-block-out component vectors.
 
-## 7. Heritability definitions
+## 7. Heritability
 
-Single-cell variance contains a large cell-specific part that pseudobulk
-analyses average out, so “variance explained” depends on the
-denominator. scHINT reports, in `fit$summary`:
-
-- `fraction` – component / \\\mathrm{Var}(y)\\ (the *raw cell-level*
-  definition, residual in the denominator).
-- `h2` – **normalized** heritability: the cell-level residual
-  \\\sigma\_\varepsilon^2\\ is removed from the denominator,
+`fit$summary` reports each component’s variance (`variance`, on the
+standardized-expression scale; `fraction` when `scale_y = FALSE`).
+Single-cell variance contains a large cell-specific part that averaging
+over cells removes. To make the estimates comparable to population-level
+heritability, `h2` removes the cell-level residual
+\\\sigma\_\varepsilon^2\\ from the denominator:
 
 \\ h^2_G=\frac{\sigma_G^2}{\sigma_G^2+\sigma^2\_{G\times
 C}+\sigma_C^2+\sigma_o^2+\sigma_I^2},\qquad h^2\_{G\times
@@ -232,15 +234,10 @@ C}=\frac{\sigma\_{G\times C}^2}{\sigma_G^2+\sigma^2\_{G\times
 C}+\sigma_C^2+\sigma_o^2+\sigma_I^2}. \\
 
 This is the variance that would be explained if every cell were measured
-without stochastic noise and is comparable to pseudobulk estimates. \*
-`h2_upper` – additionally removes the variance of components that vary
-*across cells within a donor* (the context and cell-level covariates),
-the upper bound of the normalization (cell-level models only).
-
-The aggregate context-dependent heritability is `GxC`; `G_total` is
-`G + GxC`. For the perturbation model the summary gives the variance of
-each component (`P`, `PxC`, `P_total`, per-context and per-group
-splits).
+without stochastic noise. The aggregate context-dependent component is
+`GxC`; `G_total` is `G + GxC`. For the perturbation model the summary
+gives the variance of each component (`P`, `PxC`, `P_total`, per-context
+and per-group splits).
 
 ## 8. Practical notes
 

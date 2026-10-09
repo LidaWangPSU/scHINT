@@ -30,4 +30,6 @@ split_snps(geno, n, by = c("maf", "position", "random"), seed = 1)
 
 ## Value
 
-A list of \`n\` genotype matrices.
+A list of \`n\` genotype matrices; use \`lapply(split_snps(geno, 3),
+make_grm)\` to obtain a list of GRMs for the \`grm\` argument of the
+model functions.

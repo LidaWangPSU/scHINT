@@ -12,7 +12,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
@@ -26,7 +26,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">scHINT</a>
 
@@ -68,6 +68,14 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/LidaWangPSU/scHINT/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -177,8 +185,7 @@ and covariates, <span class="math inline">\(e_i\)</span> is the donor
 effect shared across cells and <span class="math inline">\(\varepsilon_{im}\)</span> is cell-level noise. In
 the package <span class="math inline">\(\sigma_C^2\)</span> and <span class="math inline">\(\sigma_o^2\)</span> denote the variance
 contributed by <span class="math inline">\(c^\top\alpha\)</span> and
-<span class="math inline">\(o^\top\eta\)</span> (treated as random, as
-in the manuscript).</p>
+<span class="math inline">\(o^\top\eta\)</span> (treated as random).</p>
 </div>
 <div class="section level2">
 <h2 id="haseman-elston-regression-on-pairs-of-cells">2. Haseman-Elston regression on pairs of cells<a class="anchor" aria-label="anchor" href="#haseman-elston-regression-on-pairs-of-cells"></a>
@@ -264,13 +271,13 @@ standardized expression.</p>
 <div class="section level3">
 <h3 id="several-grms">Several GRMs<a class="anchor" aria-label="anchor" href="#several-grms"></a>
 </h3>
-<p>Splitting the SNPs into <span class="math inline">\(M\)</span> sets
-(MAF bins, annotations, …) replaces <span class="math inline">\(K^G\)</span> by <span class="math inline">\(K^{G,1},\dots,K^{G,M}\)</span>, each with its own
+<p>Passing a list of GRMs in <code>grm</code> (e.g. built from SNPs
+split by MAF bin or annotation with <code><a href="../reference/split_snps.html">split_snps()</a></code> and
+<code><a href="../reference/make_grm.html">make_grm()</a></code>) replaces <span class="math inline">\(K^G\)</span> by <span class="math inline">\(K^{G,1},\dots,K^{G,M}\)</span>, each with its own
 main component <span class="math inline">\(\sigma^2_{G,m}\)</span> and
 its own interaction <span class="math inline">\(\sigma^2_{G\times
-C,m,k}\)</span> (<code>n_grm</code>, <code>grm_by</code>, or a list in
-<code>geno</code> / <code>grm</code>). Components of different GRMs
-enter the normal equations through the element-wise products <span class="math inline">\(K^{G,m}\circ K^{G,m'}\)</span>.</p>
+C,m,k}\)</span>. Components of different GRMs enter the normal equations
+through the element-wise products <span class="math inline">\(K^{G,m}\circ K^{G,m'}\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="categorical-contexts">Categorical contexts<a class="anchor" aria-label="anchor" href="#categorical-contexts"></a>
@@ -388,25 +395,20 @@ estimates <span class="math inline">\(\hat\theta_{(b)}\)</span>,</p>
 \]</span></p>
 <p>By default every donor is a block (<code>n_blocks = NULL</code>); in
 <code><a href="../reference/schint_pert.html">schint_pert()</a></code> blocks are perturbations. Standard errors are
-also returned for derived quantities (sums of components, normalized
+also returned for derived quantities (sums of components,
 heritabilities), because they are computed from the leave-block-out
 component vectors.</p>
 </div>
 <div class="section level2">
-<h2 id="heritability-definitions">7. Heritability definitions<a class="anchor" aria-label="anchor" href="#heritability-definitions"></a>
+<h2 id="heritability">7. Heritability<a class="anchor" aria-label="anchor" href="#heritability"></a>
 </h2>
-<p>Single-cell variance contains a large cell-specific part that
-pseudobulk analyses average out, so “variance explained” depends on the
-denominator. scHINT reports, in <code>fit$summary</code>:</p>
-<ul>
-<li>
-<code>fraction</code> – component / <span class="math inline">\(\mathrm{Var}(y)\)</span> (the <em>raw
-cell-level</em> definition, residual in the denominator).</li>
-<li>
-<code>h2</code> – <strong>normalized</strong> heritability: the
-cell-level residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> is removed from the
-denominator,</li>
-</ul>
+<p><code>fit$summary</code> reports each component’s variance
+(<code>variance</code>, on the standardized-expression scale;
+<code>fraction</code> when <code>scale_y = FALSE</code>). Single-cell
+variance contains a large cell-specific part that averaging over cells
+removes. To make the estimates comparable to population-level
+heritability, <code>h2</code> removes the cell-level residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> from the
+denominator:</p>
 <p><span class="math display">\[
 h^2_G=\frac{\sigma_G^2}{\sigma_G^2+\sigma^2_{G\times
 C}+\sigma_C^2+\sigma_o^2+\sigma_I^2},\qquad
@@ -414,16 +416,11 @@ h^2_{G\times C}=\frac{\sigma_{G\times C}^2}{\sigma_G^2+\sigma^2_{G\times
 C}+\sigma_C^2+\sigma_o^2+\sigma_I^2}.
 \]</span></p>
 <p>This is the variance that would be explained if every cell were
-measured without stochastic noise and is comparable to pseudobulk
-estimates. * <code>h2_upper</code> – additionally removes the variance
-of components that vary <em>across cells within a donor</em> (the
-context and cell-level covariates), the upper bound of the normalization
-(cell-level models only).</p>
-<p>The aggregate context-dependent heritability is <code>GxC</code>;
-<code>G_total</code> is <code>G + GxC</code>. For the perturbation model
-the summary gives the variance of each component (<code>P</code>,
-<code>PxC</code>, <code>P_total</code>, per-context and per-group
-splits).</p>
+measured without stochastic noise. The aggregate context-dependent
+component is <code>GxC</code>; <code>G_total</code> is
+<code>G + GxC</code>. For the perturbation model the summary gives the
+variance of each component (<code>P</code>, <code>PxC</code>,
+<code>P_total</code>, per-context and per-group splits).</p>
 </div>
 <div class="section level2">
 <h2 id="practical-notes">8. Practical notes<a class="anchor" aria-label="anchor" href="#practical-notes"></a>

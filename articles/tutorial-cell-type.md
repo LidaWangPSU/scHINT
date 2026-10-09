@@ -51,18 +51,16 @@ fs
 - `I` - donor effect shared across cell types, not genetic.
 - `context` - variance of cell-type mean differences.
 
-`h2_upper` is only reported for the cell-level model; use `h2` here.
-
 ## Shared-genetics model only
 
 ``` r
 
 schint_sample(ex$sample, "GENE_A", "donor", "celltype", geno = ex$geno, gxc = FALSE)$summary
-#>              term   variance   fraction        h2 h2_upper
-#> 1               G 0.11261510 0.11261510 0.1293135       NA
-#> 2               I 0.02610727 0.02610727 0.0299784       NA
-#> 3         context 0.73214679 0.73214679 0.8407081       NA
-#> 4 total_explained 0.87086915 0.87086915        NA       NA
+#>              term   variance   fraction        h2
+#> 1               G 0.11261510 0.11261510 0.1293135
+#> 2               I 0.02610727 0.02610727 0.0299784
+#> 3         context 0.73214679 0.73214679 0.8407081
+#> 4 total_explained 0.87086915 0.87086915        NA
 ```
 
 ## A separate genetic variance per cell type

@@ -30,21 +30,22 @@ fitA
 #> scHINT model: 12000 observations, 400 donors, 1 GRM
 #> 
 #> Variance components (variance on the standardized-expression scale):
-#>             term variance     h2 h2_upper     se   se_h2 se_h2_upper
-#>                G  0.20500 0.4140    0.438 0.0449 0.08650      0.0913
-#>              GxC  0.16300 0.3290    0.348 0.0420 0.05680      0.0598
-#>          G_total  0.36900 0.7430    0.787 0.0624 0.06580      0.0684
-#>                I  0.07670 0.1550    0.164 0.0348 0.07130      0.0756
-#>          context  0.00704 0.0142       NA 0.0042 0.00793          NA
-#>        covariate  0.04360 0.0879    0.093 0.0131 0.02840      0.0301
-#>  total_explained  0.49600     NA       NA 0.0605      NA          NA
+#>             term variance     h2     se   se_h2
+#>                G  0.20500 0.4140 0.0449 0.08650
+#>              GxC  0.16300 0.3290 0.0420 0.05680
+#>          G_total  0.36900 0.7430 0.0624 0.06580
+#>                I  0.07670 0.1550 0.0348 0.07130
+#>          context  0.00704 0.0142 0.0042 0.00793
+#>        covariate  0.04360 0.0879 0.0131 0.02840
+#>  total_explained  0.49600     NA 0.0605      NA
 #> 
 #> Standard errors: jackknife over 400 donor blocks
 ```
 
 `G` is the genetic variance present in every cell, `GxC` the genetic
-variance that varies with `state`, and `G_total` their sum. `h2` /
-`h2_upper` are the normalized heritabilities (see
+variance that varies with `state`, and `G_total` their sum. `h2` is the
+population-level heritability (cell-level residual removed from the
+denominator; see
 [Model](https://LidaWangPSU.github.io/scHINT/articles/model.md), section
 7).
 
@@ -87,16 +88,16 @@ Here the categorical `subtype` is added as a second context (one pooled
 f2 <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
                   context = c("state", "subtype"), covariates = covs)
 f2$summary
-#>              term    variance    fraction          h2    h2_upper
-#> 1               G  0.21440353  0.21440353  0.41957982  0.46166656
-#> 2             GxC  0.14995344  0.14995344  0.29345337  0.32288876
-#> 3         G_total  0.36435697  0.36435697  0.71303318  0.78455532
-#> 4       GxC:state  0.16794075  0.16794075  0.32865386  0.36162010
-#> 5     GxC:subtype -0.01798730 -0.01798730 -0.03520049 -0.03873134
-#> 6               I  0.07673174  0.07673174  0.15016120  0.16522340
-#> 7         context  0.02630677  0.02630677  0.05148138          NA
-#> 8       covariate  0.04360033  0.04360033  0.08532424  0.09388285
-#> 9 total_explained  0.51099582  0.51099582          NA          NA
+#>              term    variance    fraction          h2
+#> 1               G  0.21440353  0.21440353  0.41957982
+#> 2             GxC  0.14995344  0.14995344  0.29345337
+#> 3         G_total  0.36435697  0.36435697  0.71303318
+#> 4       GxC:state  0.16794075  0.16794075  0.32865386
+#> 5     GxC:subtype -0.01798730 -0.01798730 -0.03520049
+#> 6               I  0.07673174  0.07673174  0.15016120
+#> 7         context  0.02630677  0.02630677  0.05148138
+#> 8       covariate  0.04360033  0.04360033  0.08532424
+#> 9 total_explained  0.51099582  0.51099582          NA
 ```
 
 The per-variable terms `GxC:state` and `GxC:subtype` split the
@@ -114,8 +115,9 @@ and technical variables in `covariates`.
 
 ``` r
 
-f3 <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
-                  n_grm = 3, grm_by = "maf", context = "state", covariates = covs)
+grms <- lapply(split_snps(ex$geno, 3, by = "maf"), make_grm)   # a list of GRMs
+f3 <- schint_cell(ex$cell, "GENE_A", "donor", grm = grms,
+                  context = "state", covariates = covs)
 f3$summary[, c("term", "variance", "h2")]
 #>               term    variance         h2
 #> 1                G 0.204228343 0.41130861

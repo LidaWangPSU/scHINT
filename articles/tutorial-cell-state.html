@@ -12,7 +12,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
@@ -26,7 +26,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">scHINT</a>
 
@@ -68,6 +68,14 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/LidaWangPSU/scHINT/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -122,20 +130,21 @@ interaction</li>
 <span><span class="co">#&gt; scHINT model: 12000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variance components (variance on the standardized-expression scale):</span></span>
-<span><span class="co">#&gt;             term variance     h2 h2_upper     se   se_h2 se_h2_upper</span></span>
-<span><span class="co">#&gt;                G  0.20500 0.4140    0.438 0.0449 0.08650      0.0913</span></span>
-<span><span class="co">#&gt;              GxC  0.16300 0.3290    0.348 0.0420 0.05680      0.0598</span></span>
-<span><span class="co">#&gt;          G_total  0.36900 0.7430    0.787 0.0624 0.06580      0.0684</span></span>
-<span><span class="co">#&gt;                I  0.07670 0.1550    0.164 0.0348 0.07130      0.0756</span></span>
-<span><span class="co">#&gt;          context  0.00704 0.0142       NA 0.0042 0.00793          NA</span></span>
-<span><span class="co">#&gt;        covariate  0.04360 0.0879    0.093 0.0131 0.02840      0.0301</span></span>
-<span><span class="co">#&gt;  total_explained  0.49600     NA       NA 0.0605      NA          NA</span></span>
+<span><span class="co">#&gt;             term variance     h2     se   se_h2</span></span>
+<span><span class="co">#&gt;                G  0.20500 0.4140 0.0449 0.08650</span></span>
+<span><span class="co">#&gt;              GxC  0.16300 0.3290 0.0420 0.05680</span></span>
+<span><span class="co">#&gt;          G_total  0.36900 0.7430 0.0624 0.06580</span></span>
+<span><span class="co">#&gt;                I  0.07670 0.1550 0.0348 0.07130</span></span>
+<span><span class="co">#&gt;          context  0.00704 0.0142 0.0042 0.00793</span></span>
+<span><span class="co">#&gt;        covariate  0.04360 0.0879 0.0131 0.02840</span></span>
+<span><span class="co">#&gt;  total_explained  0.49600     NA 0.0605      NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 400 donor blocks</span></span></code></pre></div>
 <p><code>G</code> is the genetic variance present in every cell,
 <code>GxC</code> the genetic variance that varies with
 <code>state</code>, and <code>G_total</code> their sum. <code>h2</code>
-/ <code>h2_upper</code> are the normalized heritabilities (see <a href="model.html">Model</a>, section 7).</p>
+is the population-level heritability (cell-level residual removed from
+the denominator; see <a href="model.html">Model</a>, section 7).</p>
 </div>
 <div class="section level2">
 <h2 id="is-there-gcell-state-heritability">2. Is there G×Cell-State heritability?<a class="anchor" aria-label="anchor" href="#is-there-gcell-state-heritability"></a>
@@ -172,16 +181,16 @@ second context (one pooled “same subtype” component):</p>
 <code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>,</span>
 <span>                  context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"subtype"</span><span class="op">)</span>, covariates <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
 <span><span class="va">f2</span><span class="op">$</span><span class="va">summary</span></span>
-<span><span class="co">#&gt;              term    variance    fraction          h2    h2_upper</span></span>
-<span><span class="co">#&gt; 1               G  0.21440353  0.21440353  0.41957982  0.46166656</span></span>
-<span><span class="co">#&gt; 2             GxC  0.14995344  0.14995344  0.29345337  0.32288876</span></span>
-<span><span class="co">#&gt; 3         G_total  0.36435697  0.36435697  0.71303318  0.78455532</span></span>
-<span><span class="co">#&gt; 4       GxC:state  0.16794075  0.16794075  0.32865386  0.36162010</span></span>
-<span><span class="co">#&gt; 5     GxC:subtype -0.01798730 -0.01798730 -0.03520049 -0.03873134</span></span>
-<span><span class="co">#&gt; 6               I  0.07673174  0.07673174  0.15016120  0.16522340</span></span>
-<span><span class="co">#&gt; 7         context  0.02630677  0.02630677  0.05148138          NA</span></span>
-<span><span class="co">#&gt; 8       covariate  0.04360033  0.04360033  0.08532424  0.09388285</span></span>
-<span><span class="co">#&gt; 9 total_explained  0.51099582  0.51099582          NA          NA</span></span></code></pre></div>
+<span><span class="co">#&gt;              term    variance    fraction          h2</span></span>
+<span><span class="co">#&gt; 1               G  0.21440353  0.21440353  0.41957982</span></span>
+<span><span class="co">#&gt; 2             GxC  0.14995344  0.14995344  0.29345337</span></span>
+<span><span class="co">#&gt; 3         G_total  0.36435697  0.36435697  0.71303318</span></span>
+<span><span class="co">#&gt; 4       GxC:state  0.16794075  0.16794075  0.32865386</span></span>
+<span><span class="co">#&gt; 5     GxC:subtype -0.01798730 -0.01798730 -0.03520049</span></span>
+<span><span class="co">#&gt; 6               I  0.07673174  0.07673174  0.15016120</span></span>
+<span><span class="co">#&gt; 7         context  0.02630677  0.02630677  0.05148138</span></span>
+<span><span class="co">#&gt; 8       covariate  0.04360033  0.04360033  0.08532424</span></span>
+<span><span class="co">#&gt; 9 total_explained  0.51099582  0.51099582          NA</span></span></code></pre></div>
 <p>The per-variable terms <code>GxC:state</code> and
 <code>GxC:subtype</code> split the interaction. With
 <code>cat_mode = "per_level"</code> a categorical context gets a
@@ -200,8 +209,9 @@ only. To mirror a typical analysis, put the leading state PCs (say 5) in
 <h2 id="multiple-grms">5. Multiple GRMs<a class="anchor" aria-label="anchor" href="#multiple-grms"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">f3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>,</span>
-<span>                  n_grm <span class="op">=</span> <span class="fl">3</span>, grm_by <span class="op">=</span> <span class="st">"maf"</span>, context <span class="op">=</span> <span class="st">"state"</span>, covariates <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">grms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/split_snps.html">split_snps</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, <span class="fl">3</span>, by <span class="op">=</span> <span class="st">"maf"</span><span class="op">)</span>, <span class="va">make_grm</span><span class="op">)</span>   <span class="co"># a list of GRMs</span></span>
+<span><span class="va">f3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, grm <span class="op">=</span> <span class="va">grms</span>,</span>
+<span>                  context <span class="op">=</span> <span class="st">"state"</span>, covariates <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
 <span><span class="va">f3</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"term"</span>, <span class="st">"variance"</span>, <span class="st">"h2"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;               term    variance         h2</span></span>
 <span><span class="co">#&gt; 1                G 0.204228343 0.41130861</span></span>
