@@ -39,7 +39,7 @@ The same framework extends to other contexts:
 |-------------------------------|-------------------|--------------------------------------------------------------------------------------------|
 | **G×Cell-State** (cell level) | `schint_cell()`   | main genetic and genotype × cell-state heritability from single-cell data                  |
 | **G×Cell-Type** (pseudobulk)  | `schint_sample()` | cell-type-shared and cell-type-specific genetic variance from donor × cell-type expression |
-| **Perturbation × context**    | `schint_pert()`   | perturbation and perturbation × cell-state / cell-type variance in perturb-seq screens     |
+| **Perturbation × context**    | `schint_pert()`   | perturbation and perturbation × cell-state (or cell-type) variance in perturb-seq screens  |
 
 ## 2. Models
 
@@ -300,9 +300,9 @@ type.
 ### 4.3 Perturbation × context heritability: `schint_pert()`
 
 **Input** – `data` with one row per cell, one or several expression
-columns (`y`), the `perturb` column, `context` (cell state and/or cell
-type), `covariates`, `control` labels to drop (e.g. `"NT"`) and
-optionally `perturb_group`.
+columns (`y`), the `perturb` column, `context` (one cell-state or
+cell-type column), `covariates`, `control` labels to drop (e.g. `"NT"`)
+and optionally `perturb_group`.
 
 ``` r
 data(schint_pert_example)
@@ -316,38 +316,34 @@ head(schint_pert_example[, c("perturb", "perturb_group", "celltype", "state", "G
 **Example**
 
 ``` r
+# perturbation x cell state (use context = "celltype" for perturbation x cell type)
 fp <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"), perturb = "perturb",
-                  context = c("state", "celltype"), covariates = c("pc1", "pc2"),
+                  context = "state", covariates = c("pc1", "pc2"),
                   control = "NT", jackknife = TRUE)
 fp
 #> scHINT perturbation model: 3470 cells, 60 perturbations, 2 genes
 #> 
-#>    gene            term variance      se
-#>  GENE_A               P  0.02720 0.00866
-#>  GENE_A             PxC  0.06180 0.01930
-#>  GENE_A         P_total  0.08900 0.02080
-#>  GENE_A       PxC:state  0.05070 0.01460
-#>  GENE_A    PxC:celltype  0.01110 0.01130
-#>  GENE_A         context  0.09800 0.01260
-#>  GENE_A       covariate  0.04050 0.00617
-#>  GENE_A total_explained  0.22700 0.02510
-#>  GENE_B               P  0.04350 0.01510
-#>  GENE_B             PxC  0.02450 0.01220
-#>  GENE_B         P_total  0.06800 0.01880
-#>  GENE_B       PxC:state -0.00277 0.00293
-#>  GENE_B    PxC:celltype  0.02730 0.01260
-#>  GENE_B         context  0.06640 0.01250
-#>  GENE_B       covariate  0.05610 0.00832
-#>  GENE_B total_explained  0.19100 0.02470
+#>    gene            term  variance       se
+#>  GENE_A               P  0.031500 0.008370
+#>  GENE_A             PxC  0.051100 0.014700
+#>  GENE_A         P_total  0.082600 0.018600
+#>  GENE_A         context -0.000834 0.001570
+#>  GENE_A       covariate  0.040500 0.006170
+#>  GENE_A total_explained  0.122000 0.018400
+#>  GENE_B               P  0.053900 0.015700
+#>  GENE_B             PxC -0.001590 0.002810
+#>  GENE_B         P_total  0.052300 0.015400
+#>  GENE_B         context  0.000292 0.000765
+#>  GENE_B       covariate  0.056100 0.008320
+#>  GENE_B total_explained  0.109000 0.018300
 #> 
 #> Standard errors: jackknife over 60 perturbation blocks
 ```
 
 **Output** – long-format `fp$summary` / `fp$coefficients` with one block
 per gene: `P` perturbation variance shared across states, `PxC`
-perturbation × context variance (split into `PxC:state` and
-`PxC:celltype`), `P_total`, and per-group rows when `perturb_group` is
-used.
+perturbation × context variance, `P_total`, and per-group rows when
+`perturb_group` is used.
 
 ### More
 

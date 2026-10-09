@@ -31,7 +31,7 @@ The same framework extends to other contexts:
 |---|---|---|
 | **G×Cell-State** (cell level) | `schint_cell()` | main genetic and genotype × cell-state heritability from single-cell data |
 | **G×Cell-Type** (pseudobulk) | `schint_sample()` | cell-type-shared and cell-type-specific genetic variance from donor × cell-type expression |
-| **Perturbation × context** | `schint_pert()` | perturbation and perturbation × cell-state / cell-type variance in perturb-seq screens |
+| **Perturbation × context** | `schint_pert()` | perturbation and perturbation × cell-state (or cell-type) variance in perturb-seq screens |
 
 ## 2. Models
 
@@ -223,7 +223,7 @@ types, `context` the cell-type mean variance. `gxc = FALSE` fits shared genetics
 ### 4.3 Perturbation × context heritability: `schint_pert()`
 
 **Input** -- `data` with one row per cell, one or several expression columns (`y`), the
-`perturb` column, `context` (cell state and/or cell type), `covariates`, `control` labels to drop
+`perturb` column, `context` (one cell-state or cell-type column), `covariates`, `control` labels to drop
 (e.g. `"NT"`) and optionally `perturb_group`.
 
 ```{r pert-input}
@@ -234,15 +234,15 @@ head(schint_pert_example[, c("perturb", "perturb_group", "celltype", "state", "G
 **Example**
 
 ```{r pert-fit}
+# perturbation x cell state (use context = "celltype" for perturbation x cell type)
 fp <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"), perturb = "perturb",
-                  context = c("state", "celltype"), covariates = c("pc1", "pc2"),
+                  context = "state", covariates = c("pc1", "pc2"),
                   control = "NT", jackknife = TRUE)
 fp
 ```
 
 **Output** -- long-format `fp$summary` / `fp$coefficients` with one block per gene: `P`
-perturbation variance shared across states, `PxC` perturbation × context variance (split
-into `PxC:state` and `PxC:celltype`), `P_total`, and per-group rows when `perturb_group` is used.
+perturbation variance shared across states, `PxC` perturbation × context variance, `P_total`, and per-group rows when `perturb_group` is used.
 
 ### More
 

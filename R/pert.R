@@ -5,8 +5,8 @@
 #' correlated, cells with different perturbations are not). Haseman-Elston
 #' regression on pairs of cells partitions the variance of each gene into a
 #' perturbation component `P`, a perturbation-by-context component `P x context`
-#' (context = continuous cell state and/or categorical cell type), context main
-#' effects and covariates.
+#' (the context is one variable at a time: a continuous cell state or a categorical
+#' cell type), context main effects and covariates.
 #'
 #' For cells `a`, `b` the regressors are `1`, `1(pert_a == pert_b)`,
 #' `u_a u_b` and `1(pert_a == pert_b) u_a u_b`; for a categorical context
@@ -18,9 +18,9 @@
 #' @param data Data frame with one row per cell.
 #' @param y Character vector of expression column(s) (one per gene).
 #' @param perturb Name of the column holding the perturbation (target) of each cell.
-#' @param context Column name(s) of the cell context interacting with the
-#'   perturbation: numeric = cell state, factor/character = cell type. `NULL` for
-#'   no interaction.
+#' @param context Name of **one** column giving the cell context that interacts with the
+#'   perturbation: numeric = cell state, factor/character = cell type. To study both,
+#'   fit the model twice. `NULL` for no interaction.
 #' @param covariates Other covariates (main effects only).
 #' @param perturb_group Optional: a column name giving a perturbation group for each
 #'   perturbation, or a named list of perturbation vectors. Each group then gets its
@@ -36,7 +36,7 @@
 #' @examples
 #' data(schint_pert_example)
 #' fit <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"),
-#'                    perturb = "perturb", context = c("state", "celltype"),
+#'                    perturb = "perturb", context = "state",
 #'                    control = "NT", covariates = c("pc1", "pc2"))
 #' fit
 #' @export
@@ -46,6 +46,10 @@ schint_pert <- function(data, y, perturb, context = NULL, covariates = NULL,
                         jackknife = FALSE, n_blocks = NULL, scale_y = TRUE, scale_x = TRUE,
                         seed = 1) {
   cat_mode <- match.arg(cat_mode)
+  if (length(context) > 1L) {
+    stop("`context` must be a single column: use either a cell state or a cell type as the ",
+         "interaction, and fit the model once for each.", call. = FALSE)
+  }
   data <- as.data.frame(data)
   group_col <- if (is.character(perturb_group) && length(perturb_group) == 1L) perturb_group else NULL
   need <- unique(c(y, perturb, context, covariates, group_col))
@@ -129,8 +133,6 @@ schint_pert <- function(data, y, perturb, context = NULL, covariates = NULL,
   if (any(group == "PxC")) {
     terms$PxC <- which(group == "PxC")
     terms$P_total <- which(group %in% c("P", "PxC"))
-    cv <- vapply(comps, function(cp) cp$cvar, "")
-    if (length(context) > 1L) for (v in context) terms[[paste0("PxC:", v)]] <- which(group == "PxC" & cv == v)
   }
   if (length(pname) > 1L) for (g in pname) {
     terms[[g]] <- which(group == "P" & pg == g)

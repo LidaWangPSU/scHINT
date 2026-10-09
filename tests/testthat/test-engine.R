@@ -87,7 +87,7 @@ test_that("schint_cell / schint_sample run on the example data and recover signa
 
 test_that("schint_pert runs, supports groups/jackknife, and handles several genes", {
   d <- schint_pert_example
-  f <- schint_pert(d, c("GENE_A", "GENE_B"), "perturb", context = c("state", "celltype"),
+  f <- schint_pert(d, c("GENE_A", "GENE_B"), "perturb", context = "state",
                    control = "NT", jackknife = TRUE, n_blocks = 15)
   expect_s3_class(f, "schint_pert")
   expect_true(all(is.finite(f$coefficients$se)))
@@ -95,7 +95,7 @@ test_that("schint_pert runs, supports groups/jackknife, and handles several gene
                    perturb_group = "perturb_group")
   expect_true(all(c("P_group1", "P_group3:C") %in% g$summary$term))
   # single-gene fit equals the same gene fitted within a batch
-  f1 <- schint_pert(d, "GENE_B", "perturb", context = c("state", "celltype"), control = "NT")
+  f1 <- schint_pert(d, "GENE_B", "perturb", context = "state", control = "NT")
   expect_equal(f1$coefficients$estimate,
                f$coefficients$estimate[f$coefficients$gene == "GENE_B"])
 })

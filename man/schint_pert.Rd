@@ -29,9 +29,9 @@ schint_pert(
 
 \item{perturb}{Name of the column holding the perturbation (target) of each cell.}
 
-\item{context}{Column name(s) of the cell context interacting with the
-perturbation: numeric = cell state, factor/character = cell type. `NULL` for
-no interaction.}
+\item{context}{Name of **one** column giving the cell context that interacts with the
+perturbation: numeric = cell state, factor/character = cell type. To study both,
+fit the model twice. `NULL` for no interaction.}
 
 \item{covariates}{Other covariates (main effects only).}
 
@@ -67,8 +67,8 @@ replaced by "same perturbation" (cells carrying the same perturbation are
 correlated, cells with different perturbations are not). Haseman-Elston
 regression on pairs of cells partitions the variance of each gene into a
 perturbation component `P`, a perturbation-by-context component `P x context`
-(context = continuous cell state and/or categorical cell type), context main
-effects and covariates.
+(the context is one variable at a time: a continuous cell state or a categorical
+cell type), context main effects and covariates.
 }
 \details{
 For cells `a`, `b` the regressors are `1`, `1(pert_a == pert_b)`,
@@ -81,7 +81,7 @@ only once.
 \examples{
 data(schint_pert_example)
 fit <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"),
-                   perturb = "perturb", context = c("state", "celltype"),
+                   perturb = "perturb", context = "state",
                    control = "NT", covariates = c("pc1", "pc2"))
 fit
 }

@@ -73,7 +73,7 @@ fit <- schint_sample(pseudobulk, y = "GENE", id = "donor", celltype = "celltype"
 
 ```r
 fit <- schint_pert(cells, y = c("GENE1", "GENE2"), perturb = "target",
-                   context = c("state", "celltype"), control = "NT")
+                   context = "state", control = "NT")   # or "celltype"
 ```
 
 See the tutorials for complete, runnable examples.

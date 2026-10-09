@@ -22,22 +22,31 @@ table(d$perturb_group)
 `GENE_B` perturbation × cell-type variance, `GENE_C` a perturbation effect only and
 `GENE_D` none; group3 perturbations have no effect.
 
-## Fit several genes at once
+## One interaction at a time
+
+The perturbation can interact with **either** a continuous cell state **or** a categorical
+cell type in one model (`context` takes a single column); to study both, fit the model
+twice. Several genes can be fitted at once, and the expensive part (`X'X`) is computed
+only once; each additional gene costs a few quadratic forms.
 
 ```{r fit}
-fit <- schint_pert(d, y = c("GENE_A", "GENE_B", "GENE_C", "GENE_D"),
-                   perturb = "perturb", context = c("state", "celltype"),
-                   covariates = c("pc1", "pc2"), control = "NT", jackknife = TRUE)
-keep <- c("P", "PxC:state", "PxC:celltype")
-res <- subset(fit$summary, term %in% keep, select = c(gene, term, variance, se))
-res$z <- round(res$variance / res$se, 1)
-res
+genes <- c("GENE_A", "GENE_B", "GENE_C", "GENE_D")
+fit_state <- schint_pert(d, y = genes, perturb = "perturb", context = "state",
+                         covariates = c("pc1", "pc2"), control = "NT", jackknife = TRUE)
+fit_type  <- schint_pert(d, y = genes, perturb = "perturb", context = "celltype",
+                         covariates = c("pc1", "pc2"), control = "NT", jackknife = TRUE)
+pick <- function(f, label) {
+  s <- subset(f$summary, term %in% c("P", "PxC"), select = c(gene, term, variance, se))
+  s$interaction <- label
+  s$z <- round(s$variance / s$se, 1)
+  s
+}
+rbind(pick(fit_state, "P x cell state"), pick(fit_type, "P x cell type"))
 ```
 
-The expensive part (`X'X`) is computed once; each additional gene costs only a few
-quadratic forms. `P` is the perturbation variance shared across cell states, `PxC:state`
-the variance of the perturbation response along the state axis and `PxC:celltype` the
-cell-type-specific response.
+`P` is the perturbation variance shared across contexts, and `PxC` the variance of the
+perturbation response along the chosen axis. `GENE_A` has a clear **P × cell state**
+component, `GENE_B` a clear **P × cell type** component, and `GENE_C`/`GENE_D` neither.
 
 ## Perturbation groups
 
@@ -45,7 +54,7 @@ If perturbations fall into groups (pathways, complexes, targets of one regulator
 group can get its own components:
 
 ```{r groups}
-fg <- schint_pert(d, c("GENE_A", "GENE_B"), "perturb", context = c("state", "celltype"),
+fg <- schint_pert(d, c("GENE_A", "GENE_B"), "perturb", context = "state",
                   perturb_group = "perturb_group", control = "NT")
 subset(fg$summary, grepl("^P_group", term) & gene == "GENE_A",
        select = c(term, variance))
@@ -56,8 +65,8 @@ subset(fg$summary, grepl("^P_group", term) & gene == "GENE_A",
 
 ## Choosing the context
 
-Use `context = "state"` for a continuous axis (e.g. principal components of the control
-cells), `context = "celltype"` for categorical, or both, as above. `context = NULL` fits
+Use `context = "state"` for a continuous axis (e.g. a principal component of the control
+cells) and `context = "celltype"` for a categorical one. `context = NULL` fits
 perturbation variance only.
 
 ## Practical points

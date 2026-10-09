@@ -23,7 +23,7 @@ what "context" is and in what links observations:
 |---|---|---|---|---|
 | cell-level | `schint_cell()` | cell | cis-GRM between donors | continuous cell state (PCs, pseudotime, ...) and/or categorical |
 | sample-level | `schint_sample()` | donor × cell type (pseudobulk) | cis-GRM between donors | cell type |
-| perturbation | `schint_pert()` | cell | "same perturbation" | cell state and/or cell type |
+| perturbation | `schint_pert()` | cell | "same perturbation" | cell state *or* cell type (one at a time) |
 
 ## 1. Generative model (cell-level, G×Cell-State)
 

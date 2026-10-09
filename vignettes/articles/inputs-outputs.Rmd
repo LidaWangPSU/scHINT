@@ -103,7 +103,7 @@ Other elements: `n_obs`, `n_donors`, `XtX`/`Xty` (sufficient statistics),
 ### `schint_pert()`
 
 A `"schint_pert"` object with long-format `coefficients` and `summary` tables with an
-extra `gene` column (terms: `P`, `PxC`, `P_total`, `PxC:<variable>`, per-group
+extra `gene` column (terms: `P`, `PxC`, `P_total`, per-group
 `P_<group>`, `P_<group>:C`, `P_<group>_total`, `context`, `covariate`,
 `total_explained`).
 
