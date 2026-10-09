@@ -19,7 +19,7 @@ remotes::install_github("LidaWangPSU/scHINT")
 
 | function | data | genotype-by-context term |
 |---|---|---|
-| `schint_cell()` | one row per cell | G x any continuous or categorical context (pseudotime, PCs, subtype ...) |
+| `schint_cell()` | one row per cell | G x any continuous or categorical context (Cell state, etc.) |
 | `schint_sample()` | one row per donor x cell type | G x cell type (pooled or per cell type) |
 | `schint_pert()` | one row per cell, perturb-seq | perturbation x cell state and/or cell type (several genes at once, optional perturbation groups) |
 
