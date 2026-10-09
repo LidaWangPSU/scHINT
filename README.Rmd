@@ -9,5 +9,5 @@ output: github_document
 *Single-cell gene expression heritability with gene-by-cell-context interactions.*
 Documentation: <https://LidaWangPSU.github.io/scHINT/>
 
-```{r child = "vignettes/_getting-started-body.Rmd"}
+```{r child = "vignettes/getting-started-body.inc"}
 ```

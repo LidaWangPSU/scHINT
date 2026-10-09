@@ -7,5 +7,5 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r child = "_getting-started-body.Rmd"}
+```{r child = "getting-started-body.inc"}
 ```
