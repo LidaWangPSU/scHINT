@@ -168,7 +168,7 @@ Perturbation and perturbation × cell-state / cell-type variance in perturb-seq 
 <tr>
 <td><strong>Perturbation × context</strong></td>
 <td><code><a href="reference/schint_pert.html">schint_pert()</a></code></td>
-<td>perturbation and perturbation × cell-state / cell-type variance in perturb-seq screens</td>
+<td>perturbation and perturbation × cell-state (or cell-type) variance in perturb-seq screens</td>
 </tr>
 </tbody>
 </table>
@@ -360,7 +360,7 @@ y_my_n\sim 1+\mathbf 1(p_m=p_n)+\sum_{k=1}^{K}c_{mk}c_{nk}+\mathbf 1(p_m=p_n)\su
 <h3 id="id_43-perturbation--context-heritability-schint_pert">4.3 Perturbation × context heritability: <code>schint_pert()</code>
 <a class="anchor" aria-label="anchor" href="#id_43-perturbation--context-heritability-schint_pert"></a>
 </h3>
-<p><strong>Input</strong> – <code>data</code> with one row per cell, one or several expression columns (<code>y</code>), the <code>perturb</code> column, <code>context</code> (cell state and/or cell type), <code>covariates</code>, <code>control</code> labels to drop (e.g. <code>"NT"</code>) and optionally <code>perturb_group</code>.</p>
+<p><strong>Input</strong> – <code>data</code> with one row per cell, one or several expression columns (<code>y</code>), the <code>perturb</code> column, <code>context</code> (one cell-state or cell-type column), <code>covariates</code>, <code>control</code> labels to drop (e.g. <code>"NT"</code>) and optionally <code>perturb_group</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">schint_pert_example</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">schint_pert_example</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"perturb"</span>, <span class="st">"perturb_group"</span>, <span class="st">"celltype"</span>, <span class="st">"state"</span>, <span class="st">"GENE_A"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span>
@@ -370,32 +370,29 @@ y_my_n\sim 1+\mathbf 1(p_m=p_n)+\sum_{k=1}^{K}c_{mk}c_{nk}+\mathbf 1(p_m=p_n)\su
 <span><span class="co">#&gt; 3  PERT01        group1      CT1 0.4430754 0.38410583</span></span></code></pre></div>
 <p><strong>Example</strong></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">schint_pert_example</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span><span class="op">)</span>, perturb <span class="op">=</span> <span class="st">"perturb"</span>,</span>
-<span>                  context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"celltype"</span><span class="op">)</span>, covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="co"># perturbation x cell state (use context = "celltype" for perturbation x cell type)</span></span>
+<span><span class="va">fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">schint_pert_example</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span><span class="op">)</span>, perturb <span class="op">=</span> <span class="st">"perturb"</span>,</span>
+<span>                  context <span class="op">=</span> <span class="st">"state"</span>, covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span>,</span>
 <span>                  control <span class="op">=</span> <span class="st">"NT"</span>, jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">fp</span></span>
 <span><span class="co">#&gt; scHINT perturbation model: 3470 cells, 60 perturbations, 2 genes</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;    gene            term variance      se</span></span>
-<span><span class="co">#&gt;  GENE_A               P  0.02720 0.00866</span></span>
-<span><span class="co">#&gt;  GENE_A             PxC  0.06180 0.01930</span></span>
-<span><span class="co">#&gt;  GENE_A         P_total  0.08900 0.02080</span></span>
-<span><span class="co">#&gt;  GENE_A       PxC:state  0.05070 0.01460</span></span>
-<span><span class="co">#&gt;  GENE_A    PxC:celltype  0.01110 0.01130</span></span>
-<span><span class="co">#&gt;  GENE_A         context  0.09800 0.01260</span></span>
-<span><span class="co">#&gt;  GENE_A       covariate  0.04050 0.00617</span></span>
-<span><span class="co">#&gt;  GENE_A total_explained  0.22700 0.02510</span></span>
-<span><span class="co">#&gt;  GENE_B               P  0.04350 0.01510</span></span>
-<span><span class="co">#&gt;  GENE_B             PxC  0.02450 0.01220</span></span>
-<span><span class="co">#&gt;  GENE_B         P_total  0.06800 0.01880</span></span>
-<span><span class="co">#&gt;  GENE_B       PxC:state -0.00277 0.00293</span></span>
-<span><span class="co">#&gt;  GENE_B    PxC:celltype  0.02730 0.01260</span></span>
-<span><span class="co">#&gt;  GENE_B         context  0.06640 0.01250</span></span>
-<span><span class="co">#&gt;  GENE_B       covariate  0.05610 0.00832</span></span>
-<span><span class="co">#&gt;  GENE_B total_explained  0.19100 0.02470</span></span>
+<span><span class="co">#&gt;    gene            term  variance       se</span></span>
+<span><span class="co">#&gt;  GENE_A               P  0.031500 0.008370</span></span>
+<span><span class="co">#&gt;  GENE_A             PxC  0.051100 0.014700</span></span>
+<span><span class="co">#&gt;  GENE_A         P_total  0.082600 0.018600</span></span>
+<span><span class="co">#&gt;  GENE_A         context -0.000834 0.001570</span></span>
+<span><span class="co">#&gt;  GENE_A       covariate  0.040500 0.006170</span></span>
+<span><span class="co">#&gt;  GENE_A total_explained  0.122000 0.018400</span></span>
+<span><span class="co">#&gt;  GENE_B               P  0.053900 0.015700</span></span>
+<span><span class="co">#&gt;  GENE_B             PxC -0.001590 0.002810</span></span>
+<span><span class="co">#&gt;  GENE_B         P_total  0.052300 0.015400</span></span>
+<span><span class="co">#&gt;  GENE_B         context  0.000292 0.000765</span></span>
+<span><span class="co">#&gt;  GENE_B       covariate  0.056100 0.008320</span></span>
+<span><span class="co">#&gt;  GENE_B total_explained  0.109000 0.018300</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 60 perturbation blocks</span></span></code></pre></div>
-<p><strong>Output</strong> – long-format <code>fp$summary</code> / <code>fp$coefficients</code> with one block per gene: <code>P</code> perturbation variance shared across states, <code>PxC</code> perturbation × context variance (split into <code>PxC:state</code> and <code>PxC:celltype</code>), <code>P_total</code>, and per-group rows when <code>perturb_group</code> is used.</p>
+<p><strong>Output</strong> – long-format <code>fp$summary</code> / <code>fp$coefficients</code> with one block per gene: <code>P</code> perturbation variance shared across states, <code>PxC</code> perturbation × context variance, <code>P_total</code>, and per-group rows when <code>perturb_group</code> is used.</p>
 </div>
 <div class="section level3">
 <h3 id="more">More<a class="anchor" aria-label="anchor" href="#more"></a>

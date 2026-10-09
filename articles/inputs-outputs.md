@@ -163,8 +163,8 @@ components), `call`.
 
 A `"schint_pert"` object with long-format `coefficients` and `summary`
 tables with an extra `gene` column (terms: `P`, `PxC`, `P_total`,
-`PxC:<variable>`, per-group `P_<group>`, `P_<group>:C`,
-`P_<group>_total`, `context`, `covariate`, `total_explained`).
+per-group `P_<group>`, `P_<group>:C`, `P_<group>_total`, `context`,
+`covariate`, `total_explained`).
 
 ### Extracting results
 

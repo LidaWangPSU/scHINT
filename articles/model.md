@@ -19,7 +19,7 @@ differ only in what “context” is and in what links observations:
 |----|----|----|----|----|
 | cell-level | [`schint_cell()`](https://LidaWangPSU.github.io/scHINT/reference/schint_cell.md) | cell | cis-GRM between donors | continuous cell state (PCs, pseudotime, …) and/or categorical |
 | sample-level | [`schint_sample()`](https://LidaWangPSU.github.io/scHINT/reference/schint_sample.md) | donor × cell type (pseudobulk) | cis-GRM between donors | cell type |
-| perturbation | [`schint_pert()`](https://LidaWangPSU.github.io/scHINT/reference/schint_pert.md) | cell | “same perturbation” | cell state and/or cell type |
+| perturbation | [`schint_pert()`](https://LidaWangPSU.github.io/scHINT/reference/schint_pert.md) | cell | “same perturbation” | cell state *or* cell type (one at a time) |
 
 ## 1. Generative model (cell-level, G×Cell-State)
 

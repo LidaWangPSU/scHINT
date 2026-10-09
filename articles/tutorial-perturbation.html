@@ -123,34 +123,52 @@ replaced by “same perturbation”.</p>
 <code>GENE_C</code> a perturbation effect only and <code>GENE_D</code>
 none; group3 perturbations have no effect.</p>
 <div class="section level2">
-<h2 id="fit-several-genes-at-once">Fit several genes at once<a class="anchor" aria-label="anchor" href="#fit-several-genes-at-once"></a>
+<h2 id="one-interaction-at-a-time">One interaction at a time<a class="anchor" aria-label="anchor" href="#one-interaction-at-a-time"></a>
 </h2>
+<p>The perturbation can interact with <strong>either</strong> a
+continuous cell state <strong>or</strong> a categorical cell type in one
+model (<code>context</code> takes a single column); to study both, fit
+the model twice. Several genes can be fitted at once, and the expensive
+part (<code>X'X</code>) is computed only once; each additional gene
+costs a few quadratic forms.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">d</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span>, <span class="st">"GENE_C"</span>, <span class="st">"GENE_D"</span><span class="op">)</span>,</span>
-<span>                   perturb <span class="op">=</span> <span class="st">"perturb"</span>, context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"celltype"</span><span class="op">)</span>,</span>
-<span>                   covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span>, control <span class="op">=</span> <span class="st">"NT"</span>, jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>, <span class="st">"PxC:state"</span>, <span class="st">"PxC:celltype"</span><span class="op">)</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">summary</span>, <span class="va">term</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">keep</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">gene</span>, <span class="va">term</span>, <span class="va">variance</span>, <span class="va">se</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">res</span><span class="op">$</span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">variance</span> <span class="op">/</span> <span class="va">res</span><span class="op">$</span><span class="va">se</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">res</span></span>
-<span><span class="co">#&gt;            gene         term      variance          se    z</span></span>
-<span><span class="co">#&gt; GENE_A.1 GENE_A            P  0.0272190898 0.008656187  3.1</span></span>
-<span><span class="co">#&gt; GENE_A.4 GENE_A    PxC:state  0.0507430857 0.014603063  3.5</span></span>
-<span><span class="co">#&gt; GENE_A.5 GENE_A PxC:celltype  0.0110774848 0.011340415  1.0</span></span>
-<span><span class="co">#&gt; GENE_B.1 GENE_B            P  0.0435317075 0.015098355  2.9</span></span>
-<span><span class="co">#&gt; GENE_B.4 GENE_B    PxC:state -0.0027662529 0.002925695 -0.9</span></span>
-<span><span class="co">#&gt; GENE_B.5 GENE_B PxC:celltype  0.0272631582 0.012551674  2.2</span></span>
-<span><span class="co">#&gt; GENE_C.1 GENE_C            P  0.0665561848 0.021558539  3.1</span></span>
-<span><span class="co">#&gt; GENE_C.4 GENE_C    PxC:state  0.0009753755 0.003137058  0.3</span></span>
-<span><span class="co">#&gt; GENE_C.5 GENE_C PxC:celltype  0.0069372804 0.009553201  0.7</span></span>
-<span><span class="co">#&gt; GENE_D.1 GENE_D            P -0.0055383708 0.003054088 -1.8</span></span>
-<span><span class="co">#&gt; GENE_D.4 GENE_D    PxC:state  0.0021470739 0.003810962  0.6</span></span>
-<span><span class="co">#&gt; GENE_D.5 GENE_D PxC:celltype  0.0092355169 0.006536935  1.4</span></span></code></pre></div>
-<p>The expensive part (<code>X'X</code>) is computed once; each
-additional gene costs only a few quadratic forms. <code>P</code> is the
-perturbation variance shared across cell states, <code>PxC:state</code>
-the variance of the perturbation response along the state axis and
-<code>PxC:celltype</code> the cell-type-specific response.</p>
+<code class="sourceCode R"><span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span>, <span class="st">"GENE_C"</span>, <span class="st">"GENE_D"</span><span class="op">)</span></span>
+<span><span class="va">fit_state</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">d</span>, y <span class="op">=</span> <span class="va">genes</span>, perturb <span class="op">=</span> <span class="st">"perturb"</span>, context <span class="op">=</span> <span class="st">"state"</span>,</span>
+<span>                         covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span>, control <span class="op">=</span> <span class="st">"NT"</span>, jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">fit_type</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">d</span>, y <span class="op">=</span> <span class="va">genes</span>, perturb <span class="op">=</span> <span class="st">"perturb"</span>, context <span class="op">=</span> <span class="st">"celltype"</span>,</span>
+<span>                         covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span>, control <span class="op">=</span> <span class="st">"NT"</span>, jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">pick</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">f</span>, <span class="va">label</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">f</span><span class="op">$</span><span class="va">summary</span>, <span class="va">term</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>, <span class="st">"PxC"</span><span class="op">)</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">gene</span>, <span class="va">term</span>, <span class="va">variance</span>, <span class="va">se</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">s</span><span class="op">$</span><span class="va">interaction</span> <span class="op">&lt;-</span> <span class="va">label</span></span>
+<span>  <span class="va">s</span><span class="op">$</span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">variance</span> <span class="op">/</span> <span class="va">s</span><span class="op">$</span><span class="va">se</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">s</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu">pick</span><span class="op">(</span><span class="va">fit_state</span>, <span class="st">"P x cell state"</span><span class="op">)</span>, <span class="fu">pick</span><span class="op">(</span><span class="va">fit_type</span>, <span class="st">"P x cell type"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;             gene term     variance          se    interaction    z</span></span>
+<span><span class="co">#&gt; GENE_A.1  GENE_A    P  0.031529450 0.008370534 P x cell state  3.8</span></span>
+<span><span class="co">#&gt; GENE_A.2  GENE_A  PxC  0.051115680 0.014668888 P x cell state  3.5</span></span>
+<span><span class="co">#&gt; GENE_B.1  GENE_B    P  0.053930007 0.015738307 P x cell state  3.4</span></span>
+<span><span class="co">#&gt; GENE_B.2  GENE_B  PxC -0.001594474 0.002814178 P x cell state -0.6</span></span>
+<span><span class="co">#&gt; GENE_C.1  GENE_C    P  0.069294137 0.021355071 P x cell state  3.2</span></span>
+<span><span class="co">#&gt; GENE_C.2  GENE_C  PxC  0.001161913 0.003183737 P x cell state  0.4</span></span>
+<span><span class="co">#&gt; GENE_D.1  GENE_D    P -0.001956778 0.002082991 P x cell state -0.9</span></span>
+<span><span class="co">#&gt; GENE_D.2  GENE_D  PxC  0.002472314 0.003809523 P x cell state  0.6</span></span>
+<span><span class="co">#&gt; GENE_A.11 GENE_A    P  0.023510186 0.008558527  P x cell type  2.7</span></span>
+<span><span class="co">#&gt; GENE_A.21 GENE_A  PxC  0.021032288 0.012095408  P x cell type  1.7</span></span>
+<span><span class="co">#&gt; GENE_B.11 GENE_B    P  0.043718630 0.015134585  P x cell type  2.9</span></span>
+<span><span class="co">#&gt; GENE_B.21 GENE_B  PxC  0.026748300 0.012433431  P x cell type  2.2</span></span>
+<span><span class="co">#&gt; GENE_C.11 GENE_C    P  0.066462888 0.021654863  P x cell type  3.1</span></span>
+<span><span class="co">#&gt; GENE_C.21 GENE_C  PxC  0.007168734 0.009545346  P x cell type  0.8</span></span>
+<span><span class="co">#&gt; GENE_D.11 GENE_D    P -0.005701530 0.002990322  P x cell type -1.9</span></span>
+<span><span class="co">#&gt; GENE_D.21 GENE_D  PxC  0.009668077 0.006488487  P x cell type  1.5</span></span></code></pre></div>
+<p><code>P</code> is the perturbation variance shared across contexts,
+and <code>PxC</code> the variance of the perturbation response along the
+chosen axis. <code>GENE_A</code> has a clear <strong>P × cell
+state</strong> component (z about 3.5), <code>GENE_B</code> the largest
+<strong>P × cell type</strong> component (z about 2), and
+<code>GENE_C</code>/<code>GENE_D</code> neither. In this simulation the
+cell state partly tracks cell type, so <code>GENE_A</code> also shows a
+weak cell-type term; with real data, fit both contexts and compare.</p>
 </div>
 <div class="section level2">
 <h2 id="perturbation-groups">Perturbation groups<a class="anchor" aria-label="anchor" href="#perturbation-groups"></a>
@@ -158,20 +176,20 @@ the variance of the perturbation response along the state axis and
 <p>If perturbations fall into groups (pathways, complexes, targets of
 one regulator) each group can get its own components:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span><span class="op">)</span>, <span class="st">"perturb"</span>, context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"celltype"</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="va">fg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span><span class="op">)</span>, <span class="st">"perturb"</span>, context <span class="op">=</span> <span class="st">"state"</span>,</span>
 <span>                  perturb_group <span class="op">=</span> <span class="st">"perturb_group"</span>, control <span class="op">=</span> <span class="st">"NT"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">fg</span><span class="op">$</span><span class="va">summary</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^P_group"</span>, <span class="va">term</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">gene</span> <span class="op">==</span> <span class="st">"GENE_A"</span>,</span>
 <span>       select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">variance</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                     term     variance</span></span>
-<span><span class="co">#&gt; GENE_A.6        P_group1  0.013266670</span></span>
-<span><span class="co">#&gt; GENE_A.7      P_group1:C  0.045680191</span></span>
-<span><span class="co">#&gt; GENE_A.8  P_group1_total  0.058946861</span></span>
-<span><span class="co">#&gt; GENE_A.9        P_group2  0.014565664</span></span>
-<span><span class="co">#&gt; GENE_A.10     P_group2:C  0.014481156</span></span>
-<span><span class="co">#&gt; GENE_A.11 P_group2_total  0.029046820</span></span>
-<span><span class="co">#&gt; GENE_A.12       P_group3 -0.001479058</span></span>
-<span><span class="co">#&gt; GENE_A.13     P_group3:C  0.003793489</span></span>
-<span><span class="co">#&gt; GENE_A.14 P_group3_total  0.002314431</span></span></code></pre></div>
+<span><span class="co">#&gt;                     term      variance</span></span>
+<span><span class="co">#&gt; GENE_A.4        P_group1  1.789680e-02</span></span>
+<span><span class="co">#&gt; GENE_A.5      P_group1:C  3.387848e-02</span></span>
+<span><span class="co">#&gt; GENE_A.6  P_group1_total  5.177528e-02</span></span>
+<span><span class="co">#&gt; GENE_A.7        P_group2  1.355287e-02</span></span>
+<span><span class="co">#&gt; GENE_A.8      P_group2:C  1.720480e-02</span></span>
+<span><span class="co">#&gt; GENE_A.9  P_group2_total  3.075768e-02</span></span>
+<span><span class="co">#&gt; GENE_A.10       P_group3 -2.267134e-05</span></span>
+<span><span class="co">#&gt; GENE_A.11     P_group3:C  1.720171e-04</span></span>
+<span><span class="co">#&gt; GENE_A.12 P_group3_total  1.493458e-04</span></span></code></pre></div>
 <p><code>group3</code> has no simulated effect, <code>group1</code> the
 largest. A named list works too:
 <code>perturb_group = list(complexA = c("PERT01", "PERT02"), complexB = c(...))</code>.</p>
@@ -179,9 +197,9 @@ largest. A named list works too:
 <div class="section level2">
 <h2 id="choosing-the-context">Choosing the context<a class="anchor" aria-label="anchor" href="#choosing-the-context"></a>
 </h2>
-<p>Use <code>context = "state"</code> for a continuous axis
-(e.g. principal components of the control cells),
-<code>context = "celltype"</code> for categorical, or both, as above.
+<p>Use <code>context = "state"</code> for a continuous axis (e.g. a
+principal component of the control cells) and
+<code>context = "celltype"</code> for a categorical one.
 <code>context = NULL</code> fits perturbation variance only.</p>
 </div>
 <div class="section level2">

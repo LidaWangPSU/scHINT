@@ -5,8 +5,9 @@ is replaced by "same perturbation" (cells carrying the same perturbation
 are correlated, cells with different perturbations are not).
 Haseman-Elston regression on pairs of cells partitions the variance of
 each gene into a perturbation component \`P\`, a perturbation-by-context
-component \`P x context\` (context = continuous cell state and/or
-categorical cell type), context main effects and covariates.
+component \`P x context\` (the context is one variable at a time: a
+continuous cell state or a categorical cell type), context main effects
+and covariates.
 
 ## Usage
 
@@ -46,9 +47,9 @@ schint_pert(
 
 - context:
 
-  Column name(s) of the cell context interacting with the perturbation:
-  numeric = cell state, factor/character = cell type. \`NULL\` for no
-  interaction.
+  Name of \*\*one\*\* column giving the cell context that interacts with
+  the perturbation: numeric = cell state, factor/character = cell type.
+  To study both, fit the model twice. \`NULL\` for no interaction.
 
 - covariates:
 
@@ -117,26 +118,22 @@ type"). Several genes can be fitted at once; the design-dependent
 ``` r
 data(schint_pert_example)
 fit <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"),
-                   perturb = "perturb", context = c("state", "celltype"),
+                   perturb = "perturb", context = "state",
                    control = "NT", covariates = c("pc1", "pc2"))
 fit
 #> scHINT perturbation model: 3470 cells, 60 perturbations, 2 genes
 #> 
-#>    gene            term variance
-#>  GENE_A               P  0.02720
-#>  GENE_A             PxC  0.06180
-#>  GENE_A         P_total  0.08900
-#>  GENE_A       PxC:state  0.05070
-#>  GENE_A    PxC:celltype  0.01110
-#>  GENE_A         context  0.09800
-#>  GENE_A       covariate  0.04050
-#>  GENE_A total_explained  0.22700
-#>  GENE_B               P  0.04350
-#>  GENE_B             PxC  0.02450
-#>  GENE_B         P_total  0.06800
-#>  GENE_B       PxC:state -0.00277
-#>  GENE_B    PxC:celltype  0.02730
-#>  GENE_B         context  0.06640
-#>  GENE_B       covariate  0.05610
-#>  GENE_B total_explained  0.19100
+#>    gene            term  variance
+#>  GENE_A               P  0.031500
+#>  GENE_A             PxC  0.051100
+#>  GENE_A         P_total  0.082600
+#>  GENE_A         context -0.000834
+#>  GENE_A       covariate  0.040500
+#>  GENE_A total_explained  0.122000
+#>  GENE_B               P  0.053900
+#>  GENE_B             PxC -0.001590
+#>  GENE_B         P_total  0.052300
+#>  GENE_B         context  0.000292
+#>  GENE_B       covariate  0.056100
+#>  GENE_B total_explained  0.109000
 ```
