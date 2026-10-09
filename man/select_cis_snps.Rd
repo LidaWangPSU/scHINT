@@ -4,14 +4,14 @@
 \alias{select_cis_snps}
 \title{Select cis SNPs around a gene}
 \usage{
-select_cis_snps(bim, chr, start, end, window = 1e+06)
+select_cis_snps(bim, chr, start, end, window = 5e+05)
 }
 \arguments{
 \item{bim}{Data frame with columns `chr`, `snp`, `pos` (e.g. the `bim` returned by [read_plink()]).}
 
 \item{chr, start, end}{Gene chromosome and coordinates.}
 
-\item{window}{Window (bp) added on each side of the gene body (default 1 Mb).}
+\item{window}{Window (bp) added on each side of the gene body (default 500 kb, as in the manuscript).}
 }
 \value{
 Character vector of SNP IDs.

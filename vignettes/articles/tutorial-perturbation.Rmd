@@ -1,0 +1,69 @@
+---
+title: "Tutorial: perturbation heritability"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(scHINT)
+data(schint_pert_example)
+d <- schint_pert_example
+```
+
+`schint_pert()` asks, for each gene, how much expression variance is attributable to the
+**perturbation** a cell received, and how much of that effect depends on the **cell state**
+and/or **cell type**. The genetic kernel is replaced by "same perturbation".
+
+```{r data}
+head(d, 3)
+table(d$perturb_group)
+```
+
+`NT` marks non-targeting control cells. `GENE_A` has perturbation × state variance,
+`GENE_B` perturbation × cell-type variance, `GENE_C` a perturbation effect only and
+`GENE_D` none; group3 perturbations have no effect.
+
+## Fit several genes at once
+
+```{r fit}
+fit <- schint_pert(d, y = c("GENE_A", "GENE_B", "GENE_C", "GENE_D"),
+                   perturb = "perturb", context = c("state", "celltype"),
+                   covariates = c("pc1", "pc2"), control = "NT", jackknife = TRUE)
+keep <- c("P", "PxC:state", "PxC:celltype")
+res <- subset(fit$summary, term %in% keep, select = c(gene, term, variance, se))
+res$z <- round(res$variance / res$se, 1)
+res
+```
+
+The expensive part (`X'X`) is computed once; each additional gene costs only a few
+quadratic forms. `P` is the perturbation variance shared across cell states, `PxC:state`
+the variance of the perturbation response along the state axis and `PxC:celltype` the
+cell-type-specific response.
+
+## Perturbation groups
+
+If perturbations fall into groups (pathways, complexes, targets of one regulator) each
+group can get its own components:
+
+```{r groups}
+fg <- schint_pert(d, c("GENE_A", "GENE_B"), "perturb", context = c("state", "celltype"),
+                  perturb_group = "perturb_group", control = "NT")
+subset(fg$summary, grepl("^P_group", term) & gene == "GENE_A",
+       select = c(term, variance))
+```
+
+`group3` has no simulated effect, `group1` the largest. A named list works too:
+`perturb_group = list(complexA = c("PERT01", "PERT02"), complexB = c(...))`.
+
+## Choosing the context
+
+Use `context = "state"` for a continuous axis (e.g. principal components of the control
+cells), `context = "celltype"` for categorical, or both, as above. `context = NULL` fits
+perturbation variance only.
+
+## Practical points
+
+* Remove controls (`control`) or give them their own label and exclude them; otherwise
+  controls form one very large "perturbation".
+* Perturbations with fewer than `min_cells` (default 2) cells are dropped.
+* Standard errors use a leave-perturbation-out jackknife (`n_blocks` for fewer blocks).
+* Expression should be normalized; each gene is centred and scaled.

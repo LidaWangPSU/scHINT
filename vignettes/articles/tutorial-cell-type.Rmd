@@ -1,0 +1,64 @@
+---
+title: "Tutorial: G×Cell-Type heritability (pseudobulk)"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(scHINT)
+data(schint_example)
+ex <- schint_example
+```
+
+When expression is available as pseudobulk per donor and cell type, `schint_sample()` asks
+how much genetic variance is **shared across cell types** (`G`) and how much is
+**cell-type specific** (`GxC`).
+
+```{r data}
+head(ex$sample, 3)
+table(ex$sample$celltype)
+```
+
+## Fit
+
+```{r fit}
+fs <- schint_sample(ex$sample, y = "GENE_A", id = "donor", celltype = "celltype",
+                    geno = ex$geno, covariates = c("age", "sex", "pc1", "pc2"),
+                    jackknife = TRUE)
+fs
+```
+
+* `G` - genetic variance shared by all cell types.
+* `GxC` - genetic variance specific to a cell type (pairs from the same type).
+* `I` - donor effect shared across cell types, not genetic.
+* `context` - variance of cell-type mean differences.
+
+`h2_upper` is only reported for the cell-level model; use `h2` here.
+
+## Shared-genetics model only
+
+```{r shared}
+schint_sample(ex$sample, "GENE_A", "donor", "celltype", geno = ex$geno, gxc = FALSE)$summary
+```
+
+## A separate genetic variance per cell type
+
+```{r per-level}
+fl <- schint_sample(ex$sample, "GENE_A", "donor", "celltype", geno = ex$geno,
+                    cat_mode = "per_level", jackknife = TRUE)
+subset(fl$coefficients, group == "GxC", select = c(component, variance, se_variance))
+```
+
+## Genes without cell-type specificity
+
+```{r geneB}
+schint_sample(ex$sample, "GENE_B", "donor", "celltype", geno = ex$geno,
+              jackknife = TRUE)$summary[1:3, c("term", "variance", "se")]
+```
+
+## Notes
+
+* The data should contain one row per donor × cell type. Several rows per pair trigger a
+  warning (use `schint_cell()` for cell-level data).
+* Donors need not have all cell types; missing pairs are simply absent.
+* Pseudobulk values should be normalized and, if desired, residualized for donor-level
+  covariates before calling, or the covariates passed in `covariates`.

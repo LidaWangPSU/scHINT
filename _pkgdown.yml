@@ -1,6 +1,37 @@
 url: https://LidaWangPSU.github.io/scHINT/
 template:
   bootstrap: 5
+  math-rendering: mathjax
+navbar:
+  structure:
+    left: [intro, user_guide, tutorials, reference, news]
+  components:
+    user_guide:
+      text: User guide
+      menu:
+        - text: Model
+          href: articles/model.html
+        - text: Users manual
+          href: articles/users-manual.html
+        - text: Input formats and outputs
+          href: articles/inputs-outputs.html
+        - text: Troubleshooting
+          href: articles/troubleshooting.html
+        - text: Performance
+          href: articles/performance.html
+    tutorials:
+      text: Tutorials
+      menu:
+        - text: G x Cell-State
+          href: articles/tutorial-cell-state.html
+        - text: G x Cell-Type (pseudobulk)
+          href: articles/tutorial-cell-type.html
+        - text: Perturbation
+          href: articles/tutorial-perturbation.html
+        - text: Genome-wide workflow
+          href: articles/tutorial-workflow.html
+        - text: Simulation and validation
+          href: articles/simulation.html
 reference:
   - title: Main models
     contents: [schint_cell, schint_sample, schint_pert]

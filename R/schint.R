@@ -55,7 +55,7 @@ schint_cell <- function(data, y, id, geno = NULL, grm = NULL, n_grm = 1L,
                         scale_y = TRUE, scale_x = TRUE, seed = 1) {
   .schint_fit(data, y, id, context, covariates, geno, grm, n_grm, match.arg(grm_by),
               match.arg(cat_mode), gxc = length(context) > 0L, ind_effect, context_main,
-              scale_y, scale_x, jackknife, n_blocks, seed, match.call())
+              scale_y, scale_x, jackknife, n_blocks, seed, match.call(), upper = TRUE)
 }
 
 #' Sample-level GxCell-Type heritability model
@@ -98,7 +98,7 @@ schint_sample <- function(data, y, id, celltype, geno = NULL, grm = NULL, n_grm 
   }
   .schint_fit(data, y, id, context = celltype, covariates, geno, grm, n_grm, match.arg(grm_by),
               match.arg(cat_mode), gxc = gxc, ind_effect, context_main = celltype_main,
-              scale_y, scale_x, jackknife, n_blocks, seed, match.call())
+              scale_y, scale_x, jackknife, n_blocks, seed, match.call(), upper = FALSE)
 }
 
 #' @export

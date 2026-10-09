@@ -1,0 +1,119 @@
+---
+title: "Tutorial: G×Cell-State heritability"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6, fig.height = 4)
+library(scHINT)
+data(schint_example)
+ex <- schint_example
+```
+
+This tutorial fits the cell-level model to the simulated example. `ex$cell` holds 12,000
+cells of one cell type from 400 donors; a continuous cell `state`, cell covariates
+(`pc1`, `pc2`), donor covariates (`age`, `sex`, `batch`) and three genes with known
+architecture (`ex$truth`):
+
+```{r truth}
+ex$truth
+```
+
+* `GENE_A`: main genetic + G×state + donor effect
+* `GENE_B`: main genetic + donor effect, no interaction
+* `GENE_C`: no genetic effect
+
+## 1. Fit the model
+
+```{r fit}
+covs <- c("pc1", "pc2", "age", "sex", "batch")
+fitA <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
+                    context = "state", covariates = covs, jackknife = TRUE)
+fitA
+```
+
+`G` is the genetic variance present in every cell, `GxC` the genetic variance that
+varies with `state`, and `G_total` their sum. `h2` / `h2_upper` are the normalized
+heritabilities (see [Model](model.html), section 7).
+
+## 2. Is there G×state heritability?
+
+Compare the interaction estimate and its jackknife standard error across genes:
+
+```{r three-genes}
+res <- do.call(rbind, lapply(c("GENE_A", "GENE_B", "GENE_C"), function(g) {
+  f <- schint_cell(ex$cell, g, "donor", geno = ex$geno, context = "state",
+                   covariates = covs, jackknife = TRUE)
+  s <- f$summary
+  cbind(gene = g, s[s$term %in% c("G", "GxC"), c("term", "variance", "se")])
+}))
+res$z <- res$variance / res$se
+res
+```
+
+`GxC` is clearly non-zero for `GENE_A` only.
+
+```{r plot, echo = FALSE}
+op <- par(mar = c(4, 4, 1, 1))
+x <- barplot(matrix(res$variance, nrow = 2, dimnames = list(c("G", "GxC"), unique(res$gene))),
+             beside = TRUE, col = c("grey60", "firebrick"), ylab = "variance",
+             ylim = range(c(0, res$variance + 2 * res$se, res$variance - 2 * res$se)))
+arrows(x, res$variance - 2 * res$se, x, res$variance + 2 * res$se, angle = 90, code = 3, length = .03)
+legend("topright", c("G", "GxC"), fill = c("grey60", "firebrick"), bty = "n")
+par(op)
+```
+
+## 3. Several context axes
+
+`context` accepts several columns, each with its own main and G× term. Here the
+categorical `subtype` is added as a second context (one pooled "same subtype" component):
+
+```{r multi-context}
+f2 <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
+                  context = c("state", "subtype"), covariates = covs)
+f2$summary
+```
+
+The per-variable terms `GxC:state` and `GxC:subtype` split the interaction. With
+`cat_mode = "per_level"` a categorical context gets a separate genetic variance per
+level.
+
+## 4. Main-effect-only covariates versus context
+
+A variable in `context` gets a main effect *and* a G× interaction. A variable in
+`covariates` gets a main effect only. To mirror a typical analysis, put the leading
+state PCs (say 5) in `context` and further PCs and technical variables in `covariates`.
+
+## 5. Multiple GRMs
+
+```{r grm}
+f3 <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
+                  n_grm = 3, grm_by = "maf", context = "state", covariates = covs)
+f3$summary[, c("term", "variance", "h2")]
+```
+
+Here the cis SNPs are split into three MAF bins (rarest first), each with its own main
+and G×state variance; `G` and `GxC` are the sums over GRMs. Pass a list of genotype
+matrices, or of GRMs, to split by any annotation.
+
+## 6. Pre-computed GRMs
+
+```{r precomputed}
+K <- make_grm(ex$geno)
+all.equal(coef(schint_cell(ex$cell, "GENE_A", "donor", grm = K, context = "state",
+                           covariates = covs)),
+          coef(fitA))
+```
+
+## 7. Jackknife options
+
+`n_blocks` groups donors into blocks (faster for very large cohorts); `seed` controls the
+assignment. The per-block estimates are in `fit$jackknife$estimates`, from which the
+standard error of any function of the components can be computed.
+
+```{r jk-custom}
+jk <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno, context = "state",
+                  covariates = covs, jackknife = TRUE, n_blocks = 20)
+B  <- jk$jackknife$estimates
+ratio <- B[, "G:state"] / B[, "G"]                        # a custom statistic
+sqrt((length(ratio) - 1) / length(ratio) * sum((ratio - mean(ratio))^2))
+```

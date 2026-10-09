@@ -16,6 +16,9 @@ scHINT estimates how much of the variance of a gene's expression is explained by
 genetics (or by a perturbation), and how much of that depends on the **cell state**
 or **cell type**, using Haseman-Elston regression on pairs of observations.
 
+See the [Model](articles/model.html) page for the statistical details and the
+[tutorials](articles/tutorial-cell-state.html) for complete worked examples.
+
 The example data are fully simulated: `schint_example` (genotypes, a cell-level table
 and a sample-level table) and `schint_pert_example` (perturb-seq-like cells).
 

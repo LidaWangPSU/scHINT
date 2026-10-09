@@ -36,10 +36,10 @@ read_plink <- function(root, snps = NULL, impute = c("none", "avg"), id = c("IID
 #'
 #' @param bim Data frame with columns `chr`, `snp`, `pos` (e.g. the `bim` returned by [read_plink()]).
 #' @param chr,start,end Gene chromosome and coordinates.
-#' @param window Window (bp) added on each side of the gene body (default 1 Mb).
+#' @param window Window (bp) added on each side of the gene body (default 500 kb, as in the manuscript).
 #' @return Character vector of SNP IDs.
 #' @export
-select_cis_snps <- function(bim, chr, start, end, window = 1e6) {
+select_cis_snps <- function(bim, chr, start, end, window = 5e5) {
   bim$snp[as.character(bim$chr) == as.character(chr) &
             bim$pos >= start - window & bim$pos <= end + window]
 }
