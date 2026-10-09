@@ -46,7 +46,9 @@ rbind(pick(fit_state, "P x cell state"), pick(fit_type, "P x cell type"))
 
 `P` is the perturbation variance shared across contexts, and `PxC` the variance of the
 perturbation response along the chosen axis. `GENE_A` has a clear **P × cell state**
-component, `GENE_B` a clear **P × cell type** component, and `GENE_C`/`GENE_D` neither.
+component (z about 3.5), `GENE_B` the largest **P × cell type** component (z about 2),
+and `GENE_C`/`GENE_D` neither. In this simulation the cell state partly tracks cell type, so
+`GENE_A` also shows a weak cell-type term; with real data, fit both contexts and compare.
 
 ## Perturbation groups
 
