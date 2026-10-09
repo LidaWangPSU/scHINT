@@ -2,8 +2,18 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  articles/inputs-outputs: inputs-outputs.html
+  articles/model: model.html
+  articles/performance: performance.html
   scHINT: scHINT.html
-last_built: 2026-10-09T17:57Z
+  articles/simulation: simulation.html
+  articles/troubleshooting: troubleshooting.html
+  articles/tutorial-cell-state: tutorial-cell-state.html
+  articles/tutorial-cell-type: tutorial-cell-type.html
+  articles/tutorial-perturbation: tutorial-perturbation.html
+  articles/tutorial-workflow: tutorial-workflow.html
+  articles/users-manual: users-manual.html
+last_built: 2026-10-09T18:19Z
 urls:
   reference: https://LidaWangPSU.github.io/scHINT/reference
   article: https://LidaWangPSU.github.io/scHINT/articles

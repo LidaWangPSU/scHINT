@@ -6,7 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Getting started with scHINT • scHINT</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -30,6 +36,26 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="../articles/scHINT.html">Get started</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide">
+<li><a class="dropdown-item" href="../articles/model.html">Model</a></li>
+    <li><a class="dropdown-item" href="../articles/users-manual.html">Users manual</a></li>
+    <li><a class="dropdown-item" href="../articles/inputs-outputs.html">Input formats and outputs</a></li>
+    <li><a class="dropdown-item" href="../articles/troubleshooting.html">Troubleshooting</a></li>
+    <li><a class="dropdown-item" href="../articles/performance.html">Performance</a></li>
+  </ul>
+</li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
+<li><a class="dropdown-item" href="../articles/tutorial-cell-state.html">G x Cell-State</a></li>
+    <li><a class="dropdown-item" href="../articles/tutorial-cell-type.html">G x Cell-Type (pseudobulk)</a></li>
+    <li><a class="dropdown-item" href="../articles/tutorial-perturbation.html">Perturbation</a></li>
+    <li><a class="dropdown-item" href="../articles/tutorial-workflow.html">Genome-wide workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/simulation.html">Simulation and validation</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
@@ -65,6 +91,9 @@ explained by genetics (or by a perturbation), and how much of that
 depends on the <strong>cell state</strong> or <strong>cell
 type</strong>, using Haseman-Elston regression on pairs of
 observations.</p>
+<p>See the <a href="articles/model.html">Model</a> page for the
+statistical details and the <a href="articles/tutorial-cell-state.html">tutorials</a> for complete
+worked examples.</p>
 <p>The example data are fully simulated: <code>schint_example</code>
 (genotypes, a cell-level table and a sample-level table) and
 <code>schint_pert_example</code> (perturb-seq-like cells).</p>
@@ -106,14 +135,22 @@ depend on (numeric = continuous, factor/character = categorical);
 <span><span class="co">#&gt; scHINT model: 12000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variance components (fraction of Var(y)):</span></span>
-<span><span class="co">#&gt;             term variance fraction      se se_fraction</span></span>
-<span><span class="co">#&gt;                G 0.205000 0.205000 0.04490     0.04490</span></span>
-<span><span class="co">#&gt;              GxC 0.163000 0.163000 0.04200     0.04200</span></span>
-<span><span class="co">#&gt;          G_total 0.369000 0.369000 0.06240     0.06240</span></span>
-<span><span class="co">#&gt;                I 0.076700 0.076700 0.03480     0.03480</span></span>
-<span><span class="co">#&gt;          context 0.000348 0.000348 0.00312     0.00312</span></span>
-<span><span class="co">#&gt;        covariate 0.069600 0.069600 0.01440     0.01440</span></span>
-<span><span class="co">#&gt;  total_explained 0.515000 0.515000 0.06190     0.06190</span></span>
+<span><span class="co">#&gt;             term variance fraction       h2 h2_upper      se se_fraction</span></span>
+<span><span class="co">#&gt;                G 0.205000 0.205000 0.399000    0.438 0.04490     0.04490</span></span>
+<span><span class="co">#&gt;              GxC 0.163000 0.163000 0.317000    0.348 0.04200     0.04200</span></span>
+<span><span class="co">#&gt;          G_total 0.369000 0.369000 0.716000    0.787 0.06240     0.06240</span></span>
+<span><span class="co">#&gt;                I 0.076700 0.076700 0.149000    0.164 0.03480     0.03480</span></span>
+<span><span class="co">#&gt;          context 0.000348 0.000348 0.000675       NA 0.00312     0.00312</span></span>
+<span><span class="co">#&gt;        covariate 0.069600 0.069600 0.135000    0.148 0.01440     0.01440</span></span>
+<span><span class="co">#&gt;  total_explained 0.515000 0.515000       NA       NA 0.06190     0.06190</span></span>
+<span><span class="co">#&gt;    se_h2 se_h2_upper</span></span>
+<span><span class="co">#&gt;  0.08340      0.0913</span></span>
+<span><span class="co">#&gt;  0.05510      0.0598</span></span>
+<span><span class="co">#&gt;  0.06480      0.0684</span></span>
+<span><span class="co">#&gt;  0.06850      0.0756</span></span>
+<span><span class="co">#&gt;  0.00616          NA</span></span>
+<span><span class="co">#&gt;  0.03000      0.0341</span></span>
+<span><span class="co">#&gt;       NA          NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 400 donor blocks</span></span></code></pre></div>
 <ul>
@@ -133,13 +170,13 @@ components are on the scale of standardized expression, so they are
 fractions of the variance. A gene without genotype-by-state effects:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_B"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, context <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span><span class="op">$</span><span class="va">summary</span></span>
-<span><span class="co">#&gt;              term      variance      fraction</span></span>
-<span><span class="co">#&gt; 1               G  0.2431935652  0.2431935652</span></span>
-<span><span class="co">#&gt; 2             GxC -0.0008234294 -0.0008234294</span></span>
-<span><span class="co">#&gt; 3         G_total  0.2423701358  0.2423701358</span></span>
-<span><span class="co">#&gt; 4               I  0.1077121143  0.1077121143</span></span>
-<span><span class="co">#&gt; 5         context  0.0064094800  0.0064094800</span></span>
-<span><span class="co">#&gt; 6 total_explained  0.3564917301  0.3564917301</span></span></code></pre></div>
+<span><span class="co">#&gt;              term      variance      fraction           h2     h2_upper</span></span>
+<span><span class="co">#&gt; 1               G  0.2431935652  0.2431935652  0.682185714  0.694675509</span></span>
+<span><span class="co">#&gt; 2             GxC -0.0008234294 -0.0008234294 -0.002309814 -0.002352103</span></span>
+<span><span class="co">#&gt; 3         G_total  0.2423701358  0.2423701358  0.679875900  0.692323406</span></span>
+<span><span class="co">#&gt; 4               I  0.1077121143  0.1077121143  0.302144777  0.307676594</span></span>
+<span><span class="co">#&gt; 5         context  0.0064094800  0.0064094800  0.017979323           NA</span></span>
+<span><span class="co">#&gt; 6 total_explained  0.3564917301  0.3564917301           NA           NA</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="several-grms-or-pre-computed-grms">Several GRMs, or pre-computed GRMs<a class="anchor" aria-label="anchor" href="#several-grms-or-pre-computed-grms"></a>
 </h3>
@@ -148,19 +185,19 @@ fractions of the variance. A gene without genotype-by-state effects:</p>
 <span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>,</span>
 <span>                    n_grm <span class="op">=</span> <span class="fl">3</span>, grm_by <span class="op">=</span> <span class="st">"maf"</span>, context <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span></span>
 <span><span class="va">fit3</span><span class="op">$</span><span class="va">summary</span></span>
-<span><span class="co">#&gt;               term    variance    fraction</span></span>
-<span><span class="co">#&gt; 1                G 0.203760119 0.203760119</span></span>
-<span><span class="co">#&gt; 2                1 0.049718321 0.049718321</span></span>
-<span><span class="co">#&gt; 3                2 0.056917926 0.056917926</span></span>
-<span><span class="co">#&gt; 4                3 0.097123872 0.097123872</span></span>
-<span><span class="co">#&gt; 5              GxC 0.163916325 0.163916325</span></span>
-<span><span class="co">#&gt; 6              1:C 0.071363745 0.071363745</span></span>
-<span><span class="co">#&gt; 7              2:C 0.044393299 0.044393299</span></span>
-<span><span class="co">#&gt; 8              3:C 0.048159282 0.048159282</span></span>
-<span><span class="co">#&gt; 9          G_total 0.367676445 0.367676445</span></span>
-<span><span class="co">#&gt; 10               I 0.092974593 0.092974593</span></span>
-<span><span class="co">#&gt; 11         context 0.007036457 0.007036457</span></span>
-<span><span class="co">#&gt; 12 total_explained 0.467687494 0.467687494</span></span>
+<span><span class="co">#&gt;               term    variance    fraction         h2   h2_upper</span></span>
+<span><span class="co">#&gt; 1                G 0.203760119 0.203760119 0.43567579 0.44233075</span></span>
+<span><span class="co">#&gt; 2                1 0.049718321 0.049718321 0.10630671 0.10793055</span></span>
+<span><span class="co">#&gt; 3                2 0.056917926 0.056917926 0.12170077 0.12355975</span></span>
+<span><span class="co">#&gt; 4                3 0.097123872 0.097123872 0.20766831 0.21084045</span></span>
+<span><span class="co">#&gt; 5              GxC 0.163916325 0.163916325 0.35048259 0.35583622</span></span>
+<span><span class="co">#&gt; 6              1:C 0.071363745 0.071363745 0.15258853 0.15491932</span></span>
+<span><span class="co">#&gt; 7              2:C 0.044393299 0.044393299 0.09492086 0.09637078</span></span>
+<span><span class="co">#&gt; 8              3:C 0.048159282 0.048159282 0.10297321 0.10454613</span></span>
+<span><span class="co">#&gt; 9          G_total 0.367676445 0.367676445 0.78615838 0.79816697</span></span>
+<span><span class="co">#&gt; 10               I 0.092974593 0.092974593 0.19879641 0.20183303</span></span>
+<span><span class="co">#&gt; 11         context 0.007036457 0.007036457 0.01504521         NA</span></span>
+<span><span class="co">#&gt; 12 total_explained 0.467687494 0.467687494         NA         NA</span></span>
 <span></span>
 <span><span class="co"># or supply GRMs yourself (e.g. from GCTA via read_grm_bin())</span></span>
 <span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_grm.html">make_grm</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">geno</span><span class="op">)</span></span>
@@ -180,14 +217,22 @@ e.g. SNPs by annotation).</p>
 <span><span class="co">#&gt; scHINT model: 2000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variance components (fraction of Var(y)):</span></span>
-<span><span class="co">#&gt;             term variance fraction     se se_fraction</span></span>
-<span><span class="co">#&gt;                G   0.1020   0.1020 0.0237      0.0237</span></span>
-<span><span class="co">#&gt;              GxC   0.0566   0.0566 0.0206      0.0206</span></span>
-<span><span class="co">#&gt;          G_total   0.1580   0.1580 0.0295      0.0295</span></span>
-<span><span class="co">#&gt;                I   0.0227   0.0227 0.0199      0.0199</span></span>
-<span><span class="co">#&gt;          context   0.7320   0.7320 0.0216      0.0216</span></span>
-<span><span class="co">#&gt;        covariate   0.0378   0.0378 0.0115      0.0115</span></span>
-<span><span class="co">#&gt;  total_explained   0.9510   0.9510 0.0369      0.0369</span></span>
+<span><span class="co">#&gt;             term variance fraction     h2 h2_upper     se se_fraction  se_h2</span></span>
+<span><span class="co">#&gt;                G   0.1020   0.1020 0.1070       NA 0.0237      0.0237 0.0246</span></span>
+<span><span class="co">#&gt;              GxC   0.0566   0.0566 0.0595       NA 0.0206      0.0206 0.0202</span></span>
+<span><span class="co">#&gt;          G_total   0.1580   0.1580 0.1660       NA 0.0295      0.0295 0.0276</span></span>
+<span><span class="co">#&gt;                I   0.0227   0.0227 0.0238       NA 0.0199      0.0199 0.0209</span></span>
+<span><span class="co">#&gt;          context   0.7320   0.7320 0.7700       NA 0.0216      0.0216 0.0214</span></span>
+<span><span class="co">#&gt;        covariate   0.0378   0.0378 0.0398       NA 0.0115      0.0115 0.0116</span></span>
+<span><span class="co">#&gt;  total_explained   0.9510   0.9510     NA       NA 0.0369      0.0369     NA</span></span>
+<span><span class="co">#&gt;  se_h2_upper</span></span>
+<span><span class="co">#&gt;           NA</span></span>
+<span><span class="co">#&gt;           NA</span></span>
+<span><span class="co">#&gt;           NA</span></span>
+<span><span class="co">#&gt;           NA</span></span>
+<span><span class="co">#&gt;           NA</span></span>
+<span><span class="co">#&gt;           NA</span></span>
+<span><span class="co">#&gt;           NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 400 donor blocks</span></span></code></pre></div>
 <p><code>gxc = FALSE</code> fits shared genetics only;

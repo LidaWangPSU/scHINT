@@ -129,12 +129,12 @@ fit
 #> scHINT model: 2000 observations, 400 donors, 1 GRM
 #> 
 #> Variance components (fraction of Var(y)):
-#>             term variance fraction
-#>                G   0.1020   0.1020
-#>              GxC   0.0566   0.0566
-#>          G_total   0.1580   0.1580
-#>                I   0.0227   0.0227
-#>          context   0.7320   0.7320
-#>        covariate   0.0378   0.0378
-#>  total_explained   0.9510   0.9510
+#>             term variance fraction     h2 h2_upper
+#>                G   0.1020   0.1020 0.1070       NA
+#>              GxC   0.0566   0.0566 0.0595       NA
+#>          G_total   0.1580   0.1580 0.1660       NA
+#>                I   0.0227   0.0227 0.0238       NA
+#>          context   0.7320   0.7320 0.7700       NA
+#>        covariate   0.0378   0.0378 0.0398       NA
+#>  total_explained   0.9510   0.9510     NA       NA
 ```
