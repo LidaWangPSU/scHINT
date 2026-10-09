@@ -122,21 +122,21 @@ fit <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"),
 fit
 #> scHINT perturbation model: 3470 cells, 60 perturbations, 2 genes
 #> 
-#>    gene            term variance fraction
-#>  GENE_A               P  0.02720  0.02720
-#>  GENE_A             PxC  0.06180  0.06180
-#>  GENE_A         P_total  0.08900  0.08900
-#>  GENE_A       PxC:state  0.05070  0.05070
-#>  GENE_A    PxC:celltype  0.01110  0.01110
-#>  GENE_A         context  0.09800  0.09800
-#>  GENE_A       covariate  0.04050  0.04050
-#>  GENE_A total_explained  0.22700  0.22700
-#>  GENE_B               P  0.04350  0.04350
-#>  GENE_B             PxC  0.02450  0.02450
-#>  GENE_B         P_total  0.06800  0.06800
-#>  GENE_B       PxC:state -0.00277 -0.00277
-#>  GENE_B    PxC:celltype  0.02730  0.02730
-#>  GENE_B         context  0.06640  0.06640
-#>  GENE_B       covariate  0.05610  0.05610
-#>  GENE_B total_explained  0.19100  0.19100
+#>    gene            term variance
+#>  GENE_A               P  0.02720
+#>  GENE_A             PxC  0.06180
+#>  GENE_A         P_total  0.08900
+#>  GENE_A       PxC:state  0.05070
+#>  GENE_A    PxC:celltype  0.01110
+#>  GENE_A         context  0.09800
+#>  GENE_A       covariate  0.04050
+#>  GENE_A total_explained  0.22700
+#>  GENE_B               P  0.04350
+#>  GENE_B             PxC  0.02450
+#>  GENE_B         P_total  0.06800
+#>  GENE_B       PxC:state -0.00277
+#>  GENE_B    PxC:celltype  0.02730
+#>  GENE_B         context  0.06640
+#>  GENE_B       covariate  0.05610
+#>  GENE_B total_explained  0.19100
 ```

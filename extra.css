@@ -1,0 +1,48 @@
+/* scHINT site theme, after gusevlab.org: Lora text, Nunito headings, blue links, light grey panels */
+:root {
+  --sc-blue: #0074d9;
+  --sc-navy: #031634;
+  --sc-teal: #099;
+  --sc-grey: #f5f5f5;
+  --sc-line: #e9edf4;
+}
+body { background: #fff; color: #222; line-height: 1.7; }
+a { transition: color 300ms linear; text-decoration: none; }
+a:hover { color: var(--sc-navy); text-decoration: underline; }
+
+/* header: white bar, lowercase bold navigation, light underline */
+.navbar { background: #fff !important; border-bottom: 1px solid #f2f2f2; padding-top: .9rem; padding-bottom: .9rem; box-shadow: 0 5px 5px -5px #bbb; }
+.navbar-brand { font-family: "Nunito", sans-serif; font-weight: 800; letter-spacing: .8px; font-size: 1.35rem; color: var(--sc-navy) !important; }
+.navbar-nav .nav-link, .navbar .dropdown-item { font-family: "Nunito", sans-serif; font-weight: 700; text-transform: lowercase; color: #222; }
+.navbar-nav .nav-link:hover, .navbar .dropdown-item:hover { color: var(--sc-blue); }
+.navbar .dropdown-menu { border: 1px solid var(--sc-line); box-shadow: 0 6px 14px -8px #333; }
+
+/* headings */
+h1, h2, h3, h4, .page-header h1 { font-family: "Nunito", sans-serif; color: var(--sc-navy); letter-spacing: .2px; }
+h1 { font-weight: 800; }
+h2 { font-weight: 700; margin-top: 2.2rem; padding-bottom: .3rem; border-bottom: 2px solid var(--sc-line); }
+h3 { font-weight: 700; margin-top: 1.6rem; color: #17375e; }
+h2 .anchor, h3 .anchor { color: #bbb; }
+
+/* code: light grey panels, pink inline code like the lab site */
+pre { background: var(--sc-grey); border: 1px solid var(--sc-line); border-left: 4px solid var(--sc-teal); border-radius: .3rem; padding: .8rem 1rem; }
+pre code { color: #333; background: transparent; }
+code { color: #d14; background: var(--sc-grey); padding: .08em .3em; border-radius: .25rem; font-size: .9em; }
+pre code .co, .sourceCode .co { color: #999; }
+.sourceCode .fu { color: #0074d9; } .sourceCode .st { color: #099; } .sourceCode .kw { color: #031634; font-weight: 700; }
+pre.sourceCode + pre, pre:not(.sourceCode) { border-left-color: #c9d3e6; }
+
+/* tables */
+table { font-size: .95rem; }
+.table > :not(caption) > * > * { padding: .45rem .7rem; }
+thead th { font-family: "Nunito", sans-serif; background: var(--sc-grey); border-bottom: 2px solid var(--sc-line) !important; color: var(--sc-navy); }
+tbody tr:hover { background: #fafcff; }
+
+/* lead text, side menu, footer */
+.template-home .lead, .lead { font-size: 1.12rem; }
+#toc a, .nav-pills .nav-link { font-family: "Nunito", sans-serif; }
+#toc .nav-link.active { color: var(--sc-blue); border-left-color: var(--sc-blue); }
+footer { border-top: 1px solid #f2f2f2; margin-top: 3rem; color: #777; font-size: .9rem; }
+img { max-width: 100%; }
+blockquote { border-left: 4px solid var(--sc-line); padding-left: 1rem; color: #555; }
+.mjx-chtml, mjx-container { font-size: 104%; }

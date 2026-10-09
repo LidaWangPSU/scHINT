@@ -3,9 +3,9 @@
 ## Main models
 
 - [`schint_cell()`](https://LidaWangPSU.github.io/scHINT/reference/schint_cell.md)
-  : Cell-level GxCell-State heritability model
+  : Cell-level G×Cell-State heritability model
 - [`schint_sample()`](https://LidaWangPSU.github.io/scHINT/reference/schint_sample.md)
-  : Sample-level GxCell-Type heritability model
+  : Sample-level G×Cell-Type heritability model
 - [`schint_pert()`](https://LidaWangPSU.github.io/scHINT/reference/schint_pert.md)
   : Perturbation heritability with cell-state or cell-type interaction
 

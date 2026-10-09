@@ -32,23 +32,15 @@ fs <- schint_sample(ex$sample, y = "GENE_A", id = "donor", celltype = "celltype"
 fs
 #> scHINT model: 2000 observations, 400 donors, 1 GRM
 #> 
-#> Variance components (fraction of Var(y)):
-#>             term variance fraction     h2 h2_upper     se se_fraction  se_h2
-#>                G   0.1020   0.1020 0.1070       NA 0.0237      0.0237 0.0246
-#>              GxC   0.0566   0.0566 0.0595       NA 0.0206      0.0206 0.0202
-#>          G_total   0.1580   0.1580 0.1660       NA 0.0295      0.0295 0.0276
-#>                I   0.0227   0.0227 0.0238       NA 0.0199      0.0199 0.0209
-#>          context   0.7320   0.7320 0.7700       NA 0.0216      0.0216 0.0214
-#>        covariate   0.0378   0.0378 0.0398       NA 0.0115      0.0115 0.0116
-#>  total_explained   0.9510   0.9510     NA       NA 0.0369      0.0369     NA
-#>  se_h2_upper
-#>           NA
-#>           NA
-#>           NA
-#>           NA
-#>           NA
-#>           NA
-#>           NA
+#> Variance components (variance on the standardized-expression scale):
+#>             term variance     h2     se  se_h2
+#>                G   0.1020 0.1070 0.0237 0.0246
+#>              GxC   0.0566 0.0595 0.0206 0.0202
+#>          G_total   0.1580 0.1660 0.0295 0.0276
+#>                I   0.0227 0.0238 0.0199 0.0209
+#>          context   0.7320 0.7700 0.0216 0.0214
+#>        covariate   0.0378 0.0398 0.0115 0.0116
+#>  total_explained   0.9510     NA 0.0369     NA
 #> 
 #> Standard errors: jackknife over 400 donor blocks
 ```

@@ -1,10 +1,10 @@
-# Cell-level GxCell-State heritability model
+# Cell-level G×Cell-State heritability model
 
 Haseman-Elston regression on pairs of cells that partitions the variance
 of one gene's expression into a main genetic component (\`G\`, one per
 GRM), genetic effects that change along a cell-state/context variable
-(\`G x context\`), a shared-donor component (\`I\`), context main
-effects and other covariates.
+(\`G×context\`), a shared-donor component (\`I\`), context main effects
+and other covariates.
 
 ## Usage
 
@@ -136,13 +136,13 @@ fit <- schint_cell(d, y = "GENE_A", id = "donor",
 fit
 #> scHINT model: 12000 observations, 400 donors, 1 GRM
 #> 
-#> Variance components (fraction of Var(y)):
-#>             term variance fraction     h2 h2_upper
-#>                G  0.20500  0.20500 0.4140    0.438
-#>              GxC  0.16300  0.16300 0.3290    0.348
-#>          G_total  0.36900  0.36900 0.7430    0.787
-#>                I  0.07670  0.07670 0.1550    0.164
-#>          context  0.00704  0.00704 0.0142       NA
-#>        covariate  0.04360  0.04360 0.0879    0.093
-#>  total_explained  0.49600  0.49600     NA       NA
+#> Variance components (variance on the standardized-expression scale):
+#>             term variance     h2 h2_upper
+#>                G  0.20500 0.4140    0.438
+#>              GxC  0.16300 0.3290    0.348
+#>          G_total  0.36900 0.7430    0.787
+#>                I  0.07670 0.1550    0.164
+#>          context  0.00704 0.0142       NA
+#>        covariate  0.04360 0.0879    0.093
+#>  total_explained  0.49600     NA       NA
 ```

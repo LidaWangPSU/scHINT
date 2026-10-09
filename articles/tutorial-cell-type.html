@@ -14,9 +14,13 @@
   };
 </script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Nunito-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Tutorial: G×Cell-Type heritability (pseudobulk)">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Tutorial: G×Cell-Type heritability (pseudobulk)">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -49,8 +53,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
-<li><a class="dropdown-item" href="../articles/tutorial-cell-state.html">G x Cell-State</a></li>
-    <li><a class="dropdown-item" href="../articles/tutorial-cell-type.html">G x Cell-Type (pseudobulk)</a></li>
+<li><a class="dropdown-item" href="../articles/tutorial-cell-state.html">G×Cell-State</a></li>
+    <li><a class="dropdown-item" href="../articles/tutorial-cell-type.html">G×Cell-Type (pseudobulk)</a></li>
     <li><a class="dropdown-item" href="../articles/tutorial-perturbation.html">Perturbation</a></li>
     <li><a class="dropdown-item" href="../articles/tutorial-workflow.html">Genome-wide workflow</a></li>
     <li><a class="dropdown-item" href="../articles/simulation.html">Simulation and validation</a></li>
@@ -114,23 +118,15 @@ is <strong>cell-type specific</strong> (<code>GxC</code>).</p>
 <span><span class="va">fs</span></span>
 <span><span class="co">#&gt; scHINT model: 2000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Variance components (fraction of Var(y)):</span></span>
-<span><span class="co">#&gt;             term variance fraction     h2 h2_upper     se se_fraction  se_h2</span></span>
-<span><span class="co">#&gt;                G   0.1020   0.1020 0.1070       NA 0.0237      0.0237 0.0246</span></span>
-<span><span class="co">#&gt;              GxC   0.0566   0.0566 0.0595       NA 0.0206      0.0206 0.0202</span></span>
-<span><span class="co">#&gt;          G_total   0.1580   0.1580 0.1660       NA 0.0295      0.0295 0.0276</span></span>
-<span><span class="co">#&gt;                I   0.0227   0.0227 0.0238       NA 0.0199      0.0199 0.0209</span></span>
-<span><span class="co">#&gt;          context   0.7320   0.7320 0.7700       NA 0.0216      0.0216 0.0214</span></span>
-<span><span class="co">#&gt;        covariate   0.0378   0.0378 0.0398       NA 0.0115      0.0115 0.0116</span></span>
-<span><span class="co">#&gt;  total_explained   0.9510   0.9510     NA       NA 0.0369      0.0369     NA</span></span>
-<span><span class="co">#&gt;  se_h2_upper</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
+<span><span class="co">#&gt; Variance components (variance on the standardized-expression scale):</span></span>
+<span><span class="co">#&gt;             term variance     h2     se  se_h2</span></span>
+<span><span class="co">#&gt;                G   0.1020 0.1070 0.0237 0.0246</span></span>
+<span><span class="co">#&gt;              GxC   0.0566 0.0595 0.0206 0.0202</span></span>
+<span><span class="co">#&gt;          G_total   0.1580 0.1660 0.0295 0.0276</span></span>
+<span><span class="co">#&gt;                I   0.0227 0.0238 0.0199 0.0209</span></span>
+<span><span class="co">#&gt;          context   0.7320 0.7700 0.0216 0.0214</span></span>
+<span><span class="co">#&gt;        covariate   0.0378 0.0398 0.0115 0.0116</span></span>
+<span><span class="co">#&gt;  total_explained   0.9510     NA 0.0369     NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 400 donor blocks</span></span></code></pre></div>
 <ul>

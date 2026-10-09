@@ -15,7 +15,7 @@ ex$truth
 #> 3 GENE_C 0.00 0.00 0.15 0.05   0.8
 ```
 
-- `GENE_A`: main genetic + G×state + donor effect
+- `GENE_A`: main genetic + G×Cell-State + donor effect
 - `GENE_B`: main genetic + donor effect, no interaction
 - `GENE_C`: no genetic effect
 
@@ -29,23 +29,15 @@ fitA <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
 fitA
 #> scHINT model: 12000 observations, 400 donors, 1 GRM
 #> 
-#> Variance components (fraction of Var(y)):
-#>             term variance fraction     h2 h2_upper     se se_fraction   se_h2
-#>                G  0.20500  0.20500 0.4140    0.438 0.0449      0.0449 0.08650
-#>              GxC  0.16300  0.16300 0.3290    0.348 0.0420      0.0420 0.05680
-#>          G_total  0.36900  0.36900 0.7430    0.787 0.0624      0.0624 0.06580
-#>                I  0.07670  0.07670 0.1550    0.164 0.0348      0.0348 0.07130
-#>          context  0.00704  0.00704 0.0142       NA 0.0042      0.0042 0.00793
-#>        covariate  0.04360  0.04360 0.0879    0.093 0.0131      0.0131 0.02840
-#>  total_explained  0.49600  0.49600     NA       NA 0.0605      0.0605      NA
-#>  se_h2_upper
-#>       0.0913
-#>       0.0598
-#>       0.0684
-#>       0.0756
-#>           NA
-#>       0.0301
-#>           NA
+#> Variance components (variance on the standardized-expression scale):
+#>             term variance     h2 h2_upper     se   se_h2 se_h2_upper
+#>                G  0.20500 0.4140    0.438 0.0449 0.08650      0.0913
+#>              GxC  0.16300 0.3290    0.348 0.0420 0.05680      0.0598
+#>          G_total  0.36900 0.7430    0.787 0.0624 0.06580      0.0684
+#>                I  0.07670 0.1550    0.164 0.0348 0.07130      0.0756
+#>          context  0.00704 0.0142       NA 0.0042 0.00793          NA
+#>        covariate  0.04360 0.0879    0.093 0.0131 0.02840      0.0301
+#>  total_explained  0.49600     NA       NA 0.0605      NA          NA
 #> 
 #> Standard errors: jackknife over 400 donor blocks
 ```
@@ -56,7 +48,7 @@ variance that varies with `state`, and `G_total` their sum. `h2` /
 [Model](https://LidaWangPSU.github.io/scHINT/articles/model.md), section
 7).
 
-## 2. Is there G×state heritability?
+## 2. Is there G×Cell-State heritability?
 
 Compare the interaction estimate and its jackknife standard error across
 genes:
@@ -142,8 +134,8 @@ f3$summary[, c("term", "variance", "h2")]
 ```
 
 Here the cis SNPs are split into three MAF bins (rarest first), each
-with its own main and G×state variance; `G` and `GxC` are the sums over
-GRMs. Pass a list of genotype matrices, or of GRMs, to split by any
+with its own main and G×Cell-State variance; `G` and `GxC` are the sums
+over GRMs. Pass a list of genotype matrices, or of GRMs, to split by any
 annotation.
 
 ## 6. Pre-computed GRMs

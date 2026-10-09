@@ -1,9 +1,9 @@
-# Sample-level GxCell-Type heritability model
+# Sample-level G×Cell-Type heritability model
 
 The sample-level (pseudobulk) counterpart of \[schint_cell()\]: each row
 is one donor x cell-type expression value. Variance is partitioned into
 a genetic component shared across cell types (\`G\`), cell-type-specific
-genetics (\`G x celltype\`, pairs from the same cell type), a donor
+genetics (\`G×Cell-Type\`, pairs from the same cell type), a donor
 component shared across cell types (\`I\`), a cell-type component
 (\`celltype\`) and covariates.
 
@@ -84,7 +84,7 @@ schint_sample(
 
 - cat_mode:
 
-  \`"pooled"\` (one \`G x celltype\` component, default) or
+  \`"pooled"\` (one \`G×Cell-Type\` component, default) or
   \`"per_level"\` (a separate genetic variance for each cell type).
 
 - ind_effect:
@@ -128,13 +128,13 @@ fit <- schint_sample(schint_example$sample, y = "GENE_A", id = "donor",
 fit
 #> scHINT model: 2000 observations, 400 donors, 1 GRM
 #> 
-#> Variance components (fraction of Var(y)):
-#>             term variance fraction     h2 h2_upper
-#>                G   0.1020   0.1020 0.1070       NA
-#>              GxC   0.0566   0.0566 0.0595       NA
-#>          G_total   0.1580   0.1580 0.1660       NA
-#>                I   0.0227   0.0227 0.0238       NA
-#>          context   0.7320   0.7320 0.7700       NA
-#>        covariate   0.0378   0.0378 0.0398       NA
-#>  total_explained   0.9510   0.9510     NA       NA
+#> Variance components (variance on the standardized-expression scale):
+#>             term variance     h2
+#>                G   0.1020 0.1070
+#>              GxC   0.0566 0.0595
+#>          G_total   0.1580 0.1660
+#>                I   0.0227 0.0238
+#>          context   0.7320 0.7700
+#>        covariate   0.0378 0.0398
+#>  total_explained   0.9510     NA
 ```

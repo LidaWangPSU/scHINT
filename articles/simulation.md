@@ -64,8 +64,8 @@ c(mean_estimate = mean(z$estimate), sd_of_estimates = sd(z$estimate), mean_jackk
 #>       0.000177742       0.002692167       0.003254096
 ```
 
-With no G×state effect the average estimate is close to zero, and the
-average jackknife SE is of the same size as the empirical standard
+With no G×Cell-State effect the average estimate is close to zero, and
+the average jackknife SE is of the same size as the empirical standard
 deviation of the estimates.
 
 ## Simulating your own scenarios

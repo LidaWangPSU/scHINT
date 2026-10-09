@@ -6,7 +6,7 @@
   outputs](https://LidaWangPSU.github.io/scHINT/articles/inputs-outputs.md):
 - [Model](https://LidaWangPSU.github.io/scHINT/articles/model.md):
 - [Performance](https://LidaWangPSU.github.io/scHINT/articles/performance.md):
-- [Getting started with
+- [Get started with
   scHINT](https://LidaWangPSU.github.io/scHINT/articles/scHINT.md):
 - [Simulation and
   validation](https://LidaWangPSU.github.io/scHINT/articles/simulation.md):

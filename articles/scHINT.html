@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Getting started with scHINT • scHINT</title>
+<title>Get started with scHINT • scHINT</title>
 <!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
   window.MathJax = {
     chtml: {
@@ -14,9 +14,13 @@
   };
 </script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lora-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Fira_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Nunito-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting started with scHINT">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Get started with scHINT">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -49,8 +53,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
-<li><a class="dropdown-item" href="../articles/tutorial-cell-state.html">G x Cell-State</a></li>
-    <li><a class="dropdown-item" href="../articles/tutorial-cell-type.html">G x Cell-Type (pseudobulk)</a></li>
+<li><a class="dropdown-item" href="../articles/tutorial-cell-state.html">G×Cell-State</a></li>
+    <li><a class="dropdown-item" href="../articles/tutorial-cell-type.html">G×Cell-Type (pseudobulk)</a></li>
     <li><a class="dropdown-item" href="../articles/tutorial-perturbation.html">Perturbation</a></li>
     <li><a class="dropdown-item" href="../articles/tutorial-workflow.html">Genome-wide workflow</a></li>
     <li><a class="dropdown-item" href="../articles/simulation.html">Simulation and validation</a></li>
@@ -77,7 +81,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Getting started with scHINT</h1>
+      <h1>Get started with scHINT</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/LidaWangPSU/scHINT/blob/main/vignettes/scHINT.Rmd" class="external-link"><code>vignettes/scHINT.Rmd</code></a></small>
@@ -86,198 +90,394 @@
 
     
     
-<p>scHINT estimates how much of the variance of a gene’s expression is
-explained by genetics (or by a perturbation), and how much of that
-depends on the <strong>cell state</strong> or <strong>cell
-type</strong>, using Haseman-Elston regression on pairs of
-observations.</p>
-<p>See the <a href="articles/model.html">Model</a> page for the
-statistical details and the <a href="articles/tutorial-cell-state.html">tutorials</a> for complete
-worked examples.</p>
-<p>The example data are fully simulated: <code>schint_example</code>
-(genotypes, a cell-level table and a sample-level table) and
-<code>schint_pert_example</code> (perturb-seq-like cells).</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">schint_example</span><span class="op">)</span></span>
-<span><span class="va">ex</span> <span class="op">&lt;-</span> <span class="va">schint_example</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ex</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 5</span></span>
-<span><span class="co">#&gt;  $ geno  : int [1:400, 1:250] 2 0 0 2 1 0 2 2 0 2 ...</span></span>
-<span><span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">#&gt;  $ snp   :'data.frame':  250 obs. of  3 variables:</span></span>
-<span><span class="co">#&gt;  $ cell  :'data.frame':  12000 obs. of  12 variables:</span></span>
-<span><span class="co">#&gt;  $ sample:'data.frame':  2000 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ truth :'data.frame':  3 obs. of  6 variables:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;     cell_id donor       state subtype        pc1        pc2 age sex batch</span></span>
-<span><span class="co">#&gt; 1 cell00001  D001 -0.34413687       A -0.6334822 0.02127604  63   F    B1</span></span>
-<span><span class="co">#&gt; 2 cell00002  D001  0.04947898       A -0.7615181 0.84821092  63   F    B1</span></span>
-<span><span class="co">#&gt; 3 cell00003  D001 -0.84762422       A  1.2939331 0.24429519  63   F    B1</span></span>
-<span><span class="va">ex</span><span class="op">$</span><span class="va">truth</span></span>
-<span><span class="co">#&gt;     gene    g  gxc    i  cov noise</span></span>
-<span><span class="co">#&gt; 1 GENE_A 0.20 0.15 0.10 0.05   0.5</span></span>
-<span><span class="co">#&gt; 2 GENE_B 0.25 0.00 0.10 0.05   0.6</span></span>
-<span><span class="co">#&gt; 3 GENE_C 0.00 0.00 0.15 0.05   0.8</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="cell-level-data-g-x-cell-state">Cell-level data: G x cell state<a class="anchor" aria-label="anchor" href="#cell-level-data-g-x-cell-state"></a>
+<h2 id="introduction">1. Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p><code>geno</code> is the donor x SNP dosage matrix of the cis-SNPs of
-the gene. By default one GRM is built from all SNPs.
-<code>context</code> is the cell-state variable the genetic effect may
-depend on (numeric = continuous, factor/character = categorical);
-<code>covariates</code> only enter as main effects.</p>
+<p><strong>scHINT</strong> (single-cell gene expression
+<strong>H</strong>eritability with gene-by-cell-context
+<strong>INT</strong>eractions) quantifies how much of the variation in a
+gene’s expression is explained by genetics, and how much of that genetic
+effect <strong>depends on the cellular context</strong>. Most
+expression-QTL and heritability analyses use pseudobulk profiles, which
+average over cells and so cannot see genetic effects that change along a
+continuous cell state. scHINT works directly on single-cell data.</p>
+<p><strong>The main model is the cell-level G×Cell-State heritability
+model</strong> (<code><a href="../reference/schint_cell.html">schint_cell()</a></code>): for each gene, the variance
+of single-cell expression is partitioned into</p>
+<ul>
+<li>a <strong>main genetic</strong> component (G), shared by all
+cells,</li>
+<li>a <strong>G×Cell-State</strong> component: genetic effects that vary
+continuously along cell-state axes such as principal components or
+pseudotime,</li>
+<li>a donor (individual) component, cell-state and covariate components,
+and cell-level noise.</li>
+</ul>
+<p>Estimation is a Haseman-Elston (HE) regression on pairs of cells that
+is assembled from donor-level sufficient statistics, so it scales to
+millions of cells, and standard errors come from a donor-block jackknife
+at almost no extra cost.</p>
+<p>The same framework extends to other contexts:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>model</th>
+<th>function</th>
+<th>what it estimates</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>
+<strong>G×Cell-State</strong> (cell level)</td>
+<td><code><a href="../reference/schint_cell.html">schint_cell()</a></code></td>
+<td>main genetic and genotype × cell-state heritability from single-cell
+data</td>
+</tr>
+<tr class="even">
+<td>
+<strong>G×Cell-Type</strong> (pseudobulk)</td>
+<td><code><a href="../reference/schint_sample.html">schint_sample()</a></code></td>
+<td>cell-type-shared and cell-type-specific genetic variance from donor
+× cell-type expression</td>
+</tr>
+<tr class="odd">
+<td><strong>Perturbation × context</strong></td>
+<td><code><a href="../reference/schint_pert.html">schint_pert()</a></code></td>
+<td>perturbation and perturbation × cell-state / cell-type variance in
+perturb-seq screens</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="models">2. Models<a class="anchor" aria-label="anchor" href="#models"></a>
+</h2>
+<p>Notation follows the manuscript (Wang <em>et al.</em>). Full
+derivations, including the sufficient-statistics algorithm and the
+jackknife, are on the <a href="https://LidaWangPSU.github.io/scHINT/articles/model.html">Model
+page</a>.</p>
+<div class="section level3">
+<h3 id="gcell-state-heritability-cell-level">2.1 G×Cell-State heritability (cell level)<a class="anchor" aria-label="anchor" href="#gcell-state-heritability-cell-level"></a>
+</h3>
+<p>For a gene, let <span class="math inline">\(y_{im}\)</span> be the
+normalized expression in cell <span class="math inline">\(m\)</span>
+(<span class="math inline">\(m=1,\dots,M_i\)</span>) of individual <span class="math inline">\(i\)</span> (<span class="math inline">\(i=1,\dots,n\)</span>), <span class="math inline">\(g_i\in\mathbb{R}^p\)</span> the standardized
+cis-genotypes (variants within ±500 kb of the gene), <span class="math inline">\(c_{im}\in\mathbb{R}^K\)</span> the cell-state
+features (e.g. the leading within-cell-type principal components) and
+<span class="math inline">\(o_{im}\)</span> further covariates:</p>
+<p><span class="math display">\[
+y_{im}=g_i^\top\beta+(g_i\otimes
+c_{im})^\top\gamma+c_{im}^\top\alpha+o_{im}^\top\eta+e_i+\varepsilon_{im},
+\]</span></p>
+<p><span class="math display">\[
+\beta\sim N\!\left(0,\sigma_G^2p^{-1}I_p\right),\quad
+\gamma_k\sim N\!\left(0,\sigma_{G\times C,k}^2p^{-1}I_p\right),\quad
+e_i\sim N(0,\sigma_I^2),\quad
+\varepsilon_{im}\sim N(0,\sigma_\varepsilon^2).
+\]</span></p>
+<p><span class="math inline">\(\sigma_G^2\)</span> is the contribution
+of main cis-genetic effects and <span class="math inline">\(\sigma_{G\times C,k}^2\)</span> that of genetic
+effects varying along cell-state axis <span class="math inline">\(k\)</span>. With <span class="math inline">\(K^G_{ij}=g_i^\top g_j/p\)</span> the cis-GRM, the
+expected product of two different cells is</p>
+<p><span class="math display">\[
+\mathbb{E}(y_{im}y_{jn})=\sigma_G^2K^G_{ij}+\sum_{k=1}^{K_{\rm
+int}}\sigma_{G\times C,k}^2K^G_{ij}c_{imk}c_{jnk}
++\sigma_I^2\mathbf
+1(i=j)+\sum_{k=1}^{K}\sigma_{C,k}^2c_{imk}c_{jnk}+\sum_{l=1}^{L}\sigma_{O,l}^2o_{iml}o_{jnl}.
+\]</span></p>
+<p>scHINT regresses <span class="math inline">\(y_{im}y_{jn}\)</span> on
+these kernels. The baseline model</p>
+<p><span class="math display">\[
+y_{im}y_{jn}\sim 1+K^G_{ij}+\mathbf
+1(i=j)+\sum_{k=1}^{K}c_{imk}c_{jnk}+\sum_{l=1}^{L}o_{iml}o_{jnl}
+\]</span></p>
+<p>estimates the main genetic component, and the interaction model adds
+<span class="math inline">\(\sum_{k=1}^{K_{\rm
+int}}K^G_{ij}c_{imk}c_{jnk}\)</span>; the coefficients of <span class="math inline">\(K^G_{ij}\)</span> and <span class="math inline">\(K^G_{ij}c_{imk}c_{jnk}\)</span> are <span class="math inline">\(\hat\sigma_G^2\)</span> and <span class="math inline">\(\hat\sigma_{G\times C,k}^2\)</span>, and <span class="math inline">\(\hat\sigma_{G\times C}^2=\sum_k\hat\sigma_{G\times
+C,k}^2\)</span>. Normalized heritabilities, comparable to pseudobulk
+analyses, exclude the cell-level residual from the denominator:</p>
+<p><span class="math display">\[
+h_G^2=\frac{\sigma_G^2}{\sigma_G^2+\sigma_{G\times
+C}^2+\sigma_C^2+\sigma_o^2+\sigma_I^2},\qquad
+h_{G\times C}^2=\frac{\sigma_{G\times C}^2}{\sigma_G^2+\sigma_{G\times
+C}^2+\sigma_C^2+\sigma_o^2+\sigma_I^2}.
+\]</span></p>
+<p>Several GRMs (e.g. MAF bins) give one <span class="math inline">\(\sigma_G^2\)</span> and one <span class="math inline">\(\sigma_{G\times C}^2\)</span> per GRM.</p>
+</div>
+<div class="section level3">
+<h3 id="gcell-type-heritability-pseudobulk">2.2 G×Cell-Type heritability (pseudobulk)<a class="anchor" aria-label="anchor" href="#gcell-type-heritability-pseudobulk"></a>
+</h3>
+<p>For the pseudobulk expression <span class="math inline">\(y_{it}\)</span> of individual <span class="math inline">\(i\)</span> in cell type <span class="math inline">\(t=1,\dots,T\)</span> (Supplementary Note 1):</p>
+<p><span class="math display">\[
+y_{it}=g_i^\top\beta+g_i^\top\gamma_t+\alpha_t+o_{it}^\top\eta+e_i+\varepsilon_{it},
+\]</span></p>
+<p><span class="math display">\[
+\beta\sim N\!\left(0,\sigma_G^2p^{-1}I_p\right),\quad
+\gamma_t\sim N\!\left(0,\sigma_{G\times CT}^2p^{-1}I_p\right),\quad
+\alpha_t\sim N(0,\sigma_T^2),\quad e_i\sim N(0,\sigma_I^2),
+\]</span></p>
+<p>where <span class="math inline">\(\beta\)</span> is the genetic
+effect shared across cell types, <span class="math inline">\(\gamma_t\)</span> the cell-type-specific
+deviation, <span class="math inline">\(\alpha_t\)</span> the cell-type
+mean and <span class="math inline">\(e_i\)</span> a donor effect shared
+across cell types. For two observations <span class="math inline">\((i,s)\neq(j,t)\)</span></p>
+<p><span class="math display">\[
+\mathbb{E}(y_{is}y_{jt})=\sigma_G^2K^G_{ij}+\sigma_{G\times
+CT}^2K^G_{ij}\mathbf 1(s=t)
++\sigma_{CT}^2\mathbf 1(s=t)+\sigma_I^2\mathbf 1(i=j),
+\]</span></p>
+<p>and the HE regression uses the kernels <span class="math inline">\(K^G_{ij}\)</span>, <span class="math inline">\(K^G_{ij}\mathbf 1(s=t)\)</span>, <span class="math inline">\(\mathbf 1(s=t)\)</span> and <span class="math inline">\(\mathbf 1(i=j)\)</span> (plus covariate kernels).
+<span class="math inline">\(\sigma_G^2\)</span> is genetic variance
+shared across cell types and <span class="math inline">\(\sigma_{G\times
+CT}^2\)</span> is cell-type-specific genetic variance.</p>
+</div>
+<div class="section level3">
+<h3 id="cell-level-and-pseudobulk-heritability">2.3 Cell-level and pseudobulk heritability<a class="anchor" aria-label="anchor" href="#cell-level-and-pseudobulk-heritability"></a>
+</h3>
+<p>Pseudobulk averages out cell-specific variation, so cell-level and
+pseudobulk heritability have different denominators (Supplementary Note
+2). With <span class="math inline">\(m\)</span> cells per individual and
+<span class="math inline">\(q_{ik}=\alpha_1X_i+\alpha_2Z_{ik}+\beta
+G_i+I_i+\varepsilon_{ik}\)</span>,</p>
+<p><span class="math display">\[
+h^2_{\rm
+cell}=\frac{\beta^2}{\alpha_1^2+\alpha_2^2+\beta^2+\sigma_I^2+\sigma_\varepsilon^2},\qquad
+h^2_{\rm
+PB}=\frac{\beta^2}{\alpha_1^2+\beta^2+\sigma_I^2+(\alpha_2^2+\sigma_\varepsilon^2)/m}.
+\]</span></p>
+<p>scHINT reports <code>h2</code> (residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> removed from the
+denominator, a lower bound of the pseudobulk value) and
+<code>h2_upper</code> (also removing the cell-level covariate variance
+<span class="math inline">\(\alpha_2^2\)</span>).</p>
+</div>
+<div class="section level3">
+<h3 id="perturbation-context-heritability">2.4 Perturbation × context heritability<a class="anchor" aria-label="anchor" href="#perturbation-context-heritability"></a>
+</h3>
+<p>For a gene, let <span class="math inline">\(p_m\)</span> be the
+perturbation of cell <span class="math inline">\(m\)</span> and <span class="math inline">\(c_m\in\mathbb{R}^K\)</span> its standardized
+cell-state features:</p>
+<p><span class="math display">\[
+y_m=b_{p_m}+\sum_{k=1}^{K}c_{mk}\alpha_k+\sum_{k=1}^{K}c_{mk}u_{p_mk}+\varepsilon_m,
+\]</span></p>
+<p><span class="math display">\[
+b_{p}\sim N(0,\sigma_P^2),\quad \alpha_k\sim N(0,\sigma_{{\rm
+PC},k}^2),\quad
+u_{pk}\sim N(0,\sigma_{P\times{\rm PC},k}^2),\quad \varepsilon_m\sim
+N(0,\sigma_\varepsilon^2).
+\]</span></p>
+<p><span class="math inline">\(\sigma_P^2\)</span> is
+perturbation-associated variation shared across cell states and <span class="math inline">\(\sigma_{P\times{\rm PC},k}^2\)</span> the variance
+of the perturbation response along axis <span class="math inline">\(k\)</span>. For two cells <span class="math inline">\(m\neq n\)</span> the HE regression is</p>
+<p><span class="math display">\[
+y_my_n\sim 1+\mathbf 1(p_m=p_n)+\sum_{k=1}^{K}c_{mk}c_{nk}+\mathbf
+1(p_m=p_n)\sum_{k=1}^{K}c_{mk}c_{nk}.
+\]</span></p>
+<p>With a categorical context (cell type) <span class="math inline">\(c_{mk}c_{nk}\)</span> is replaced by <span class="math inline">\(\mathbf 1(t_m=t_n)\)</span>. Because genes
+measured in the same cells share their pair predictors, the design
+cross-products are computed once for all genes.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="install">3. Install<a class="anchor" aria-label="anchor" href="#install"></a>
+</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"LidaWangPSU/scHINT"</span><span class="op">)</span></span></code></pre></div>
+<p>scHINT needs only base R. (<code>BEDMatrix</code> is optional, to
+read PLINK files with <code><a href="../reference/read_plink.html">read_plink()</a></code>.) The examples below use
+the simulated data shipped with the package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">schint_example</span><span class="op">)</span>        <span class="co"># genotypes + cell-level and sample-level expression</span></span>
+<span><span class="va">ex</span> <span class="op">&lt;-</span> <span class="va">schint_example</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="usage">4. Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<div class="section level3">
+<h3 id="gcell-state-heritability-schint_cell">4.1 G×Cell-State heritability: <code>schint_cell()</code><a class="anchor" aria-label="anchor" href="#gcell-state-heritability-schint_cell"></a>
+</h3>
+<p><strong>Input</strong></p>
+<ul>
+<li>
+<code>data</code> – one row per cell (of one cell type) with
+expression, donor ID, cell-state variables and covariates.</li>
+<li>
+<code>y</code>, <code>id</code> – names of the expression and
+donor-ID columns.</li>
+<li>
+<code>geno</code> – donors × cis-SNPs dosage matrix (row names =
+donor IDs), <strong>or</strong> <code>grm</code> – a pre-computed GRM
+(or list of GRMs). <code>n_grm</code>/<code>grm_by</code> split the SNPs
+into several GRMs (default: one GRM from all cis-SNPs).</li>
+<li>
+<code>context</code> – cell-state column(s) that interact with
+genetics (numeric = continuous, factor = categorical).</li>
+<li>
+<code>covariates</code> – other covariates (main effects only).
+<code>jackknife = TRUE</code> for standard errors.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"donor"</span>, <span class="st">"state"</span>, <span class="st">"pc1"</span>, <span class="st">"pc2"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"batch"</span>, <span class="st">"GENE_A"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   donor       state        pc1        pc2 age sex batch     GENE_A</span></span>
+<span><span class="co">#&gt; 1  D001 -0.34413687 -0.6334822 0.02127604  63   F    B1 -1.1423329</span></span>
+<span><span class="co">#&gt; 2  D001  0.04947898 -0.7615181 0.84821092  63   F    B1 -0.3653666</span></span>
+<span><span class="co">#&gt; 3  D001 -0.84762422  1.2939331 0.24429519  63   F    B1  0.7018750</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">geno</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 400 250</span></span></code></pre></div>
+<p><strong>Example</strong></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, y <span class="op">=</span> <span class="st">"GENE_A"</span>, id <span class="op">=</span> <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>,</span>
 <span>                   context <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>                   covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"batch"</span>, <span class="st">"subtype"</span><span class="op">)</span>,</span>
-<span>                   jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                   covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"batch"</span><span class="op">)</span>,</span>
+<span>                   jackknife <span class="op">=</span> <span class="cn">TRUE</span>, n_blocks <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="va">fit</span></span>
 <span><span class="co">#&gt; scHINT model: 12000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Variance components (fraction of Var(y)):</span></span>
-<span><span class="co">#&gt;             term variance fraction       h2 h2_upper      se se_fraction</span></span>
-<span><span class="co">#&gt;                G 0.205000 0.205000 0.399000    0.438 0.04490     0.04490</span></span>
-<span><span class="co">#&gt;              GxC 0.163000 0.163000 0.317000    0.348 0.04200     0.04200</span></span>
-<span><span class="co">#&gt;          G_total 0.369000 0.369000 0.716000    0.787 0.06240     0.06240</span></span>
-<span><span class="co">#&gt;                I 0.076700 0.076700 0.149000    0.164 0.03480     0.03480</span></span>
-<span><span class="co">#&gt;          context 0.000348 0.000348 0.000675       NA 0.00312     0.00312</span></span>
-<span><span class="co">#&gt;        covariate 0.069600 0.069600 0.135000    0.148 0.01440     0.01440</span></span>
-<span><span class="co">#&gt;  total_explained 0.515000 0.515000       NA       NA 0.06190     0.06190</span></span>
-<span><span class="co">#&gt;    se_h2 se_h2_upper</span></span>
-<span><span class="co">#&gt;  0.08340      0.0913</span></span>
-<span><span class="co">#&gt;  0.05510      0.0598</span></span>
-<span><span class="co">#&gt;  0.06480      0.0684</span></span>
-<span><span class="co">#&gt;  0.06850      0.0756</span></span>
-<span><span class="co">#&gt;  0.00616          NA</span></span>
-<span><span class="co">#&gt;  0.03000      0.0341</span></span>
-<span><span class="co">#&gt;       NA          NA</span></span>
+<span><span class="co">#&gt; Variance components (variance on the standardized-expression scale):</span></span>
+<span><span class="co">#&gt;             term variance     h2 h2_upper      se   se_h2 se_h2_upper</span></span>
+<span><span class="co">#&gt;                G  0.20500 0.4140    0.438 0.04700 0.08190      0.0860</span></span>
+<span><span class="co">#&gt;              GxC  0.16300 0.3290    0.348 0.03890 0.04980      0.0526</span></span>
+<span><span class="co">#&gt;          G_total  0.36900 0.7430    0.787 0.06680 0.07080      0.0732</span></span>
+<span><span class="co">#&gt;                I  0.07670 0.1550    0.164 0.03580 0.07430      0.0789</span></span>
+<span><span class="co">#&gt;          context  0.00704 0.0142       NA 0.00331 0.00617          NA</span></span>
+<span><span class="co">#&gt;        covariate  0.04360 0.0879    0.093 0.01130 0.02600      0.0278</span></span>
+<span><span class="co">#&gt;  total_explained  0.49600     NA       NA 0.06100      NA          NA</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Standard errors: jackknife over 400 donor blocks</span></span></code></pre></div>
-<ul>
-<li>
-<code>G</code> - genetic variance independent of the cell
-state.</li>
-<li>
-<code>GxC</code> - genetic variance that changes along the context
-(here <code>state</code>).</li>
-<li>
-<code>G_total</code> - <code>G + GxC</code>; <code>I</code> - donor
-effect that is not genetic; <code>context</code>, <code>covariate</code>
-- main effects.</li>
-</ul>
-<p>The per-component table is <code>fit$coefficients</code>. Variance
-components are on the scale of standardized expression, so they are
-fractions of the variance. A gene without genotype-by-state effects:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_B"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, context <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span><span class="op">$</span><span class="va">summary</span></span>
-<span><span class="co">#&gt;              term      variance      fraction           h2     h2_upper</span></span>
-<span><span class="co">#&gt; 1               G  0.2431935652  0.2431935652  0.682185714  0.694675509</span></span>
-<span><span class="co">#&gt; 2             GxC -0.0008234294 -0.0008234294 -0.002309814 -0.002352103</span></span>
-<span><span class="co">#&gt; 3         G_total  0.2423701358  0.2423701358  0.679875900  0.692323406</span></span>
-<span><span class="co">#&gt; 4               I  0.1077121143  0.1077121143  0.302144777  0.307676594</span></span>
-<span><span class="co">#&gt; 5         context  0.0064094800  0.0064094800  0.017979323           NA</span></span>
-<span><span class="co">#&gt; 6 total_explained  0.3564917301  0.3564917301           NA           NA</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="several-grms-or-pre-computed-grms">Several GRMs, or pre-computed GRMs<a class="anchor" aria-label="anchor" href="#several-grms-or-pre-computed-grms"></a>
-</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># split cis-SNPs into three MAF bins -&gt; three GRMs</span></span>
-<span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>,</span>
-<span>                    n_grm <span class="op">=</span> <span class="fl">3</span>, grm_by <span class="op">=</span> <span class="st">"maf"</span>, context <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span></span>
-<span><span class="va">fit3</span><span class="op">$</span><span class="va">summary</span></span>
-<span><span class="co">#&gt;               term    variance    fraction         h2   h2_upper</span></span>
-<span><span class="co">#&gt; 1                G 0.203760119 0.203760119 0.43567579 0.44233075</span></span>
-<span><span class="co">#&gt; 2                1 0.049718321 0.049718321 0.10630671 0.10793055</span></span>
-<span><span class="co">#&gt; 3                2 0.056917926 0.056917926 0.12170077 0.12355975</span></span>
-<span><span class="co">#&gt; 4                3 0.097123872 0.097123872 0.20766831 0.21084045</span></span>
-<span><span class="co">#&gt; 5              GxC 0.163916325 0.163916325 0.35048259 0.35583622</span></span>
-<span><span class="co">#&gt; 6              1:C 0.071363745 0.071363745 0.15258853 0.15491932</span></span>
-<span><span class="co">#&gt; 7              2:C 0.044393299 0.044393299 0.09492086 0.09637078</span></span>
-<span><span class="co">#&gt; 8              3:C 0.048159282 0.048159282 0.10297321 0.10454613</span></span>
-<span><span class="co">#&gt; 9          G_total 0.367676445 0.367676445 0.78615838 0.79816697</span></span>
-<span><span class="co">#&gt; 10               I 0.092974593 0.092974593 0.19879641 0.20183303</span></span>
-<span><span class="co">#&gt; 11         context 0.007036457 0.007036457 0.01504521         NA</span></span>
-<span><span class="co">#&gt; 12 total_explained 0.467687494 0.467687494         NA         NA</span></span>
-<span></span>
-<span><span class="co"># or supply GRMs yourself (e.g. from GCTA via read_grm_bin())</span></span>
-<span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_grm.html">make_grm</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">geno</span><span class="op">)</span></span>
-<span><span class="va">fitK</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, grm <span class="op">=</span> <span class="va">K</span>, context <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span></span></code></pre></div>
-<p><code>geno</code> can also be a list of matrices (one GRM each,
-e.g. SNPs by annotation).</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="sample-level-data-g-x-cell-type">Sample-level data: G x cell type<a class="anchor" aria-label="anchor" href="#sample-level-data-g-x-cell-type"></a>
-</h2>
+<span><span class="co">#&gt; Standard errors: jackknife over 50 donor blocks</span></span></code></pre></div>
+<p><strong>Output</strong> – <code>fit$summary</code> (grouped
+components) and <code>fit$coefficients</code> (one row per regression
+term): <code>G</code> main genetic variance, <code>GxC</code>
+G×Cell-State variance, <code>G_total = G + GxC</code>, <code>I</code>
+donor, <code>context</code> and <code>covariate</code> components;
+<code>h2</code>/<code>h2_upper</code> normalized heritabilities;
+jackknife <code>se*</code> columns. Several GRMs and several context
+variables add per-GRM and per-variable rows.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># three MAF-binned GRMs, two cell-state axes</span></span>
+<span><span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, n_grm <span class="op">=</span> <span class="fl">3</span>, grm_by <span class="op">=</span> <span class="st">"maf"</span>,</span>
+<span>            context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"subtype"</span><span class="op">)</span>, covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
+<span><span class="co">#&gt;               term    variance    fraction</span></span>
+<span><span class="co">#&gt; 1                G  0.21304077  0.21304077</span></span>
+<span><span class="co">#&gt; 2                1  0.06190295  0.06190295</span></span>
+<span><span class="co">#&gt; 3                2  0.05429398  0.05429398</span></span>
+<span><span class="co">#&gt; 4                3  0.09684385  0.09684385</span></span>
+<span><span class="co">#&gt; 5              GxC  0.15004511  0.15004511</span></span>
+<span><span class="co">#&gt; 6              1:C  0.05324709  0.05324709</span></span>
+<span><span class="co">#&gt; 7              2:C  0.04827433  0.04827433</span></span>
+<span><span class="co">#&gt; 8              3:C  0.04852369  0.04852369</span></span>
+<span><span class="co">#&gt; 9          G_total  0.36308588  0.36308588</span></span>
+<span><span class="co">#&gt; 10       GxC:state  0.16876151  0.16876151</span></span>
+<span><span class="co">#&gt; 11     GxC:subtype -0.01871639 -0.01871639</span></span>
+<span><span class="co">#&gt; 12               I  0.09303695  0.09303695</span></span>
+<span><span class="co">#&gt; 13         context  0.02630493  0.02630493</span></span>
+<span><span class="co">#&gt; 14       covariate  0.02027540  0.02027540</span></span>
+<span><span class="co">#&gt; 15 total_explained  0.50270316  0.50270316</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="gcell-type-heritability-pseudobulk-schint_sample">4.2 G×Cell-Type heritability (pseudobulk):
+<code>schint_sample()</code><a class="anchor" aria-label="anchor" href="#gcell-type-heritability-pseudobulk-schint_sample"></a>
+</h3>
+<p><strong>Input</strong> – <code>data</code> with one row per donor ×
+cell type (expression, donor ID, cell-type column, optional covariates);
+the same genetic input as above; <code>celltype</code> names the
+cell-type column.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">sample</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"donor"</span>, <span class="st">"celltype"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"GENE_A"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   donor celltype age sex     GENE_A</span></span>
+<span><span class="co">#&gt; 1  D001      CT1  63   F -1.2743896</span></span>
+<span><span class="co">#&gt; 2  D001      CT2  63   F -0.4401739</span></span>
+<span><span class="co">#&gt; 3  D001      CT3  63   F -2.2811747</span></span></code></pre></div>
+<p><strong>Example</strong></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_sample.html">schint_sample</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">sample</span>, y <span class="op">=</span> <span class="st">"GENE_A"</span>, id <span class="op">=</span> <span class="st">"donor"</span>, celltype <span class="op">=</span> <span class="st">"celltype"</span>,</span>
-<span>                    geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span>,</span>
-<span>                    jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                    geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"sex"</span><span class="op">)</span>, jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">fs</span></span>
 <span><span class="co">#&gt; scHINT model: 2000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Variance components (fraction of Var(y)):</span></span>
-<span><span class="co">#&gt;             term variance fraction     h2 h2_upper     se se_fraction  se_h2</span></span>
-<span><span class="co">#&gt;                G   0.1020   0.1020 0.1070       NA 0.0237      0.0237 0.0246</span></span>
-<span><span class="co">#&gt;              GxC   0.0566   0.0566 0.0595       NA 0.0206      0.0206 0.0202</span></span>
-<span><span class="co">#&gt;          G_total   0.1580   0.1580 0.1660       NA 0.0295      0.0295 0.0276</span></span>
-<span><span class="co">#&gt;                I   0.0227   0.0227 0.0238       NA 0.0199      0.0199 0.0209</span></span>
-<span><span class="co">#&gt;          context   0.7320   0.7320 0.7700       NA 0.0216      0.0216 0.0214</span></span>
-<span><span class="co">#&gt;        covariate   0.0378   0.0378 0.0398       NA 0.0115      0.0115 0.0116</span></span>
-<span><span class="co">#&gt;  total_explained   0.9510   0.9510     NA       NA 0.0369      0.0369     NA</span></span>
-<span><span class="co">#&gt;  se_h2_upper</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
-<span><span class="co">#&gt;           NA</span></span>
+<span><span class="co">#&gt; Variance components (variance on the standardized-expression scale):</span></span>
+<span><span class="co">#&gt;             term variance     h2     se  se_h2</span></span>
+<span><span class="co">#&gt;                G   0.1020 0.1080 0.0237 0.0248</span></span>
+<span><span class="co">#&gt;              GxC   0.0566 0.0601 0.0206 0.0204</span></span>
+<span><span class="co">#&gt;          G_total   0.1580 0.1680 0.0295 0.0279</span></span>
+<span><span class="co">#&gt;                I   0.0228 0.0243 0.0199 0.0211</span></span>
+<span><span class="co">#&gt;          context   0.7320 0.7780 0.0216 0.0215</span></span>
+<span><span class="co">#&gt;        covariate   0.0278 0.0295 0.0103 0.0106</span></span>
+<span><span class="co">#&gt;  total_explained   0.9410     NA 0.0362     NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 400 donor blocks</span></span></code></pre></div>
-<p><code>gxc = FALSE</code> fits shared genetics only;
-<code>cat_mode = "per_level"</code> estimates a separate genetic
-variance for every cell type.</p>
+<p><strong>Output</strong> – same structure as above: <code>G</code> is
+genetic variance shared across cell types, <code>GxC</code> the
+cell-type-specific genetic variance, <code>I</code> the donor component
+shared across cell types, <code>context</code> the cell-type mean
+variance. <code>gxc = FALSE</code> fits shared genetics only;
+<code>cat_mode = "per_level"</code> estimates a genetic variance for
+each cell type.</p>
 </div>
-<div class="section level2">
-<h2 id="perturbation-heritability">Perturbation heritability<a class="anchor" aria-label="anchor" href="#perturbation-heritability"></a>
-</h2>
-<p><code><a href="../reference/schint_pert.html">schint_pert()</a></code> replaces the genetic kernel by “same
-perturbation”. Several genes are fitted at once and the interaction can
-be a cell state, a cell type, or both.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="section level3">
+<h3 id="perturbation-context-heritability-schint_pert">4.3 Perturbation × context heritability:
+<code>schint_pert()</code><a class="anchor" aria-label="anchor" href="#perturbation-context-heritability-schint_pert"></a>
+</h3>
+<p><strong>Input</strong> – <code>data</code> with one row per cell, one
+or several expression columns (<code>y</code>), the <code>perturb</code>
+column, <code>context</code> (cell state and/or cell type),
+<code>covariates</code>, <code>control</code> labels to drop
+(e.g. <code>"NT"</code>) and optionally <code>perturb_group</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">schint_pert_example</span><span class="op">)</span></span>
-<span><span class="va">fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">schint_pert_example</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span>, <span class="st">"GENE_C"</span><span class="op">)</span>,</span>
-<span>                  perturb <span class="op">=</span> <span class="st">"perturb"</span>, context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"celltype"</span><span class="op">)</span>,</span>
-<span>                  covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span>, control <span class="op">=</span> <span class="st">"NT"</span><span class="op">)</span></span>
-<span><span class="va">fp</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span><span class="va">fp</span><span class="op">$</span><span class="va">summary</span><span class="op">$</span><span class="va">term</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>, <span class="st">"PxC:state"</span>, <span class="st">"PxC:celltype"</span><span class="op">)</span>, <span class="op">]</span></span>
-<span><span class="co">#&gt;            gene         term      variance      fraction</span></span>
-<span><span class="co">#&gt; GENE_A.1 GENE_A            P  0.0272190898  0.0272190898</span></span>
-<span><span class="co">#&gt; GENE_A.4 GENE_A    PxC:state  0.0507430857  0.0507430857</span></span>
-<span><span class="co">#&gt; GENE_A.5 GENE_A PxC:celltype  0.0110774848  0.0110774848</span></span>
-<span><span class="co">#&gt; GENE_B.1 GENE_B            P  0.0435317075  0.0435317075</span></span>
-<span><span class="co">#&gt; GENE_B.4 GENE_B    PxC:state -0.0027662529 -0.0027662529</span></span>
-<span><span class="co">#&gt; GENE_B.5 GENE_B PxC:celltype  0.0272631582  0.0272631582</span></span>
-<span><span class="co">#&gt; GENE_C.1 GENE_C            P  0.0665561848  0.0665561848</span></span>
-<span><span class="co">#&gt; GENE_C.4 GENE_C    PxC:state  0.0009753755  0.0009753755</span></span>
-<span><span class="co">#&gt; GENE_C.5 GENE_C PxC:celltype  0.0069372804  0.0069372804</span></span></code></pre></div>
-<p>Use <code>perturb_group = "perturb_group"</code> to estimate separate
-components for groups of perturbations.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">schint_pert_example</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"perturb"</span>, <span class="st">"perturb_group"</span>, <span class="st">"celltype"</span>, <span class="st">"state"</span>, <span class="st">"GENE_A"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   perturb perturb_group celltype     state     GENE_A</span></span>
+<span><span class="co">#&gt; 1  PERT01        group1      CT2 1.1188078 0.07107567</span></span>
+<span><span class="co">#&gt; 2  PERT01        group1      CT3 1.1119961 0.14960499</span></span>
+<span><span class="co">#&gt; 3  PERT01        group1      CT1 0.4430754 0.38410583</span></span></code></pre></div>
+<p><strong>Example</strong></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_pert.html">schint_pert</a></span><span class="op">(</span><span class="va">schint_pert_example</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span><span class="op">)</span>, perturb <span class="op">=</span> <span class="st">"perturb"</span>,</span>
+<span>                  context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"celltype"</span><span class="op">)</span>, covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>, <span class="st">"pc2"</span><span class="op">)</span>,</span>
+<span>                  control <span class="op">=</span> <span class="st">"NT"</span>, jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">fp</span></span>
+<span><span class="co">#&gt; scHINT perturbation model: 3470 cells, 60 perturbations, 2 genes</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;    gene            term variance      se</span></span>
+<span><span class="co">#&gt;  GENE_A               P  0.02720 0.00866</span></span>
+<span><span class="co">#&gt;  GENE_A             PxC  0.06180 0.01930</span></span>
+<span><span class="co">#&gt;  GENE_A         P_total  0.08900 0.02080</span></span>
+<span><span class="co">#&gt;  GENE_A       PxC:state  0.05070 0.01460</span></span>
+<span><span class="co">#&gt;  GENE_A    PxC:celltype  0.01110 0.01130</span></span>
+<span><span class="co">#&gt;  GENE_A         context  0.09800 0.01260</span></span>
+<span><span class="co">#&gt;  GENE_A       covariate  0.04050 0.00617</span></span>
+<span><span class="co">#&gt;  GENE_A total_explained  0.22700 0.02510</span></span>
+<span><span class="co">#&gt;  GENE_B               P  0.04350 0.01510</span></span>
+<span><span class="co">#&gt;  GENE_B             PxC  0.02450 0.01220</span></span>
+<span><span class="co">#&gt;  GENE_B         P_total  0.06800 0.01880</span></span>
+<span><span class="co">#&gt;  GENE_B       PxC:state -0.00277 0.00293</span></span>
+<span><span class="co">#&gt;  GENE_B    PxC:celltype  0.02730 0.01260</span></span>
+<span><span class="co">#&gt;  GENE_B         context  0.06640 0.01250</span></span>
+<span><span class="co">#&gt;  GENE_B       covariate  0.05610 0.00832</span></span>
+<span><span class="co">#&gt;  GENE_B total_explained  0.19100 0.02470</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Standard errors: jackknife over 60 perturbation blocks</span></span></code></pre></div>
+<p><strong>Output</strong> – long-format <code>fp$summary</code> /
+<code>fp$coefficients</code> with one block per gene: <code>P</code>
+perturbation variance shared across states, <code>PxC</code>
+perturbation × context variance (split into <code>PxC:state</code> and
+<code>PxC:celltype</code>), <code>P_total</code>, and per-group rows
+when <code>perturb_group</code> is used.</p>
 </div>
-<div class="section level2">
-<h2 id="using-your-own-data">Using your own data<a class="anchor" aria-label="anchor" href="#using-your-own-data"></a>
-</h2>
-<ol style="list-style-type: decimal">
-<li>Genotypes of the cis window of one gene (<code><a href="../reference/read_plink.html">read_plink()</a></code> +
-<code><a href="../reference/select_cis_snps.html">select_cis_snps()</a></code>), as a donors x SNPs matrix whose row
-names match the donor column of your expression table.</li>
-<li>One row per cell (or donor x cell type) with expression of that
-gene, the donor ID, the context variable(s) and covariates.</li>
-<li>Call <code><a href="../reference/schint_cell.html">schint_cell()</a></code> / <code><a href="../reference/schint_sample.html">schint_sample()</a></code> once
-per gene.</li>
-</ol>
-<p>Standard errors use a delete-donor (or <code>n_blocks</code> blocks
-of donors) jackknife.</p>
+<div class="section level3">
+<h3 id="more">More<a class="anchor" aria-label="anchor" href="#more"></a>
+</h3>
+<p><a href="https://LidaWangPSU.github.io/scHINT/articles/users-manual.html">Users
+manual</a> · <a href="https://LidaWangPSU.github.io/scHINT/articles/inputs-outputs.html">Input
+formats and outputs</a> · <a href="https://LidaWangPSU.github.io/scHINT/articles/tutorial-cell-state.html">Tutorials</a>
+· <a href="https://LidaWangPSU.github.io/scHINT/articles/troubleshooting.html">Troubleshooting</a></p>
+<p><strong>Citation.</strong> Wang L, Fadil C, Wang L, Van Dyke K, Gusev
+A. <em>Single-cell gene expression heritability informed by gene ×
+cell-context interactions.</em> (manuscript)</p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
