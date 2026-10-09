@@ -6,7 +6,7 @@
 *Single-cell gene expression heritability with gene-by-cell-context
 interactions.* Documentation: <https://LidaWangPSU.github.io/scHINT/>
 
-<img src="pkgdown/assets/overview.svg" alt="scHINT overview" width="100%">
+<img src="pkgdown/assets/schint-overview.png" alt="scHINT overview" width="520">
 
 ## 1. Introduction
 
