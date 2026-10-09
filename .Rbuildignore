@@ -1,0 +1,6 @@
+^data-raw$
+^LICENSE\.md$
+^\.github$
+^docs$
+^_pkgdown\.yml$
+^pkgdown$

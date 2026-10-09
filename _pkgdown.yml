@@ -1,0 +1,10 @@
+url: https://LidaWangPSU.github.io/scHINT/
+template:
+  bootstrap: 5
+reference:
+  - title: Main models
+    contents: [schint_cell, schint_sample, schint_pert]
+  - title: Genotypes and GRMs
+    contents: [make_grm, split_snps, read_plink, select_cis_snps, read_grm_bin]
+  - title: Simulation and example data
+    contents: [simulate_geno, simulate_schint, simulate_pert, schint_example, schint_pert_example]

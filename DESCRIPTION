@@ -1,0 +1,19 @@
+Package: scHINT
+Title: Heritability of Gene Expression Across Cell States and Cell Types
+Version: 0.1.0
+Authors@R: person("Lida", "Wang", email = "lida_wang@dfci.harvard.edu", role = c("aut", "cre"))
+Description: Haseman-Elston regression estimators of genetic variance in
+    single-cell and pseudobulk gene expression, including genotype-by-cell-state
+    and genotype-by-cell-type interactions, multiple GRMs, additional covariates
+    and jackknife standard errors.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.0)
+Imports: stats, utils
+URL: https://LidaWangPSU.github.io/scHINT/, https://github.com/LidaWangPSU/scHINT
+BugReports: https://github.com/LidaWangPSU/scHINT/issues
+VignetteBuilder: knitr
+Suggests: BEDMatrix, testthat (>= 3.0.0), knitr, rmarkdown
+Config/testthat/edition: 3
+LazyData: true
+Config/roxygen2/version: 8.0.0

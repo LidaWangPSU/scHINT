@@ -1,0 +1,109 @@
+---
+title: "Getting started with scHINT"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with scHINT}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(scHINT)
+```
+
+scHINT estimates how much of the variance of a gene's expression is explained by
+genetics (or by a perturbation), and how much of that depends on the **cell state**
+or **cell type**, using Haseman-Elston regression on pairs of observations.
+
+The example data are fully simulated: `schint_example` (genotypes, a cell-level table
+and a sample-level table) and `schint_pert_example` (perturb-seq-like cells).
+
+```{r data}
+data(schint_example)
+ex <- schint_example
+str(ex, max.level = 1)
+head(ex$cell[, 1:9], 3)
+ex$truth
+```
+
+## Cell-level data: G x cell state
+
+`geno` is the donor x SNP dosage matrix of the cis-SNPs of the gene. By default one GRM
+is built from all SNPs. `context` is the cell-state variable the genetic effect may
+depend on (numeric = continuous, factor/character = categorical); `covariates` only
+enter as main effects.
+
+```{r cell}
+fit <- schint_cell(ex$cell, y = "GENE_A", id = "donor", geno = ex$geno,
+                   context = "state",
+                   covariates = c("pc1", "pc2", "age", "sex", "batch", "subtype"),
+                   jackknife = TRUE)
+fit
+```
+
+* `G` - genetic variance independent of the cell state.
+* `GxC` - genetic variance that changes along the context (here `state`).
+* `G_total` - `G + GxC`; `I` - donor effect that is not genetic; `context`, `covariate` -
+  main effects.
+
+The per-component table is `fit$coefficients`. Variance components are on the scale of
+standardized expression, so they are fractions of the variance. A gene without
+genotype-by-state effects:
+
+```{r cell-b}
+schint_cell(ex$cell, "GENE_B", "donor", geno = ex$geno, context = "state")$summary
+```
+
+### Several GRMs, or pre-computed GRMs
+
+```{r grm}
+# split cis-SNPs into three MAF bins -> three GRMs
+fit3 <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
+                    n_grm = 3, grm_by = "maf", context = "state")
+fit3$summary
+
+# or supply GRMs yourself (e.g. from GCTA via read_grm_bin())
+K <- make_grm(ex$geno)
+fitK <- schint_cell(ex$cell, "GENE_A", "donor", grm = K, context = "state")
+```
+
+`geno` can also be a list of matrices (one GRM each, e.g. SNPs by annotation).
+
+## Sample-level data: G x cell type
+
+```{r sample}
+fs <- schint_sample(ex$sample, y = "GENE_A", id = "donor", celltype = "celltype",
+                    geno = ex$geno, covariates = c("age", "sex", "pc1", "pc2"),
+                    jackknife = TRUE)
+fs
+```
+
+`gxc = FALSE` fits shared genetics only; `cat_mode = "per_level"` estimates a separate
+genetic variance for every cell type.
+
+## Perturbation heritability
+
+`schint_pert()` replaces the genetic kernel by "same perturbation". Several genes are
+fitted at once and the interaction can be a cell state, a cell type, or both.
+
+```{r pert}
+data(schint_pert_example)
+fp <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B", "GENE_C"),
+                  perturb = "perturb", context = c("state", "celltype"),
+                  covariates = c("pc1", "pc2"), control = "NT")
+fp$summary[fp$summary$term %in% c("P", "PxC:state", "PxC:celltype"), ]
+```
+
+Use `perturb_group = "perturb_group"` to estimate separate components for groups of
+perturbations.
+
+## Using your own data
+
+1. Genotypes of the cis window of one gene (`read_plink()` + `select_cis_snps()`), as a
+   donors x SNPs matrix whose row names match the donor column of your expression table.
+2. One row per cell (or donor x cell type) with expression of that gene, the donor ID, the
+   context variable(s) and covariates.
+3. Call `schint_cell()` / `schint_sample()` once per gene.
+
+Standard errors use a delete-donor (or `n_blocks` blocks of donors) jackknife.
