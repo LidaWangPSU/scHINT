@@ -14,13 +14,11 @@
 #' @param data Data frame with one row per cell.
 #' @param y Name of the (numeric) expression column.
 #' @param id Name of the donor ID column. IDs must match the row names of `geno`/`grm`.
-#' @param geno Genotypes of the (cis) SNPs: a donors x SNPs dosage matrix with row
-#'   names, or a list of such matrices (one GRM each). Give either `geno` or `grm`.
+#' @param geno Donors x SNPs dosage matrix of the cis SNPs, with donor IDs as row
+#'   names; a single GRM is built from all SNPs. Give either `geno` or `grm`.
 #' @param grm A pre-computed donor x donor GRM with donor IDs as dimnames, or a
-#'   (named) list of GRMs for a multi-GRM model.
-#' @param n_grm Number of GRMs to build from a single `geno` matrix (default `1`
-#'   = one GRM from all SNPs). Values > 1 split the SNPs with [split_snps()].
-#' @param grm_by How to split SNPs when `n_grm > 1`: `"maf"`, `"position"` or `"random"`.
+#'   (named) list of GRMs for a multi-GRM model (one main genetic and one
+#'   genotype-by-context component per GRM).
 #' @param context Character vector of column names used as the cell context that
 #'   interacts with genetics. Numeric columns are continuous contexts (e.g. a
 #'   pseudotime or PC); factor/character columns are categorical. `NULL` fits a
@@ -46,16 +44,15 @@
 #'                    context = "state", covariates = c("pc1", "pc2", "age", "sex", "batch"))
 #' fit
 #' @export
-schint_cell <- function(data, y, id, geno = NULL, grm = NULL, n_grm = 1L,
-                        grm_by = c("maf", "position", "random"),
+schint_cell <- function(data, y, id, geno = NULL, grm = NULL,
                         context = NULL, covariates = NULL,
                         cat_mode = c("pooled", "per_level"),
                         ind_effect = TRUE, context_main = TRUE,
                         jackknife = FALSE, n_blocks = NULL,
                         scale_y = TRUE, scale_x = TRUE, seed = 1) {
-  .schint_fit(data, y, id, context, covariates, geno, grm, n_grm, match.arg(grm_by),
+  .schint_fit(data, y, id, context, covariates, geno, grm,
               match.arg(cat_mode), gxc = length(context) > 0L, ind_effect, context_main,
-              scale_y, scale_x, jackknife, n_blocks, seed, match.call(), upper = TRUE)
+              scale_y, scale_x, jackknife, n_blocks, seed, match.call())
 }
 
 #' Sample-level G×Cell-Type heritability model
@@ -83,8 +80,7 @@ schint_cell <- function(data, y, id, geno = NULL, grm = NULL, n_grm = 1L,
 #'                      covariates = c("age", "sex", "pc1", "pc2"))
 #' fit
 #' @export
-schint_sample <- function(data, y, id, celltype, geno = NULL, grm = NULL, n_grm = 1L,
-                          grm_by = c("maf", "position", "random"),
+schint_sample <- function(data, y, id, celltype, geno = NULL, grm = NULL,
                           covariates = NULL, gxc = TRUE, cat_mode = c("pooled", "per_level"),
                           ind_effect = TRUE, celltype_main = TRUE,
                           jackknife = FALSE, n_blocks = NULL,
@@ -96,9 +92,9 @@ schint_sample <- function(data, y, id, celltype, geno = NULL, grm = NULL, n_grm 
     warning("Several rows per donor x cell type; sample-level data should have one. ",
             "Use schint_cell() for cell-level data.", call. = FALSE)
   }
-  .schint_fit(data, y, id, context = celltype, covariates, geno, grm, n_grm, match.arg(grm_by),
+  .schint_fit(data, y, id, context = celltype, covariates, geno, grm,
               match.arg(cat_mode), gxc = gxc, ind_effect, context_main = celltype_main,
-              scale_y, scale_x, jackknife, n_blocks, seed, match.call(), upper = FALSE)
+              scale_y, scale_x, jackknife, n_blocks, seed, match.call())
 }
 
 .compact_summary <- function(s, digits) {

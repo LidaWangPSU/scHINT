@@ -38,9 +38,9 @@
   list(terms = out, fid = fid)
 }
 
-.schint_fit <- function(data, y, id, context, covariates, geno, grm, n_grm, grm_by,
+.schint_fit <- function(data, y, id, context, covariates, geno, grm,
                         cat_mode, gxc, ind_effect, context_main, scale_y, scale_x,
-                        jackknife, n_blocks, seed, call, upper = TRUE) {
+                        jackknife, n_blocks, seed, call) {
   data <- as.data.frame(data)
   need <- unique(c(y, id, context, covariates))
   miss <- setdiff(need, names(data))
@@ -48,7 +48,7 @@
   covariates <- setdiff(covariates, context)           # context main terms are added automatically
   if (!is.numeric(data[[y]])) stop("`y` must be a numeric column.", call. = FALSE)
 
-  glist <- .resolve_grms(geno, grm, n_grm, grm_by)
+  glist <- .resolve_grms(geno, grm)
   gnames <- names(glist)
 
   ## align observations and donors
@@ -142,23 +142,9 @@
                      row.names = NULL, stringsAsFactors = FALSE)
   summ$fraction <- summ$variance / vy
 
-  ## normalized heritability (manuscript definition): the cell-level residual is removed
-  ## from the denominator; "upper" also removes variance that varies across cells
-  ## within a donor (context and cell-level covariates).
-  within_donor <- function(cp) {
-    if (cp$group == "context") return(TRUE)
-    if (cp$group != "covariate") return(FALSE)
-    any(apply(cp$U, 2, function(u) any(tapply(u, didx, function(v) length(unique(v)) > 1L))))
-  }
-  cell_level <- vapply(comps, within_donor, TRUE)
-  expl <- group != "intercept"
-  den_lo <- function(V) rowSums(V[, expl, drop = FALSE])
-  den_up <- function(V) rowSums(V[, expl & !cell_level, drop = FALSE])
-  ve0 <- matrix(replace(ve, is.na(ve), 0), 1)
-  summ$h2 <- summ$variance / den_lo(ve0)
-  summ$h2_upper <- summ$variance / den_up(ve0)
-  no_h2 <- !upper | summ$term %in% c("context", "total_explained")
-  summ$h2_upper[no_h2] <- NA_real_
+  ## population-level heritability: variance / (total explained variance), i.e. with the
+  ## cell-level residual removed from the denominator
+  summ$h2 <- summ$variance / sum(replace(ve, is.na(ve), 0))
   summ$h2[summ$term == "total_explained"] <- NA_real_
 
   coefs <- data.frame(component = nms, group = group, grm = grm_of,
@@ -186,9 +172,7 @@
     Sg <- V %*% t(A)
     summ$se <- jse(Sg)
     summ$se_fraction <- summ$se / vy
-    summ$se_h2 <- jse(Sg / den_lo(V))
-    summ$se_h2_upper <- jse(Sg / den_up(V))
-    summ$se_h2_upper[no_h2] <- NA_real_
+    summ$se_h2 <- jse(Sg / rowSums(V))
     summ$se_h2[summ$term == "total_explained"] <- NA_real_
     jk <- list(estimates = Bm, n_blocks = nb, block = bid)
   }

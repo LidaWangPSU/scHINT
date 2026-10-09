@@ -50,7 +50,7 @@ Key choices:
 
 | decision | argument | default |
 |---|---|---|
-| number of GRMs | `n_grm`, `grm_by`, or list-valued `geno` / `grm` | one GRM from all cis SNPs |
+| genetic input / number of GRMs | `geno` (one GRM from all cis SNPs) or `grm` (a GRM or a list of GRMs) | -- |
 | which context interacts with genetics | `context` | none (no G×C term) |
 | other covariates (main effects) | `covariates` | none |
 | donor effect | `ind_effect` | `TRUE` |

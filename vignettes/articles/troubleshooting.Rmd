@@ -45,9 +45,8 @@ HE regression is unconstrained, so small negative values are expected when the t
 component is near zero; they are not an error. Report them as they are, aggregate over
 genes, or truncate only for display.
 
-**Estimates > 1 or `h2_upper` > 1.**
-`h2_upper` divides by a smaller denominator and can exceed 1 when noisy; use `h2` and
-standard errors.
+**Heritability estimates outside 0-1.**
+Estimates are unconstrained; use the standard errors and aggregate over genes.
 
 **Large standard errors.**
 Precision is governed by the number of donors and cis SNPs. Many donors with few cells

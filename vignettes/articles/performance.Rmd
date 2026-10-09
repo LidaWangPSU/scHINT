@@ -50,8 +50,7 @@ plot(donors$n_donors, donors$seconds, type = "b", log = "xy", xlab = "donors (30
 par(op)
 ```
 
-Timings include the delete-one-donor jackknife and are for a single gene on one core. (The
-manuscript benchmarks scHINT against scGeneHE on up to one million cells.)
+Timings include the delete-one-donor jackknife and are for a single gene on one core.
 
 ## Memory
 

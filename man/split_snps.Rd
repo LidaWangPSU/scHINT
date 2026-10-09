@@ -18,7 +18,8 @@ columns are sorted) or `"random"`.}
 \item{seed}{Seed used when `by = "random"`.}
 }
 \value{
-A list of `n` genotype matrices.
+A list of `n` genotype matrices; use `lapply(split_snps(geno, 3), make_grm)` to
+  obtain a list of GRMs for the `grm` argument of the model functions.
 }
 \description{
 Split SNPs into groups (for multiple GRMs)

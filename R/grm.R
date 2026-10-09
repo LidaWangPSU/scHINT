@@ -34,7 +34,8 @@ make_grm <- function(geno, standardize = TRUE) {
 #'   `"position"` (contiguous blocks in column order, i.e. genomic order if
 #'   columns are sorted) or `"random"`.
 #' @param seed Seed used when `by = "random"`.
-#' @return A list of `n` genotype matrices.
+#' @return A list of `n` genotype matrices; use `lapply(split_snps(geno, 3), make_grm)` to
+#'   obtain a list of GRMs for the `grm` argument of the model functions.
 #' @export
 split_snps <- function(geno, n, by = c("maf", "position", "random"), seed = 1) {
   by <- match.arg(by)
@@ -55,8 +56,9 @@ split_snps <- function(geno, n, by = c("maf", "position", "random"), seed = 1) {
   lapply(split(seq_len(m), grp), function(ix) geno[, ix, drop = FALSE])
 }
 
-# Resolve the genetic input of a model into a named list of GRMs.
-.resolve_grms <- function(geno, grm, n_grm, grm_by) {
+# Resolve the genetic input of a model into a named list of GRMs: one GRM built from
+# all SNPs in `geno`, or the GRM(s) supplied in `grm`.
+.resolve_grms <- function(geno, grm) {
   if (is.null(geno) == is.null(grm)) {
     stop("Provide exactly one of `geno` (genotypes) or `grm` (pre-computed GRM(s)).", call. = FALSE)
   }
@@ -71,12 +73,10 @@ split_snps <- function(geno, n, by = c("maf", "position", "random"), seed = 1) {
       }
     }
   } else {
-    gl <- if (is.matrix(geno) || is.data.frame(geno)) {
-      if (n_grm > 1) split_snps(as.matrix(geno), n_grm, by = grm_by) else list(as.matrix(geno))
-    } else if (is.list(geno)) {
-      geno
-    } else stop("`geno` must be a matrix or a list of matrices.", call. = FALSE)
-    glist <- lapply(gl, make_grm)
+    if (!(is.matrix(geno) || is.data.frame(geno))) {
+      stop("`geno` must be a donors x SNPs matrix. For several GRMs pass a list of GRMs in `grm`.", call. = FALSE)
+    }
+    glist <- list(make_grm(as.matrix(geno)))
   }
   nm <- names(glist)
   if (is.null(nm)) nm <- if (length(glist) == 1L) "G" else paste0("G", seq_along(glist))

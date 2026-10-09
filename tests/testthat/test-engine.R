@@ -70,8 +70,9 @@ test_that("schint_cell / schint_sample run on the example data and recover signa
                       n_blocks = 20, jackknife = TRUE)
   expect_true(all(is.finite(fitj$coefficients$se)))
 
-  ## multiple GRMs via split genotype matrix
-  fit3 <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno, n_grm = 3, context = "state")
+  ## multiple GRMs from a list
+  fit3 <- schint_cell(ex$cell, "GENE_A", "donor", grm = lapply(split_snps(ex$geno, 3), make_grm),
+                      context = "state")
   expect_equal(fit3$n_grm, 3)
 
   ## precomputed GRM gives identical answer

@@ -2,9 +2,8 @@ url: https://LidaWangPSU.github.io/scHINT/
 template:
   bootstrap: 5
   math-rendering: mathjax
+  light-switch: true
   bslib:
-    bg: "#ffffff"
-    fg: "#222222"
     primary: "#0074d9"
     link-color: "#0074d9"
     link-hover-color: "#031634"
@@ -15,9 +14,7 @@ template:
     code_font:
       google: "Fira Mono"
     font-size-base: "1.02rem"
-    navbar-light-color: "#222222"
-    navbar-light-hover-color: "#0074d9"
-    border-radius: "0.3rem"
+    border-radius: "0.4rem"
 navbar:
   bg: light
   structure:

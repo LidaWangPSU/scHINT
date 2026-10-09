@@ -32,8 +32,8 @@ fitA
 ```
 
 `G` is the genetic variance present in every cell, `GxC` the genetic variance that
-varies with `state`, and `G_total` their sum. `h2` / `h2_upper` are the normalized
-heritabilities (see [Model](model.html), section 7).
+varies with `state`, and `G_total` their sum. `h2` is the population-level heritability
+(cell-level residual removed from the denominator; see [Model](model.html), section 7).
 
 ## 2. Is there G×Cell-State heritability?
 
@@ -86,8 +86,9 @@ state PCs (say 5) in `context` and further PCs and technical variables in `covar
 ## 5. Multiple GRMs
 
 ```{r grm}
-f3 <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
-                  n_grm = 3, grm_by = "maf", context = "state", covariates = covs)
+grms <- lapply(split_snps(ex$geno, 3, by = "maf"), make_grm)   # a list of GRMs
+f3 <- schint_cell(ex$cell, "GENE_A", "donor", grm = grms,
+                  context = "state", covariates = covs)
 f3$summary[, c("term", "variance", "h2")]
 ```
 

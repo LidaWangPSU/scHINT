@@ -11,7 +11,7 @@ select_cis_snps(bim, chr, start, end, window = 5e+05)
 
 \item{chr, start, end}{Gene chromosome and coordinates.}
 
-\item{window}{Window (bp) added on each side of the gene body (default 500 kb, as in the manuscript).}
+\item{window}{Window (bp) added on each side of the gene body (default 500 kb).}
 }
 \value{
 Character vector of SNP IDs.

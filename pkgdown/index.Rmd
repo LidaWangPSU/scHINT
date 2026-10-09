@@ -1,0 +1,2 @@
+```{r child = "../vignettes/getting-started-body.inc"}
+```

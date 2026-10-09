@@ -43,12 +43,11 @@ head(ex$cell, 3)
 
 | argument | meaning |
 |---|---|
-| `geno` | donors × SNPs dosage matrix (0/1/2, `NA` allowed), **row names = donor IDs** -- the cis SNPs of the gene |
-| `geno` as a list | one matrix per GRM (e.g. SNPs per MAF bin or annotation) |
-| `grm` | a pre-computed donor × donor GRM with donor IDs as dimnames, or a (named) list of GRMs |
-| `n_grm`, `grm_by` | split a single `geno` into `n_grm` GRMs by `"maf"`, `"position"` or `"random"` |
+| `geno` | donors × SNPs dosage matrix (0/1/2, `NA` allowed), **row names = donor IDs** -- the cis SNPs of the gene; one GRM is built from all SNPs |
+| `grm` | a pre-computed donor × donor GRM with donor IDs as dimnames, or a (named) list of GRMs for a multi-GRM model |
 
-The default is one GRM from all supplied cis SNPs. Select SNPs within ±500 kb of the gene
+With `geno` one GRM is built from all supplied cis SNPs; for several GRMs build them yourself (for
+example `lapply(split_snps(geno, 3), make_grm)`) and pass the list to `grm`. Select SNPs within ±500 kb of the gene
 (`select_cis_snps()`); genotypes are standardized by allele frequency and the GRM is
 $XX^\top/p$. GRMs computed by GCTA can be loaded with `read_grm_bin()`. PLINK files are
 read with `read_plink()` (needs the `BEDMatrix` package).
@@ -84,8 +83,8 @@ fit$summary
 | `term` | `G`, `GxC` (sum over context variables), `G_total` = G + GxC, `I`, `context`, `covariate`, `total_explained`; with several GRMs also one row per GRM (`G1`, `G1:C`, ...); with several context variables also `GxC:<variable>` |
 | `variance` | variance contribution on the standardized-expression scale |
 | `fraction` | `variance` / Var(y) (residual included in the denominator) |
-| `h2`, `h2_upper` | normalized heritability (residual removed from the denominator; `h2_upper` also removes within-donor context/covariate variance; see [Model](model.html)) |
-| `se`, `se_fraction`, `se_h2`, `se_h2_upper` | jackknife standard errors (only with `jackknife = TRUE`) |
+| `h2` | population-level heritability (cell-level residual removed from the denominator; see [Model](model.html)) |
+| `se`, `se_fraction`, `se_h2` | jackknife standard errors (only with `jackknife = TRUE`) |
 
 **`fit$coefficients`** -- one row per HE-regression term:
 
