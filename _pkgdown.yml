@@ -42,8 +42,6 @@ navbar:
           href: articles/tutorial-cell-type.html
         - text: Perturbation
           href: articles/tutorial-perturbation.html
-        - text: Genome-wide workflow
-          href: articles/tutorial-workflow.html
         - text: Simulation and validation
           href: articles/simulation.html
 reference:

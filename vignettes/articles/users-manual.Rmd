@@ -58,9 +58,8 @@ Key choices:
 
 ### Many genes
 
-Loop over genes, subsetting the genotypes to each gene's cis window (see the
-[real-data workflow](tutorial-workflow.html)). Fits are independent, so they can be
-parallelized across genes (e.g. `parallel::mclapply()`).
+Loop over genes, subsetting the genotypes to each gene's cis window. Fits are independent,
+so they can be parallelized across genes (e.g. `parallel::mclapply()`).
 
 ### Pseudobulk across cell types
 
