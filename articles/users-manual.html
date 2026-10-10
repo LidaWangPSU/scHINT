@@ -56,7 +56,6 @@
 <li><a class="dropdown-item" href="../articles/tutorial-cell-state.html">G×Cell-State</a></li>
     <li><a class="dropdown-item" href="../articles/tutorial-cell-type.html">G×Cell-Type (pseudobulk)</a></li>
     <li><a class="dropdown-item" href="../articles/tutorial-perturbation.html">Perturbation</a></li>
-    <li><a class="dropdown-item" href="../articles/tutorial-workflow.html">Genome-wide workflow</a></li>
     <li><a class="dropdown-item" href="../articles/simulation.html">Simulation and validation</a></li>
   </ul>
 </li>
@@ -203,9 +202,8 @@ GRM or a list of GRMs)</td>
 <div class="section level3">
 <h3 id="many-genes">Many genes<a class="anchor" aria-label="anchor" href="#many-genes"></a>
 </h3>
-<p>Loop over genes, subsetting the genotypes to each gene’s cis window
-(see the <a href="tutorial-workflow.html">real-data workflow</a>). Fits
-are independent, so they can be parallelized across genes
+<p>Loop over genes, subsetting the genotypes to each gene’s cis window.
+Fits are independent, so they can be parallelized across genes
 (e.g. <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply()</a></code>).</p>
 </div>
 <div class="section level3">

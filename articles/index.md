@@ -17,7 +17,5 @@
   (pseudobulk)](https://LidaWangPSU.github.io/scHINT/articles/tutorial-cell-type.md):
 - [Tutorial: perturbation
   heritability](https://LidaWangPSU.github.io/scHINT/articles/tutorial-perturbation.md):
-- [Tutorial: a genome-wide
-  workflow](https://LidaWangPSU.github.io/scHINT/articles/tutorial-workflow.md):
 - [Users
   manual](https://LidaWangPSU.github.io/scHINT/articles/users-manual.md):

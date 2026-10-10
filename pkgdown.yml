@@ -11,9 +11,8 @@ articles:
   articles/tutorial-cell-state: tutorial-cell-state.html
   articles/tutorial-cell-type: tutorial-cell-type.html
   articles/tutorial-perturbation: tutorial-perturbation.html
-  articles/tutorial-workflow: tutorial-workflow.html
   articles/users-manual: users-manual.html
-last_built: 2026-10-10T00:36Z
+last_built: 2026-10-10T00:37Z
 urls:
   reference: https://LidaWangPSU.github.io/scHINT/reference
   article: https://LidaWangPSU.github.io/scHINT/articles

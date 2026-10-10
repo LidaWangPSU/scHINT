@@ -64,9 +64,7 @@ Key choices:
 
 ### Many genes
 
-Loop over genes, subsetting the genotypes to each gene’s cis window (see
-the [real-data
-workflow](https://LidaWangPSU.github.io/scHINT/articles/tutorial-workflow.md)).
+Loop over genes, subsetting the genotypes to each gene’s cis window.
 Fits are independent, so they can be parallelized across genes
 (e.g. [`parallel::mclapply()`](https://rdrr.io/r/parallel/mclapply.html)).
 
