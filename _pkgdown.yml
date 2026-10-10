@@ -42,8 +42,6 @@ navbar:
           href: articles/tutorial-cell-type.html
         - text: Perturbation
           href: articles/tutorial-perturbation.html
-        - text: Simulation and validation
-          href: articles/simulation.html
 reference:
   - title: Main models
     contents: [schint_cell, schint_sample, schint_pert]
