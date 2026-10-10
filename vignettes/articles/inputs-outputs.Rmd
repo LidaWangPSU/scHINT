@@ -82,9 +82,8 @@ fit$summary
 |---|---|
 | `term` | `G`, `GxC` (sum over context variables), `G_total` = G + GxC, `I`, `context`, `covariate`, `total_explained`; with several GRMs also one row per GRM (`G1`, `G1:C`, ...); with several context variables also `GxC:<variable>` |
 | `variance` | variance contribution on the standardized-expression scale |
-| `fraction` | `variance` / Var(y) (residual included in the denominator) |
 | `h2` | population-level heritability (cell-level residual removed from the denominator; see [Model](model.html)) |
-| `se`, `se_fraction`, `se_h2` | jackknife standard errors (only with `jackknife = TRUE`) |
+| `se`, `se_h2` | jackknife standard errors (only with `jackknife = TRUE`) |
 
 **`fit$coefficients`** -- one row per HE-regression term:
 
@@ -94,8 +93,7 @@ fit$coefficients
 
 `estimate` is the regression coefficient (variance component of the standardized
 variable), `variance` = `estimate` × the average diagonal of its kernel (what the term
-contributes to Var(y)), `fraction` = `variance` / Var(y). With jackknife: `se`, `z`, `p` (normal approximation) and
-`se_variance`. `Intercept` is the pair-mean and carries no variance.
+contributes to the variance of expression, which is 1). With jackknife: `se`, `z`, `p` (normal approximation) and `se_variance`. `Intercept` is the pair-mean and carries no variance.
 
 Other elements: `n_obs`, `n_donors`, `XtX`/`Xty` (sufficient statistics),
 `jackknife$estimates` (leave-block-out estimates, blocks × components), `call`.

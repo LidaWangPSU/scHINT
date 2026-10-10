@@ -17,7 +17,6 @@ schint_pert(
   context_main = TRUE,
   jackknife = FALSE,
   n_blocks = NULL,
-  scale_y = TRUE,
   scale_x = TRUE,
   seed = 1
 )
@@ -53,7 +52,9 @@ shared component (pairs from the same level) and `"per_level"` fits one per leve
 
 \item{n_blocks}{Number of jackknife blocks over perturbations (default one per perturbation).}
 
-\item{scale_y, scale_x}{Standardize `y` / continuous context and covariates (default `TRUE`).}
+\item{scale_x}{Standardize continuous context and covariates (default `TRUE`).
+Expression `y` is always standardized to mean 0 and variance 1, so variance
+components are on the scale of standardized expression.}
 
 \item{seed}{Seed for assigning donors to jackknife blocks.}
 }

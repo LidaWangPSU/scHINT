@@ -39,7 +39,7 @@
 }
 
 .schint_fit <- function(data, y, id, context, covariates, geno, grm,
-                        cat_mode, gxc, ind_effect, context_main, scale_y, scale_x,
+                        cat_mode, gxc, ind_effect, context_main, scale_x,
                         jackknife, n_blocks, seed, call) {
   data <- as.data.frame(data)
   need <- unique(c(y, id, context, covariates))
@@ -73,7 +73,7 @@
             lapply(glist, function(g) g[donors, donors, drop = FALSE]))
 
   yy <- data[[y]]
-  yy <- if (scale_y) as.numeric(scale(yy)) else yy - mean(yy)
+  yy <- as.numeric(scale(yy))                # expression is always standardized
 
   ## ---- components -----------------------------------------------------------
   ones <- matrix(1, N, 1L)
@@ -119,7 +119,6 @@
   group <- vapply(comps, function(cp) cp$group, "")
   grm_of <- vapply(comps, function(cp) cp$grm, "")
   ve <- beta * mult
-  vy <- stats::var(yy)
 
   ## summary terms: linear maps of the per-component variance explained
   terms <- list(G = which(group == "G"))
@@ -140,7 +139,6 @@
   summ <- data.frame(term = names(terms),
                      variance = as.numeric(A %*% replace(ve, is.na(ve), 0)),
                      row.names = NULL, stringsAsFactors = FALSE)
-  summ$fraction <- summ$variance / vy
 
   ## population-level heritability: variance / (total explained variance), i.e. with the
   ## cell-level residual removed from the denominator
@@ -148,7 +146,7 @@
   summ$h2[summ$term == "total_explained"] <- NA_real_
 
   coefs <- data.frame(component = nms, group = group, grm = grm_of,
-                      estimate = beta, variance = ve, fraction = ve / vy,
+                      estimate = beta, variance = ve,
                       row.names = NULL, stringsAsFactors = FALSE)
 
   jk <- NULL
@@ -171,7 +169,6 @@
     V[is.na(V)] <- 0
     Sg <- V %*% t(A)
     summ$se <- jse(Sg)
-    summ$se_fraction <- summ$se / vy
     summ$se_h2 <- jse(Sg / rowSums(V))
     summ$se_h2[summ$term == "total_explained"] <- NA_real_
     jk <- list(estimates = Bm, n_blocks = nb, block = bid)

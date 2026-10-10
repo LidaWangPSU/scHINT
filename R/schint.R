@@ -31,7 +31,9 @@
 #' @param context_main Include main-effect components for each context variable (default `TRUE`).
 #' @param jackknife If `TRUE`, delete-donor-block jackknife standard errors.
 #' @param n_blocks Number of jackknife blocks over donors (default: one per donor).
-#' @param scale_y,scale_x Standardize `y` / continuous context and covariates (default `TRUE`).
+#' @param scale_x Standardize continuous context and covariates (default `TRUE`).
+#'   Expression `y` is always standardized to mean 0 and variance 1, so variance
+#'   components are on the scale of standardized expression.
 #' @param seed Seed for assigning donors to jackknife blocks.
 #' @return An object of class `"schint"` with `coefficients`, `summary` (grouped
 #'   variance components), the jackknife replicates and the sufficient statistics
@@ -49,10 +51,10 @@ schint_cell <- function(data, y, id, geno = NULL, grm = NULL,
                         cat_mode = c("pooled", "per_level"),
                         ind_effect = TRUE, context_main = TRUE,
                         jackknife = FALSE, n_blocks = NULL,
-                        scale_y = TRUE, scale_x = TRUE, seed = 1) {
+                        scale_x = TRUE, seed = 1) {
   .schint_fit(data, y, id, context, covariates, geno, grm,
               match.arg(cat_mode), gxc = length(context) > 0L, ind_effect, context_main,
-              scale_y, scale_x, jackknife, n_blocks, seed, match.call())
+              scale_x, jackknife, n_blocks, seed, match.call())
 }
 
 #' Sample-level G×Cell-Type heritability model
@@ -84,7 +86,7 @@ schint_sample <- function(data, y, id, celltype, geno = NULL, grm = NULL,
                           covariates = NULL, gxc = TRUE, cat_mode = c("pooled", "per_level"),
                           ind_effect = TRUE, celltype_main = TRUE,
                           jackknife = FALSE, n_blocks = NULL,
-                          scale_y = TRUE, scale_x = TRUE, seed = 1) {
+                          scale_x = TRUE, seed = 1) {
   data <- as.data.frame(data)
   if (!celltype %in% names(data)) stop("`celltype` column not found in `data`.", call. = FALSE)
   data[[celltype]] <- factor(data[[celltype]])
@@ -94,12 +96,10 @@ schint_sample <- function(data, y, id, celltype, geno = NULL, grm = NULL,
   }
   .schint_fit(data, y, id, context = celltype, covariates, geno, grm,
               match.arg(cat_mode), gxc = gxc, ind_effect, context_main = celltype_main,
-              scale_y, scale_x, jackknife, n_blocks, seed, match.call())
+              scale_x, jackknife, n_blocks, seed, match.call())
 }
 
 .compact_summary <- function(s, digits) {
-  if (all(abs(s$fraction - s$variance) < 1e-8, na.rm = TRUE)) s$fraction <- NULL
-  if (!is.null(s$se_fraction) && all(abs(s$se_fraction - s$se) < 1e-8, na.rm = TRUE)) s$se_fraction <- NULL
   s <- s[, !vapply(s, function(v) all(is.na(v)), TRUE), drop = FALSE]
   num <- vapply(s, is.numeric, TRUE)
   s[num] <- lapply(s[num], function(v) signif(v, digits))

@@ -43,7 +43,7 @@
 schint_pert <- function(data, y, perturb, context = NULL, covariates = NULL,
                         perturb_group = NULL, control = NULL, min_cells = 2,
                         cat_mode = c("pooled", "per_level"), context_main = TRUE,
-                        jackknife = FALSE, n_blocks = NULL, scale_y = TRUE, scale_x = TRUE,
+                        jackknife = FALSE, n_blocks = NULL, scale_x = TRUE,
                         seed = 1) {
   cat_mode <- match.arg(cat_mode)
   if (length(context) > 1L) {
@@ -85,7 +85,7 @@ schint_pert <- function(data, y, perturb, context = NULL, covariates = NULL,
       message(sum(is.na(grp_of)), " perturbations not in `perturb_group` dropped.")
       return(schint_pert(data[!is.na(map[pert]), ], y, perturb, context, covariates, perturb_group,
                          control, min_cells, cat_mode, context_main, jackknife, n_blocks,
-                         scale_y, scale_x, seed))
+                         scale_x, seed))
     }
   }
   groups <- sort(unique(grp_of))
@@ -154,16 +154,14 @@ schint_pert <- function(data, y, perturb, context = NULL, covariates = NULL,
       warning("Skipping gene ", gene, " (missing/non-finite values or zero variance).", call. = FALSE)
       next
     }
-    yy <- if (scale_y) as.numeric(scale(yy)) else yy - mean(yy)
+    yy <- as.numeric(scale(yy))                # expression is always standardized
     xy <- .he_xty(comps, kern, didx, yy, bid)
     beta <- .solve_he(xx$XtX, xy$Xty, warn = FALSE)
     ve <- beta * mult
-    vy <- stats::var(yy)
     cf <- data.frame(gene = gene, component = nms, group = group, estimate = beta,
-                     variance = ve, fraction = ve / vy, stringsAsFactors = FALSE)
+                     variance = ve, stringsAsFactors = FALSE)
     sm <- data.frame(gene = gene, term = rownames(A),
                      variance = as.numeric(A %*% replace(ve, is.na(ve), 0)), stringsAsFactors = FALSE)
-    sm$fraction <- sm$variance / vy
     if (jackknife) {
       nb <- max(bid)
       Bm <- t(vapply(seq_len(nb), function(b) .solve_he(xx$XtXb[b, , ], xy$Xtyb[b, ], warn = FALSE),
@@ -176,7 +174,6 @@ schint_pert <- function(data, y, perturb, context = NULL, covariates = NULL,
       cf$p <- 2 * stats::pnorm(-abs(cf$z))
       V <- sweep(Bm, 2, mult, "*"); V[is.na(V)] <- 0
       sm$se <- jse(V %*% t(A))
-      sm$se_fraction <- sm$se / vy
       jk_l[[gene]] <- Bm
     }
     coef_l[[gene]] <- cf
