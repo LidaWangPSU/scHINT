@@ -301,26 +301,25 @@ type.
 
 **Input** – `data` with one row per cell, one or several expression
 columns (`y`), the `perturb` column, `context` (one cell-state or
-cell-type column), `covariates`, `control` labels to drop (e.g. `"NT"`)
-and optionally `perturb_group`.
+cell-type column), `covariates`, `control` labels to drop (e.g. `"NT"`).
 
 ``` r
 data(schint_pert_example)
-head(schint_pert_example[, c("perturb", "perturb_group", "celltype", "state", "GENE_A")], 3)
-#>   perturb perturb_group celltype     state     GENE_A
-#> 1  PERT01        group1      CT2 1.1188078 0.07107567
-#> 2  PERT01        group1      CT3 1.1119961 0.14960499
-#> 3  PERT01        group1      CT1 0.4430754 0.38410583
+head(schint_pert_example[, c("perturb", "celltype", "state", "GENE_A")], 3)
+#>   perturb celltype     state     GENE_A
+#> 1  PERT01      CT2 1.1188078 0.07107567
+#> 2  PERT01      CT3 1.1119961 0.14960499
+#> 3  PERT01      CT1 0.4430754 0.38410583
 ```
 
 **Example**
 
 ``` r
-# perturbation x cell state (use context = "celltype" for perturbation x cell type)
-fp <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"), perturb = "perturb",
-                  context = "state", covariates = c("pc1", "pc2"),
-                  control = "NT", jackknife = TRUE)
-fp
+# perturbation x cell state (P x CS)
+fp_cs <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"), perturb = "perturb",
+                     context = "state", covariates = c("pc1", "pc2"),
+                     control = "NT", jackknife = TRUE)
+fp_cs
 #> scHINT perturbation model: 3470 cells, 60 perturbations, 2 genes
 #> 
 #>    gene            term  variance       se
@@ -338,12 +337,35 @@ fp
 #>  GENE_B total_explained  0.109000 0.018300
 #> 
 #> Standard errors: jackknife over 60 perturbation blocks
+
+# perturbation x cell type (P x CT)
+fp_ct <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"), perturb = "perturb",
+                     context = "celltype", covariates = c("pc1", "pc2"),
+                     control = "NT", jackknife = TRUE)
+fp_ct
+#> scHINT perturbation model: 3470 cells, 60 perturbations, 2 genes
+#> 
+#>    gene            term variance      se
+#>  GENE_A               P   0.0235 0.00856
+#>  GENE_A             PxC   0.0210 0.01210
+#>  GENE_A         P_total   0.0445 0.01250
+#>  GENE_A         context   0.1030 0.01320
+#>  GENE_A       covariate   0.0405 0.00617
+#>  GENE_A total_explained   0.1880 0.01860
+#>  GENE_B               P   0.0437 0.01510
+#>  GENE_B             PxC   0.0267 0.01240
+#>  GENE_B         P_total   0.0705 0.01940
+#>  GENE_B         context   0.0689 0.01300
+#>  GENE_B       covariate   0.0561 0.00832
+#>  GENE_B total_explained   0.1950 0.02560
+#> 
+#> Standard errors: jackknife over 60 perturbation blocks
 ```
 
-**Output** – long-format `fp$summary` / `fp$coefficients` with one block
-per gene: `P` perturbation variance shared across states, `PxC`
-perturbation × context variance, `P_total`, and per-group rows when
-`perturb_group` is used.
+**Output** – long-format `summary` / `coefficients` tables with one
+block per gene: `P` perturbation variance shared across contexts, `PxC`
+perturbation × context variance (cell state or cell type, one at a time)
+and `P_total = P + PxC`.
 
 ### More
 

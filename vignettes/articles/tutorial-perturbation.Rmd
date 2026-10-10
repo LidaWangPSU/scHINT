@@ -10,66 +10,56 @@ d <- schint_pert_example
 ```
 
 `schint_pert()` asks, for each gene, how much expression variance is attributable to the
-**perturbation** a cell received, and how much of that effect depends on the **cell state**
-and/or **cell type**. The genetic kernel is replaced by "same perturbation".
+**perturbation** a cell received (`P`), and how much of that effect depends on the cellular
+context (`PxC`). The genetic kernel is replaced by "same perturbation". The context is
+**one variable at a time**: a continuous **cell state** or a categorical **cell type**.
 
 ```{r data}
-head(d, 3)
-table(d$perturb_group)
+head(d[, c("perturb", "celltype", "state", "pc1", "pc2", "GENE_A")], 3)
+table(d$celltype)
 ```
 
-`NT` marks non-targeting control cells. `GENE_A` has perturbation × state variance,
-`GENE_B` perturbation × cell-type variance, `GENE_C` a perturbation effect only and
-`GENE_D` none; group3 perturbations have no effect.
+`NT` marks non-targeting control cells and is removed with `control = "NT"`. `GENE_A` has
+perturbation × cell-state variance, `GENE_B` perturbation × cell-type variance, `GENE_C` a
+perturbation effect only and `GENE_D` none. Several genes can be fitted in one call; the
+expensive part (`X'X`) is computed only once.
 
-## One interaction at a time
-
-The perturbation can interact with **either** a continuous cell state **or** a categorical
-cell type in one model (`context` takes a single column); to study both, fit the model
-twice. Several genes can be fitted at once, and the expensive part (`X'X`) is computed
-only once; each additional gene costs a few quadratic forms.
-
-```{r fit}
+```{r genes}
 genes <- c("GENE_A", "GENE_B", "GENE_C", "GENE_D")
-fit_state <- schint_pert(d, y = genes, perturb = "perturb", context = "state",
-                         covariates = c("pc1", "pc2"), control = "NT", jackknife = TRUE)
-fit_type  <- schint_pert(d, y = genes, perturb = "perturb", context = "celltype",
-                         covariates = c("pc1", "pc2"), control = "NT", jackknife = TRUE)
-pick <- function(f, label) {
-  s <- subset(f$summary, term %in% c("P", "PxC"), select = c(gene, term, variance, se))
-  s$interaction <- label
-  s$z <- round(s$variance / s$se, 1)
-  s
-}
-rbind(pick(fit_state, "P x cell state"), pick(fit_type, "P x cell type"))
 ```
 
-`P` is the perturbation variance shared across contexts, and `PxC` the variance of the
-perturbation response along the chosen axis. `GENE_A` has a clear **P × cell state**
-component (z about 3.5), `GENE_B` the largest **P × cell type** component (z about 2),
-and `GENE_C`/`GENE_D` neither. In this simulation the cell state partly tracks cell type, so
-`GENE_A` also shows a weak cell-type term; with real data, fit both contexts and compare.
+## Example 1: perturbation × cell type (P×CT)
 
-## Perturbation groups
+Set `context` to the cell-type column. `PxC` is the variance of the perturbation response
+that is specific to a cell type (cells with the same perturbation **and** the same cell type).
 
-If perturbations fall into groups (pathways, complexes, targets of one regulator) each
-group can get its own components:
-
-```{r groups}
-fg <- schint_pert(d, c("GENE_A", "GENE_B"), "perturb", context = "state",
-                  perturb_group = "perturb_group", control = "NT")
-subset(fg$summary, grepl("^P_group", term) & gene == "GENE_A",
-       select = c(term, variance))
+```{r pxct}
+fit_ct <- schint_pert(d, y = genes, perturb = "perturb", context = "celltype",
+                      covariates = c("pc1", "pc2"), control = "NT", jackknife = TRUE)
+res_ct <- subset(fit_ct$summary, term %in% c("P", "PxC"), select = c(gene, term, variance, se))
+res_ct$z <- round(res_ct$variance / res_ct$se, 1)
+res_ct
 ```
 
-`group3` has no simulated effect, `group1` the largest. A named list works too:
-`perturb_group = list(complexA = c("PERT01", "PERT02"), complexB = c(...))`.
+`GENE_B` has the largest P×CT component.
 
-## Choosing the context
+## Example 2: perturbation × cell state (P×CS)
 
-Use `context = "state"` for a continuous axis (e.g. a principal component of the control
-cells) and `context = "celltype"` for a categorical one. `context = NULL` fits
-perturbation variance only.
+Set `context` to a continuous cell-state column (for example a principal component of the
+control cells). `PxC` is the variance of the perturbation response that changes along that
+axis.
+
+```{r pxcs}
+fit_cs <- schint_pert(d, y = genes, perturb = "perturb", context = "state",
+                      covariates = c("pc1", "pc2"), control = "NT", jackknife = TRUE)
+res_cs <- subset(fit_cs$summary, term %in% c("P", "PxC"), select = c(gene, term, variance, se))
+res_cs$z <- round(res_cs$variance / res_cs$se, 1)
+res_cs
+```
+
+`GENE_A` has a clear P×CS component, while `GENE_C` (perturbation effect only) and `GENE_D`
+(none) do not. In this simulation the cell state partly tracks cell type, so `GENE_A` also
+shows a weak cell-type term in Example 1; with real data fit both and compare.
 
 ## Practical points
 
@@ -77,4 +67,4 @@ perturbation variance only.
   controls form one very large "perturbation".
 * Perturbations with fewer than `min_cells` (default 2) cells are dropped.
 * Standard errors use a leave-perturbation-out jackknife (`n_blocks` for fewer blocks).
-* Expression should be normalized; each gene is centred and scaled.
+* Expression should be normalized; each gene is standardized.

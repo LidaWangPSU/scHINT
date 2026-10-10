@@ -22,7 +22,7 @@ A data frame (or tibble) with one row per observation.
 |---|---|---|
 | `schint_cell()` | a cell (of one cell type) | expression `y`, donor `id`, optional `context`, `covariates` |
 | `schint_sample()` | a donor × cell-type pseudobulk | expression `y`, donor `id`, `celltype`, optional `covariates` |
-| `schint_pert()` | a cell | expression `y` (one or several genes), `perturb`, optional `context`, `covariates`, `perturb_group` |
+| `schint_pert()` | a cell | expression `y` (one or several genes), `perturb`, optional `context` (one cell-state or cell-type column), `covariates` |
 
 ```{r cell-head}
 head(ex$cell, 3)
@@ -56,8 +56,7 @@ read with `read_plink()` (needs the `BEDMatrix` package).
 
 `perturb` is a column with the perturbation (target) of each cell. Remove non-targeting
 controls with `control = "NT"` (they would otherwise form a large "perturbation");
-`min_cells` drops perturbations with too few cells. `perturb_group` is either a column
-or a named list of perturbation vectors.
+`min_cells` drops perturbations with too few cells.
 
 ## Outputs
 
@@ -101,8 +100,7 @@ Other elements: `n_obs`, `n_donors`, `XtX`/`Xty` (sufficient statistics),
 ### `schint_pert()`
 
 A `"schint_pert"` object with long-format `coefficients` and `summary` tables with an
-extra `gene` column (terms: `P`, `PxC`, `P_total`, per-group
-`P_<group>`, `P_<group>:C`, `P_<group>_total`, `context`, `covariate`,
+extra `gene` column (terms: `P`, `PxC`, `P_total`, `context`, `covariate`,
 `total_explained`).
 
 ### Extracting results

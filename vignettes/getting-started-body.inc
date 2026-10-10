@@ -224,25 +224,32 @@ types, `context` the cell-type mean variance. `gxc = FALSE` fits shared genetics
 
 **Input** -- `data` with one row per cell, one or several expression columns (`y`), the
 `perturb` column, `context` (one cell-state or cell-type column), `covariates`, `control` labels to drop
-(e.g. `"NT"`) and optionally `perturb_group`.
+(e.g. `"NT"`).
 
 ```{r pert-input}
 data(schint_pert_example)
-head(schint_pert_example[, c("perturb", "perturb_group", "celltype", "state", "GENE_A")], 3)
+head(schint_pert_example[, c("perturb", "celltype", "state", "GENE_A")], 3)
 ```
 
 **Example**
 
 ```{r pert-fit}
-# perturbation x cell state (use context = "celltype" for perturbation x cell type)
-fp <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"), perturb = "perturb",
-                  context = "state", covariates = c("pc1", "pc2"),
-                  control = "NT", jackknife = TRUE)
-fp
+# perturbation x cell state (P x CS)
+fp_cs <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"), perturb = "perturb",
+                     context = "state", covariates = c("pc1", "pc2"),
+                     control = "NT", jackknife = TRUE)
+fp_cs
+
+# perturbation x cell type (P x CT)
+fp_ct <- schint_pert(schint_pert_example, y = c("GENE_A", "GENE_B"), perturb = "perturb",
+                     context = "celltype", covariates = c("pc1", "pc2"),
+                     control = "NT", jackknife = TRUE)
+fp_ct
 ```
 
-**Output** -- long-format `fp$summary` / `fp$coefficients` with one block per gene: `P`
-perturbation variance shared across states, `PxC` perturbation × context variance, `P_total`, and per-group rows when `perturb_group` is used.
+**Output** -- long-format `summary` / `coefficients` tables with one block per gene: `P`
+perturbation variance shared across contexts, `PxC` perturbation × context variance (cell state
+or cell type, one at a time) and `P_total = P + PxC`.
 
 ### More
 

@@ -158,8 +158,8 @@ y_my_n\sim 1+\mathbf 1(p_m=p_n)+\sum_k c_{mk}c_{nk}+\mathbf 1(p_m=p_n)\sum_k c_{
 $$
 
 i.e. the genetic kernel is replaced by "same perturbation". With a categorical context
-(cell type) the last two terms use $\mathbf 1(t_m=t_n)$. Perturbations can be split into
-groups, each with its own $\sigma_P^2$ and $\sigma_{P\times C}^2$ (`perturb_group`).
+(cell type) the last two terms use $\mathbf 1(t_m=t_n)$. The context is one variable per
+fit: a cell state or a cell type.
 All genes measured in the same cells share the same pair kernels, so
 `schint_pert()` builds $X^\top X$ once and re-uses it for every gene.
 
