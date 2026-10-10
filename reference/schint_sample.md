@@ -24,7 +24,6 @@ schint_sample(
   celltype_main = TRUE,
   jackknife = FALSE,
   n_blocks = NULL,
-  scale_y = TRUE,
   scale_x = TRUE,
   seed = 1
 )
@@ -91,10 +90,11 @@ schint_sample(
 
   Number of jackknife blocks over donors (default: one per donor).
 
-- scale_y, scale_x:
+- scale_x:
 
-  Standardize \`y\` / continuous context and covariates (default
-  \`TRUE\`).
+  Standardize continuous context and covariates (default \`TRUE\`).
+  Expression \`y\` is always standardized to mean 0 and variance 1, so
+  variance components are on the scale of standardized expression.
 
 - seed:
 

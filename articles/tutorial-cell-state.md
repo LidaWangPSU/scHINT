@@ -88,16 +88,16 @@ Here the categorical `subtype` is added as a second context (one pooled
 f2 <- schint_cell(ex$cell, "GENE_A", "donor", geno = ex$geno,
                   context = c("state", "subtype"), covariates = covs)
 f2$summary
-#>              term    variance    fraction          h2
-#> 1               G  0.21440353  0.21440353  0.41957982
-#> 2             GxC  0.14995344  0.14995344  0.29345337
-#> 3         G_total  0.36435697  0.36435697  0.71303318
-#> 4       GxC:state  0.16794075  0.16794075  0.32865386
-#> 5     GxC:subtype -0.01798730 -0.01798730 -0.03520049
-#> 6               I  0.07673174  0.07673174  0.15016120
-#> 7         context  0.02630677  0.02630677  0.05148138
-#> 8       covariate  0.04360033  0.04360033  0.08532424
-#> 9 total_explained  0.51099582  0.51099582          NA
+#>              term    variance          h2
+#> 1               G  0.21440353  0.41957982
+#> 2             GxC  0.14995344  0.29345337
+#> 3         G_total  0.36435697  0.71303318
+#> 4       GxC:state  0.16794075  0.32865386
+#> 5     GxC:subtype -0.01798730 -0.03520049
+#> 6               I  0.07673174  0.15016120
+#> 7         context  0.02630677  0.05148138
+#> 8       covariate  0.04360033  0.08532424
+#> 9 total_explained  0.51099582          NA
 ```
 
 The per-variable terms `GxC:state` and `GxC:subtype` split the

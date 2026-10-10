@@ -53,9 +53,10 @@ and cis SNPs. Many donors with few cells beat few donors with many
 cells.
 
 **Different numbers from another package.** Check the denominator
-(`fraction` vs `h2`), the standardization (`scale_y`, `scale_x`), the
-GRM definition (standardized genotypes, divided by the number of SNPs)
-and whether the other method includes a donor component.
+(`variance` vs `h2`), the standardization (expression is always
+standardized; `scale_x`), the GRM definition (standardized genotypes,
+divided by the number of SNPs) and whether the other method includes a
+donor component.
 
 **Context main effect or covariate variance is large.** That is allowed
 to be large (it is not genetic); it enters `total_explained` and the

@@ -241,22 +241,14 @@ perturbation vectors.</p>
 components (what you usually report):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span><span class="op">$</span><span class="va">summary</span></span>
-<span><span class="co">#&gt;              term    variance    fraction         h2          se se_fraction</span></span>
-<span><span class="co">#&gt; 1               G 0.205483423 0.205483423 0.41416751 0.047000781 0.047000781</span></span>
-<span><span class="co">#&gt; 2             GxC 0.163326375 0.163326375 0.32919676 0.038891575 0.038891575</span></span>
-<span><span class="co">#&gt; 3         G_total 0.368809799 0.368809799 0.74336427 0.066811617 0.066811617</span></span>
-<span><span class="co">#&gt; 4               I 0.076689304 0.076689304 0.15457314 0.035847480 0.035847480</span></span>
-<span><span class="co">#&gt; 5         context 0.007037157 0.007037157 0.01418393 0.003309055 0.003309055</span></span>
-<span><span class="co">#&gt; 6       covariate 0.043599773 0.043599773 0.08787867 0.011296490 0.011296490</span></span>
-<span><span class="co">#&gt; 7 total_explained 0.496136034 0.496136034         NA 0.060999075 0.060999075</span></span>
-<span><span class="co">#&gt;         se_h2</span></span>
-<span><span class="co">#&gt; 1 0.081921231</span></span>
-<span><span class="co">#&gt; 2 0.049752009</span></span>
-<span><span class="co">#&gt; 3 0.070786682</span></span>
-<span><span class="co">#&gt; 4 0.074297698</span></span>
-<span><span class="co">#&gt; 5 0.006174124</span></span>
-<span><span class="co">#&gt; 6 0.026030513</span></span>
-<span><span class="co">#&gt; 7          NA</span></span></code></pre></div>
+<span><span class="co">#&gt;              term    variance         h2          se       se_h2</span></span>
+<span><span class="co">#&gt; 1               G 0.205483423 0.41416751 0.047000781 0.081921231</span></span>
+<span><span class="co">#&gt; 2             GxC 0.163326375 0.32919676 0.038891575 0.049752009</span></span>
+<span><span class="co">#&gt; 3         G_total 0.368809799 0.74336427 0.066811617 0.070786682</span></span>
+<span><span class="co">#&gt; 4               I 0.076689304 0.15457314 0.035847480 0.074297698</span></span>
+<span><span class="co">#&gt; 5         context 0.007037157 0.01418393 0.003309055 0.006174124</span></span>
+<span><span class="co">#&gt; 6       covariate 0.043599773 0.08787867 0.011296490 0.026030513</span></span>
+<span><span class="co">#&gt; 7 total_explained 0.496136034         NA 0.060999075          NA</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -282,19 +274,13 @@ several context variables also <code>GxC:&lt;variable&gt;</code>
 <td>variance contribution on the standardized-expression scale</td>
 </tr>
 <tr class="odd">
-<td><code>fraction</code></td>
-<td>
-<code>variance</code> / Var(y) (residual included in the
-denominator)</td>
-</tr>
-<tr class="even">
 <td><code>h2</code></td>
 <td>population-level heritability (cell-level residual removed from the
 denominator; see <a href="model.html">Model</a>)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>
-<code>se</code>, <code>se_fraction</code>, <code>se_h2</code>
+<code>se</code>, <code>se_h2</code>
 </td>
 <td>jackknife standard errors (only with
 <code>jackknife = TRUE</code>)</td>
@@ -305,36 +291,35 @@ denominator; see <a href="model.html">Model</a>)</td>
 HE-regression term:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span><span class="op">$</span><span class="va">coefficients</span></span>
-<span><span class="co">#&gt;    component     group  grm     estimate    variance    fraction          se</span></span>
-<span><span class="co">#&gt; 1  Intercept intercept &lt;NA&gt; -0.008875315          NA          NA 0.005004164</span></span>
-<span><span class="co">#&gt; 2          G         G    G  0.206576226 0.205483423 0.205483423 0.047250741</span></span>
-<span><span class="co">#&gt; 3          I         I &lt;NA&gt;  0.076689304 0.076689304 0.076689304 0.035847480</span></span>
-<span><span class="co">#&gt; 4      state   context &lt;NA&gt;  0.007037744 0.007037157 0.007037157 0.003309331</span></span>
-<span><span class="co">#&gt; 5    G:state       GxC    G  0.163913313 0.163326375 0.163326375 0.039031338</span></span>
-<span><span class="co">#&gt; 6        pc1 covariate &lt;NA&gt;  0.010251003 0.010250149 0.010250149 0.002065749</span></span>
-<span><span class="co">#&gt; 7        pc2 covariate &lt;NA&gt;  0.010026416 0.010025581 0.010025581 0.001797230</span></span>
-<span><span class="co">#&gt; 8        age covariate &lt;NA&gt;  0.002508032 0.002507823 0.002507823 0.002897547</span></span>
-<span><span class="co">#&gt; 9        sex covariate &lt;NA&gt;  0.013092156 0.013092156 0.013092156 0.010342335</span></span>
-<span><span class="co">#&gt; 10     batch covariate &lt;NA&gt;  0.007724064 0.007724064 0.007724064 0.006181338</span></span>
-<span><span class="co">#&gt;    se_variance          z            p</span></span>
-<span><span class="co">#&gt; 1           NA -1.7735860 7.613165e-02</span></span>
-<span><span class="co">#&gt; 2  0.047000781  4.3719151 1.231614e-05</span></span>
-<span><span class="co">#&gt; 3  0.035847480  2.1393220 3.240960e-02</span></span>
-<span><span class="co">#&gt; 4  0.003309055  2.1266363 3.345032e-02</span></span>
-<span><span class="co">#&gt; 5  0.038891575  4.1995310 2.674684e-05</span></span>
-<span><span class="co">#&gt; 6  0.002065576  4.9623676 6.963904e-07</span></span>
-<span><span class="co">#&gt; 7  0.001797081  5.5788154 2.421621e-08</span></span>
-<span><span class="co">#&gt; 8  0.002897306  0.8655706 3.867257e-01</span></span>
-<span><span class="co">#&gt; 9  0.010342335  1.2658801 2.055560e-01</span></span>
-<span><span class="co">#&gt; 10 0.006181338  1.2495781 2.114537e-01</span></span></code></pre></div>
+<span><span class="co">#&gt;    component     group  grm     estimate    variance          se se_variance</span></span>
+<span><span class="co">#&gt; 1  Intercept intercept &lt;NA&gt; -0.008875315          NA 0.005004164          NA</span></span>
+<span><span class="co">#&gt; 2          G         G    G  0.206576226 0.205483423 0.047250741 0.047000781</span></span>
+<span><span class="co">#&gt; 3          I         I &lt;NA&gt;  0.076689304 0.076689304 0.035847480 0.035847480</span></span>
+<span><span class="co">#&gt; 4      state   context &lt;NA&gt;  0.007037744 0.007037157 0.003309331 0.003309055</span></span>
+<span><span class="co">#&gt; 5    G:state       GxC    G  0.163913313 0.163326375 0.039031338 0.038891575</span></span>
+<span><span class="co">#&gt; 6        pc1 covariate &lt;NA&gt;  0.010251003 0.010250149 0.002065749 0.002065576</span></span>
+<span><span class="co">#&gt; 7        pc2 covariate &lt;NA&gt;  0.010026416 0.010025581 0.001797230 0.001797081</span></span>
+<span><span class="co">#&gt; 8        age covariate &lt;NA&gt;  0.002508032 0.002507823 0.002897547 0.002897306</span></span>
+<span><span class="co">#&gt; 9        sex covariate &lt;NA&gt;  0.013092156 0.013092156 0.010342335 0.010342335</span></span>
+<span><span class="co">#&gt; 10     batch covariate &lt;NA&gt;  0.007724064 0.007724064 0.006181338 0.006181338</span></span>
+<span><span class="co">#&gt;             z            p</span></span>
+<span><span class="co">#&gt; 1  -1.7735860 7.613165e-02</span></span>
+<span><span class="co">#&gt; 2   4.3719151 1.231614e-05</span></span>
+<span><span class="co">#&gt; 3   2.1393220 3.240960e-02</span></span>
+<span><span class="co">#&gt; 4   2.1266363 3.345032e-02</span></span>
+<span><span class="co">#&gt; 5   4.1995310 2.674684e-05</span></span>
+<span><span class="co">#&gt; 6   4.9623676 6.963904e-07</span></span>
+<span><span class="co">#&gt; 7   5.5788154 2.421621e-08</span></span>
+<span><span class="co">#&gt; 8   0.8655706 3.867257e-01</span></span>
+<span><span class="co">#&gt; 9   1.2658801 2.055560e-01</span></span>
+<span><span class="co">#&gt; 10  1.2495781 2.114537e-01</span></span></code></pre></div>
 <p><code>estimate</code> is the regression coefficient (variance
 component of the standardized variable), <code>variance</code> =
 <code>estimate</code> × the average diagonal of its kernel (what the
-term contributes to Var(y)), <code>fraction</code> =
-<code>variance</code> / Var(y). With jackknife: <code>se</code>,
-<code>z</code>, <code>p</code> (normal approximation) and
-<code>se_variance</code>. <code>Intercept</code> is the pair-mean and
-carries no variance.</p>
+term contributes to the variance of expression, which is 1). With
+jackknife: <code>se</code>, <code>z</code>, <code>p</code> (normal
+approximation) and <code>se_variance</code>. <code>Intercept</code> is
+the pair-mean and carries no variance.</p>
 <p>Other elements: <code>n_obs</code>, <code>n_donors</code>,
 <code>XtX</code>/<code>Xty</code> (sufficient statistics),
 <code>jackknife$estimates</code> (leave-block-out estimates, blocks ×

@@ -94,7 +94,6 @@ across cell types (`I`), a cell-type component (`celltype`) and covariates.</p>
 <span>  celltype_main <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  jackknife <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  n_blocks <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  scale_y <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  scale_x <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -161,8 +160,10 @@ shared-genetics-only model.</p></dd>
 <dd><p>Number of jackknife blocks over donors (default: one per donor).</p></dd>
 
 
-<dt id="arg-scale-y-scale-x">scale_y, scale_x<a class="anchor" aria-label="anchor" href="#arg-scale-y-scale-x"></a></dt>
-<dd><p>Standardize `y` / continuous context and covariates (default `TRUE`).</p></dd>
+<dt id="arg-scale-x">scale_x<a class="anchor" aria-label="anchor" href="#arg-scale-x"></a></dt>
+<dd><p>Standardize continuous context and covariates (default `TRUE`).
+Expression `y` is always standardized to mean 0 and variance 1, so variance
+components are on the scale of standardized expression.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>

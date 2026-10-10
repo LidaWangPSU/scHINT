@@ -56,11 +56,11 @@ fs
 ``` r
 
 schint_sample(ex$sample, "GENE_A", "donor", "celltype", geno = ex$geno, gxc = FALSE)$summary
-#>              term   variance   fraction        h2
-#> 1               G 0.11261510 0.11261510 0.1293135
-#> 2               I 0.02610727 0.02610727 0.0299784
-#> 3         context 0.73214679 0.73214679 0.8407081
-#> 4 total_explained 0.87086915 0.87086915        NA
+#>              term   variance        h2
+#> 1               G 0.11261510 0.1293135
+#> 2               I 0.02610727 0.0299784
+#> 3         context 0.73214679 0.8407081
+#> 4 total_explained 0.87086915        NA
 ```
 
 ## A separate genetic variance per cell type

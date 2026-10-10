@@ -222,11 +222,11 @@ computed from the leave-block-out component vectors.
 ## 7. Heritability
 
 `fit$summary` reports each component’s variance (`variance`, on the
-standardized-expression scale; `fraction` when `scale_y = FALSE`).
-Single-cell variance contains a large cell-specific part that averaging
-over cells removes. To make the estimates comparable to population-level
-heritability, `h2` removes the cell-level residual
-\\\sigma\_\varepsilon^2\\ from the denominator:
+standardized-expression scale, so it is also the fraction of the
+variance of expression). Single-cell variance contains a large
+cell-specific part that averaging over cells removes. To make the
+estimates comparable to population-level heritability, `h2` removes the
+cell-level residual \\\sigma\_\varepsilon^2\\ from the denominator:
 
 \\ h^2_G=\frac{\sigma_G^2}{\sigma_G^2+\sigma^2\_{G\times
 C}+\sigma_C^2+\sigma_o^2+\sigma_I^2},\qquad h^2\_{G\times
@@ -244,7 +244,7 @@ and per-group splits).
 - Genotypes are standardized by allele frequency,
   \\\operatorname{GRM}=XX^\top/p\\.
 - The response is centred and scaled; context and covariates are
-  standardized (`scale_y`, `scale_x`).
+  standardized (`scale_x` for the latter).
 - A covariate also listed in `context` is not duplicated: context
   variables always carry a main-effect and an interaction term.
 - The model is Gaussian; it does not model count sparsity. Use

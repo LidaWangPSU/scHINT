@@ -152,10 +152,11 @@ unconstrained; use the standard errors and aggregate over genes.</p>
 number of donors and cis SNPs. Many donors with few cells beat few
 donors with many cells.</p>
 <p><strong>Different numbers from another package.</strong> Check the
-denominator (<code>fraction</code> vs <code>h2</code>), the
-standardization (<code>scale_y</code>, <code>scale_x</code>), the GRM
-definition (standardized genotypes, divided by the number of SNPs) and
-whether the other method includes a donor component.</p>
+denominator (<code>variance</code> vs <code>h2</code>), the
+standardization (expression is always standardized;
+<code>scale_x</code>), the GRM definition (standardized genotypes,
+divided by the number of SNPs) and whether the other method includes a
+donor component.</p>
 <p><strong>Context main effect or covariate variance is large.</strong>
 That is allowed to be large (it is not genetic); it enters
 <code>total_explained</code> and the <code>h2</code> denominator.</p>

@@ -164,9 +164,11 @@ costs a few quadratic forms.</p>
 <p><code>P</code> is the perturbation variance shared across contexts,
 and <code>PxC</code> the variance of the perturbation response along the
 chosen axis. <code>GENE_A</code> has a clear <strong>P × cell
-state</strong> component, <code>GENE_B</code> a clear <strong>P × cell
-type</strong> component, and <code>GENE_C</code>/<code>GENE_D</code>
-neither.</p>
+state</strong> component (z about 3.5), <code>GENE_B</code> the largest
+<strong>P × cell type</strong> component (z about 2), and
+<code>GENE_C</code>/<code>GENE_D</code> neither. In this simulation the
+cell state partly tracks cell type, so <code>GENE_A</code> also shows a
+weak cell-type term; with real data, fit both contexts and compare.</p>
 </div>
 <div class="section level2">
 <h2 id="perturbation-groups">Perturbation groups<a class="anchor" aria-label="anchor" href="#perturbation-groups"></a>

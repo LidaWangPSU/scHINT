@@ -403,11 +403,11 @@ component vectors.</p>
 <h2 id="heritability">7. Heritability<a class="anchor" aria-label="anchor" href="#heritability"></a>
 </h2>
 <p><code>fit$summary</code> reports each component’s variance
-(<code>variance</code>, on the standardized-expression scale;
-<code>fraction</code> when <code>scale_y = FALSE</code>). Single-cell
-variance contains a large cell-specific part that averaging over cells
-removes. To make the estimates comparable to population-level
-heritability, <code>h2</code> removes the cell-level residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> from the
+(<code>variance</code>, on the standardized-expression scale, so it is
+also the fraction of the variance of expression). Single-cell variance
+contains a large cell-specific part that averaging over cells removes.
+To make the estimates comparable to population-level heritability,
+<code>h2</code> removes the cell-level residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> from the
 denominator:</p>
 <p><span class="math display">\[
 h^2_G=\frac{\sigma_G^2}{\sigma_G^2+\sigma^2_{G\times
@@ -428,7 +428,7 @@ variance of each component (<code>P</code>, <code>PxC</code>,
 <ul>
 <li>Genotypes are standardized by allele frequency, <span class="math inline">\(\operatorname{GRM}=XX^\top/p\)</span>.</li>
 <li>The response is centred and scaled; context and covariates are
-standardized (<code>scale_y</code>, <code>scale_x</code>).</li>
+standardized (<code>scale_x</code> for the latter).</li>
 <li>A covariate also listed in <code>context</code> is not duplicated:
 context variables always carry a main-effect and an interaction
 term.</li>
