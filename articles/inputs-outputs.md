@@ -13,7 +13,7 @@ A data frame (or tibble) with one row per observation.
 |----|----|----|
 | [`schint_cell()`](https://LidaWangPSU.github.io/scHINT/reference/schint_cell.md) | a cell (of one cell type) | expression `y`, donor `id`, optional `context`, `covariates` |
 | [`schint_sample()`](https://LidaWangPSU.github.io/scHINT/reference/schint_sample.md) | a donor × cell-type pseudobulk | expression `y`, donor `id`, `celltype`, optional `covariates` |
-| [`schint_pert()`](https://LidaWangPSU.github.io/scHINT/reference/schint_pert.md) | a cell | expression `y` (one or several genes), `perturb`, optional `context`, `covariates`, `perturb_group` |
+| [`schint_pert()`](https://LidaWangPSU.github.io/scHINT/reference/schint_pert.md) | a cell | expression `y` (one or several genes), `perturb`, optional `context` (one cell-state or cell-type column), `covariates` |
 
 ``` r
 
@@ -67,8 +67,7 @@ PLINK files are read with
 `perturb` is a column with the perturbation (target) of each cell.
 Remove non-targeting controls with `control = "NT"` (they would
 otherwise form a large “perturbation”); `min_cells` drops perturbations
-with too few cells. `perturb_group` is either a column or a named list
-of perturbation vectors.
+with too few cells.
 
 ## Outputs
 
@@ -153,8 +152,7 @@ components), `call`.
 
 A `"schint_pert"` object with long-format `coefficients` and `summary`
 tables with an extra `gene` column (terms: `P`, `PxC`, `P_total`,
-per-group `P_<group>`, `P_<group>:C`, `P_<group>_total`, `context`,
-`covariate`, `total_explained`).
+`context`, `covariate`, `total_explained`).
 
 ### Extracting results
 

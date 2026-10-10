@@ -135,8 +135,8 @@ gene’s expression, cell/sample metadata and cis-genetic information.</p>
 <td><code><a href="../reference/schint_pert.html">schint_pert()</a></code></td>
 <td>a cell</td>
 <td>expression <code>y</code> (one or several genes),
-<code>perturb</code>, optional <code>context</code>,
-<code>covariates</code>, <code>perturb_group</code>
+<code>perturb</code>, optional <code>context</code> (one cell-state or
+cell-type column), <code>covariates</code>
 </td>
 </tr>
 </tbody>
@@ -215,8 +215,7 @@ PLINK files are read with <code><a href="../reference/read_plink.html">read_plin
 each cell. Remove non-targeting controls with
 <code>control = "NT"</code> (they would otherwise form a large
 “perturbation”); <code>min_cells</code> drops perturbations with too few
-cells. <code>perturb_group</code> is either a column or a named list of
-perturbation vectors.</p>
+cells.</p>
 </div>
 </div>
 <div class="section level2">
@@ -330,9 +329,7 @@ components), <code>call</code>.</p>
 <p>A <code>"schint_pert"</code> object with long-format
 <code>coefficients</code> and <code>summary</code> tables with an extra
 <code>gene</code> column (terms: <code>P</code>, <code>PxC</code>,
-<code>P_total</code>, per-group <code>P_&lt;group&gt;</code>,
-<code>P_&lt;group&gt;:C</code>, <code>P_&lt;group&gt;_total</code>,
-<code>context</code>, <code>covariate</code>,
+<code>P_total</code>, <code>context</code>, <code>covariate</code>,
 <code>total_explained</code>).</p>
 </div>
 <div class="section level3">

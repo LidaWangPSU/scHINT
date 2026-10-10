@@ -132,19 +132,19 @@ number of donors dominates for large cohorts.</p>
 <span><span class="va">cells</span><span class="op">$</span><span class="va">seconds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">cells</span><span class="op">$</span><span class="va">cells_per_donor</span>, <span class="kw">function</span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="fu">time_fit</span><span class="op">(</span><span class="fl">300</span>, <span class="va">m</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">cells</span></span>
 <span><span class="co">#&gt;   cells_per_donor n_cells seconds</span></span>
-<span><span class="co">#&gt; 1              10    3000   0.059</span></span>
-<span><span class="co">#&gt; 2              20    6000   0.072</span></span>
-<span><span class="co">#&gt; 3              40   12000   0.067</span></span>
-<span><span class="co">#&gt; 4              80   24000   0.111</span></span>
-<span><span class="co">#&gt; 5             160   48000   0.169</span></span>
+<span><span class="co">#&gt; 1              10    3000   0.078</span></span>
+<span><span class="co">#&gt; 2              20    6000   0.074</span></span>
+<span><span class="co">#&gt; 3              40   12000   0.088</span></span>
+<span><span class="co">#&gt; 4              80   24000   0.143</span></span>
+<span><span class="co">#&gt; 5             160   48000   0.213</span></span>
 <span><span class="va">donors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>n_donors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">400</span>, <span class="fl">600</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">donors</span><span class="op">$</span><span class="va">seconds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">donors</span><span class="op">$</span><span class="va">n_donors</span>, <span class="kw">function</span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="fu">time_fit</span><span class="op">(</span><span class="va">n</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">donors</span></span>
 <span><span class="co">#&gt;   n_donors seconds</span></span>
-<span><span class="co">#&gt; 1      100   0.028</span></span>
-<span><span class="co">#&gt; 2      200   0.046</span></span>
-<span><span class="co">#&gt; 3      400   0.085</span></span>
-<span><span class="co">#&gt; 4      600   0.129</span></span></code></pre></div>
+<span><span class="co">#&gt; 1      100   0.040</span></span>
+<span><span class="co">#&gt; 2      200   0.062</span></span>
+<span><span class="co">#&gt; 3      400   0.112</span></span>
+<span><span class="co">#&gt; 4      600   0.169</span></span></code></pre></div>
 <p><img src="performance_files/figure-html/bench-plot-1.png" class="r-plt" alt="" width="624"></p>
 <p>Timings include the delete-one-donor jackknife and are for a single
 gene on one core.</p>

@@ -161,9 +161,9 @@ response along axis \\k\\. For two cells \\m\neq n\\
 
 i.e. the genetic kernel is replaced by “same perturbation”. With a
 categorical context (cell type) the last two terms use \\\mathbf
-1(t_m=t_n)\\. Perturbations can be split into groups, each with its own
-\\\sigma_P^2\\ and \\\sigma\_{P\times C}^2\\ (`perturb_group`). All
-genes measured in the same cells share the same pair kernels, so
+1(t_m=t_n)\\. The context is one variable per fit: a cell state or a
+cell type. All genes measured in the same cells share the same pair
+kernels, so
 [`schint_pert()`](https://LidaWangPSU.github.io/scHINT/reference/schint_pert.md)
 builds \\X^\top X\\ once and re-uses it for every gene.
 

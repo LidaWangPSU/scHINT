@@ -334,11 +334,11 @@ y_my_n\sim 1+\mathbf 1(p_m=p_n)+\sum_k c_{mk}c_{nk}+\mathbf
 1(p_m=p_n)\sum_k c_{mk}c_{nk},
 \]</span></p>
 <p>i.e. the genetic kernel is replaced by “same perturbation”. With a
-categorical context (cell type) the last two terms use <span class="math inline">\(\mathbf 1(t_m=t_n)\)</span>. Perturbations can be
-split into groups, each with its own <span class="math inline">\(\sigma_P^2\)</span> and <span class="math inline">\(\sigma_{P\times C}^2\)</span>
-(<code>perturb_group</code>). All genes measured in the same cells share
-the same pair kernels, so <code><a href="../reference/schint_pert.html">schint_pert()</a></code> builds <span class="math inline">\(X^\top X\)</span> once and re-uses it for every
-gene.</p>
+categorical context (cell type) the last two terms use <span class="math inline">\(\mathbf 1(t_m=t_n)\)</span>. The context is one
+variable per fit: a cell state or a cell type. All genes measured in the
+same cells share the same pair kernels, so <code><a href="../reference/schint_pert.html">schint_pert()</a></code>
+builds <span class="math inline">\(X^\top X\)</span> once and re-uses it
+for every gene.</p>
 </div>
 <div class="section level2">
 <h2 id="scalable-estimation-from-sufficient-statistics">5. Scalable estimation from sufficient statistics<a class="anchor" aria-label="anchor" href="#scalable-estimation-from-sufficient-statistics"></a>
