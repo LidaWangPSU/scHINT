@@ -6,13 +6,12 @@ articles:
   articles/model: model.html
   articles/performance: performance.html
   scHINT: scHINT.html
-  articles/simulation: simulation.html
   articles/troubleshooting: troubleshooting.html
   articles/tutorial-cell-state: tutorial-cell-state.html
   articles/tutorial-cell-type: tutorial-cell-type.html
   articles/tutorial-perturbation: tutorial-perturbation.html
   articles/users-manual: users-manual.html
-last_built: 2026-10-10T00:37Z
+last_built: 2026-10-10T01:06Z
 urls:
   reference: https://LidaWangPSU.github.io/scHINT/reference
   article: https://LidaWangPSU.github.io/scHINT/articles
