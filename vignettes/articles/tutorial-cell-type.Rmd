@@ -32,28 +32,6 @@ fs
 * `I` - donor effect shared across cell types, not genetic.
 * `context` - variance of cell-type mean differences.
 
-
-## Shared-genetics model only
-
-```{r shared}
-schint_sample(ex$sample, "GENE_A", "donor", "celltype", geno = ex$geno, gxc = FALSE)$summary
-```
-
-## A separate genetic variance per cell type
-
-```{r per-level}
-fl <- schint_sample(ex$sample, "GENE_A", "donor", "celltype", geno = ex$geno,
-                    cat_mode = "per_level", jackknife = TRUE)
-subset(fl$coefficients, group == "GxC", select = c(component, variance, se_variance))
-```
-
-## Genes without cell-type specificity
-
-```{r geneB}
-schint_sample(ex$sample, "GENE_B", "donor", "celltype", geno = ex$geno,
-              jackknife = TRUE)$summary[1:3, c("term", "variance", "se")]
-```
-
 ## Notes
 
 * The data should contain one row per donor × cell type. Several rows per pair trigger a
