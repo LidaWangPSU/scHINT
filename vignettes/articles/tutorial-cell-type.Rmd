@@ -32,6 +32,10 @@ fs
 * `I` - donor effect shared across cell types, not genetic.
 * `context` - variance of cell-type mean differences.
 
+The variance components of pseudobulk expression are already at the population level (the
+cell-level noise is averaged out when cells are pooled), so no further normalization is
+applied and the output has no `h2` column.
+
 ## Notes
 
 * The data should contain one row per donor × cell type. Several rows per pair trigger a

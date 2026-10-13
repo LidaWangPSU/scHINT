@@ -96,7 +96,7 @@ schint_sample <- function(data, y, id, celltype, geno = NULL, grm = NULL,
   }
   .schint_fit(data, y, id, context = celltype, covariates, geno, grm,
               match.arg(cat_mode), gxc = gxc, ind_effect, context_main = celltype_main,
-              scale_x, jackknife, n_blocks, seed, match.call())
+              scale_x, jackknife, n_blocks, seed, match.call(), norm_h2 = FALSE)
 }
 
 .compact_summary <- function(s, digits) {

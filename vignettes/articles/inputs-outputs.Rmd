@@ -81,7 +81,7 @@ fit$summary
 |---|---|
 | `term` | `G`, `GxC` (sum over context variables), `G_total` = G + GxC, `I`, `context`, `covariate`, `total_explained`; with several GRMs also one row per GRM (`G1`, `G1:C`, ...); with several context variables also `GxC:<variable>` |
 | `variance` | variance contribution on the standardized-expression scale |
-| `h2` | population-level heritability (cell-level residual removed from the denominator; see [Model](model.html)) |
+| `h2` | `schint_cell()` only: population-level heritability (cell-level residual removed from the denominator; see [Model](model.html)). Pseudobulk output has no `h2`, its variances are already population-level |
 | `se`, `se_h2` | jackknife standard errors (only with `jackknife = TRUE`) |
 
 **`fit$coefficients`** -- one row per HE-regression term:
@@ -107,5 +107,5 @@ extra `gene` column (terms: `P`, `PxC`, `P_total`, `context`, `covariate`,
 
 ```{r extract}
 coef(fit)                      # named vector of regression coefficients
-subset(fit$summary, term %in% c("G", "GxC"), select = c(term, h2, se_h2))
+subset(fit$summary, term %in% c("G", "GxC"), select = c(term, variance, h2, se_h2))
 ```

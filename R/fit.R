@@ -40,7 +40,7 @@
 
 .schint_fit <- function(data, y, id, context, covariates, geno, grm,
                         cat_mode, gxc, ind_effect, context_main, scale_x,
-                        jackknife, n_blocks, seed, call) {
+                        jackknife, n_blocks, seed, call, norm_h2 = TRUE) {
   data <- as.data.frame(data)
   need <- unique(c(y, id, context, covariates))
   miss <- setdiff(need, names(data))
@@ -142,8 +142,11 @@
 
   ## population-level heritability: variance / (total explained variance), i.e. with the
   ## cell-level residual removed from the denominator
-  summ$h2 <- summ$variance / sum(replace(ve, is.na(ve), 0))
-  summ$h2[summ$term == "total_explained"] <- NA_real_
+  ## (only for cell-level data: pseudobulk variances are already population-level)
+  if (norm_h2) {
+    summ$h2 <- summ$variance / sum(replace(ve, is.na(ve), 0))
+    summ$h2[summ$term == "total_explained"] <- NA_real_
+  }
 
   coefs <- data.frame(component = nms, group = group, grm = grm_of,
                       estimate = beta, variance = ve,
@@ -169,8 +172,10 @@
     V[is.na(V)] <- 0
     Sg <- V %*% t(A)
     summ$se <- jse(Sg)
-    summ$se_h2 <- jse(Sg / rowSums(V))
-    summ$se_h2[summ$term == "total_explained"] <- NA_real_
+    if (norm_h2) {
+      summ$se_h2 <- jse(Sg / rowSums(V))
+      summ$se_h2[summ$term == "total_explained"] <- NA_real_
+    }
     jk <- list(estimates = Bm, n_blocks = nb, block = bid)
   }
 

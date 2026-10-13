@@ -217,7 +217,8 @@ leave-block-out component vectors.
 `fit$summary` reports each component's variance (`variance`, on the standardized-expression
 scale, so it is also the fraction of the variance of expression). Single-cell variance contains a large
 cell-specific part that averaging over cells removes. To make the estimates comparable to
-population-level heritability, `h2` removes the cell-level residual $\sigma_\varepsilon^2$ from the
+population-level heritability, `h2` (cell-level models only; pseudobulk variances are already
+population-level) removes the cell-level residual $\sigma_\varepsilon^2$ from the
 denominator:
 
 $$

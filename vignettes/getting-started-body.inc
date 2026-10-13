@@ -217,7 +217,8 @@ fs
 
 **Output** -- same structure as above: `G` is genetic variance shared across cell types,
 `GxC` the cell-type-specific genetic variance, `I` the donor component shared across cell
-types, `context` the cell-type mean variance. `gxc = FALSE` fits shared genetics only;
+types, `context` the cell-type mean variance. Pseudobulk variances are already at the
+population level, so there is no `h2` column. `gxc = FALSE` fits shared genetics only;
 `cat_mode = "per_level"` estimates a genetic variance for each cell type.
 
 ### 4.3 Perturbation × context heritability: `schint_pert()`
