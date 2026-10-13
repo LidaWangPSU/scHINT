@@ -33,14 +33,14 @@ fs
 #> scHINT model: 2000 observations, 400 donors, 1 GRM
 #> 
 #> Variance components (variance on the standardized-expression scale):
-#>             term variance     h2     se  se_h2
-#>                G   0.1020 0.1070 0.0237 0.0246
-#>              GxC   0.0566 0.0595 0.0206 0.0202
-#>          G_total   0.1580 0.1660 0.0295 0.0276
-#>                I   0.0227 0.0238 0.0199 0.0209
-#>          context   0.7320 0.7700 0.0216 0.0214
-#>        covariate   0.0378 0.0398 0.0115 0.0116
-#>  total_explained   0.9510     NA 0.0369     NA
+#>             term variance     se
+#>                G   0.1020 0.0237
+#>              GxC   0.0566 0.0206
+#>          G_total   0.1580 0.0295
+#>                I   0.0227 0.0199
+#>          context   0.7320 0.0216
+#>        covariate   0.0378 0.0115
+#>  total_explained   0.9510 0.0369
 #> 
 #> Standard errors: jackknife over 400 donor blocks
 ```
@@ -50,6 +50,11 @@ fs
   type).
 - `I` - donor effect shared across cell types, not genetic.
 - `context` - variance of cell-type mean differences.
+
+The variance components of pseudobulk expression are already at the
+population level (the cell-level noise is averaged out when cells are
+pooled), so no further normalization is applied and the output has no
+`h2` column.
 
 ## Notes
 

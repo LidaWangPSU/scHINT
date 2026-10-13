@@ -125,14 +125,14 @@ is <strong>cell-type specific</strong> (<code>GxC</code>).</p>
 <span><span class="co">#&gt; scHINT model: 2000 observations, 400 donors, 1 GRM</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variance components (variance on the standardized-expression scale):</span></span>
-<span><span class="co">#&gt;             term variance     h2     se  se_h2</span></span>
-<span><span class="co">#&gt;                G   0.1020 0.1070 0.0237 0.0246</span></span>
-<span><span class="co">#&gt;              GxC   0.0566 0.0595 0.0206 0.0202</span></span>
-<span><span class="co">#&gt;          G_total   0.1580 0.1660 0.0295 0.0276</span></span>
-<span><span class="co">#&gt;                I   0.0227 0.0238 0.0199 0.0209</span></span>
-<span><span class="co">#&gt;          context   0.7320 0.7700 0.0216 0.0214</span></span>
-<span><span class="co">#&gt;        covariate   0.0378 0.0398 0.0115 0.0116</span></span>
-<span><span class="co">#&gt;  total_explained   0.9510     NA 0.0369     NA</span></span>
+<span><span class="co">#&gt;             term variance     se</span></span>
+<span><span class="co">#&gt;                G   0.1020 0.0237</span></span>
+<span><span class="co">#&gt;              GxC   0.0566 0.0206</span></span>
+<span><span class="co">#&gt;          G_total   0.1580 0.0295</span></span>
+<span><span class="co">#&gt;                I   0.0227 0.0199</span></span>
+<span><span class="co">#&gt;          context   0.7320 0.0216</span></span>
+<span><span class="co">#&gt;        covariate   0.0378 0.0115</span></span>
+<span><span class="co">#&gt;  total_explained   0.9510 0.0369</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Standard errors: jackknife over 400 donor blocks</span></span></code></pre></div>
 <ul>
@@ -147,6 +147,10 @@ genetic.</li>
 <li>
 <code>context</code> - variance of cell-type mean differences.</li>
 </ul>
+<p>The variance components of pseudobulk expression are already at the
+population level (the cell-level noise is averaged out when cells are
+pooled), so no further normalization is applied and the output has no
+<code>h2</code> column.</p>
 </div>
 <div class="section level2">
 <h2 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>

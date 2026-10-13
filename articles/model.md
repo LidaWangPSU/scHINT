@@ -225,8 +225,9 @@ computed from the leave-block-out component vectors.
 standardized-expression scale, so it is also the fraction of the
 variance of expression). Single-cell variance contains a large
 cell-specific part that averaging over cells removes. To make the
-estimates comparable to population-level heritability, `h2` removes the
-cell-level residual \\\sigma\_\varepsilon^2\\ from the denominator:
+estimates comparable to population-level heritability, `h2` (cell-level
+models only; pseudobulk variances are already population-level) removes
+the cell-level residual \\\sigma\_\varepsilon^2\\ from the denominator:
 
 \\ h^2_G=\frac{\sigma_G^2}{\sigma_G^2+\sigma^2\_{G\times
 C}+\sigma_C^2+\sigma_o^2+\sigma_I^2},\qquad h^2\_{G\times

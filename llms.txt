@@ -312,14 +312,14 @@ fs
 #> scHINT model: 2000 observations, 400 donors, 1 GRM
 #> 
 #> Variance components (variance on the standardized-expression scale):
-#>             term variance     h2     se  se_h2
-#>                G   0.1020 0.1080 0.0237 0.0248
-#>              GxC   0.0566 0.0601 0.0206 0.0204
-#>          G_total   0.1580 0.1680 0.0295 0.0279
-#>                I   0.0228 0.0243 0.0199 0.0211
-#>          context   0.7320 0.7780 0.0216 0.0215
-#>        covariate   0.0278 0.0295 0.0103 0.0106
-#>  total_explained   0.9410     NA 0.0362     NA
+#>             term variance     se
+#>                G   0.1020 0.0237
+#>              GxC   0.0566 0.0206
+#>          G_total   0.1580 0.0295
+#>                I   0.0228 0.0199
+#>          context   0.7320 0.0216
+#>        covariate   0.0278 0.0103
+#>  total_explained   0.9410 0.0362
 #> 
 #> Standard errors: jackknife over 400 donor blocks
 ```
@@ -327,7 +327,8 @@ fs
 **Output** – same structure as above: `G` is genetic variance shared
 across cell types, `GxC` the cell-type-specific genetic variance, `I`
 the donor component shared across cell types, `context` the cell-type
-mean variance. `gxc = FALSE` fits shared genetics only;
+mean variance. Pseudobulk variances are already at the population level,
+so there is no `h2` column. `gxc = FALSE` fits shared genetics only;
 `cat_mode = "per_level"` estimates a genetic variance for each cell
 type.
 

@@ -38,19 +38,19 @@ cells$n_cells <- 300 * cells$cells_per_donor
 cells$seconds <- sapply(cells$cells_per_donor, function(m) time_fit(300, m))
 cells
 #>   cells_per_donor n_cells seconds
-#> 1              10    3000   0.082
-#> 2              20    6000   0.077
-#> 3              40   12000   0.090
-#> 4              80   24000   0.146
-#> 5             160   48000   0.209
+#> 1              10    3000   0.047
+#> 2              20    6000   0.041
+#> 3              40   12000   0.047
+#> 4              80   24000   0.080
+#> 5             160   48000   0.114
 donors <- data.frame(n_donors = c(100, 200, 400, 600))
 donors$seconds <- sapply(donors$n_donors, function(n) time_fit(n, 30))
 donors
 #>   n_donors seconds
-#> 1      100   0.041
-#> 2      200   0.062
-#> 3      400   0.117
-#> 4      600   0.176
+#> 1      100   0.018
+#> 2      200   0.031
+#> 3      400   0.062
+#> 4      600   0.098
 ```
 
 ![](performance_files/figure-html/bench-plot-1.png)

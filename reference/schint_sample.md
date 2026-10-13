@@ -117,12 +117,12 @@ fit
 #> scHINT model: 2000 observations, 400 donors, 1 GRM
 #> 
 #> Variance components (variance on the standardized-expression scale):
-#>             term variance     h2
-#>                G   0.1020 0.1070
-#>              GxC   0.0566 0.0595
-#>          G_total   0.1580 0.1660
-#>                I   0.0227 0.0238
-#>          context   0.7320 0.7700
-#>        covariate   0.0378 0.0398
-#>  total_explained   0.9510     NA
+#>             term variance
+#>                G   0.1020
+#>              GxC   0.0566
+#>          G_total   0.1580
+#>                I   0.0227
+#>          context   0.7320
+#>        covariate   0.0378
+#>  total_explained   0.9510
 ```

@@ -106,7 +106,7 @@ fit$summary
 |----|----|
 | `term` | `G`, `GxC` (sum over context variables), `G_total` = G + GxC, `I`, `context`, `covariate`, `total_explained`; with several GRMs also one row per GRM (`G1`, `G1:C`, …); with several context variables also `GxC:<variable>` |
 | `variance` | variance contribution on the standardized-expression scale |
-| `h2` | population-level heritability (cell-level residual removed from the denominator; see [Model](https://LidaWangPSU.github.io/scHINT/articles/model.md)) |
+| `h2` | [`schint_cell()`](https://LidaWangPSU.github.io/scHINT/reference/schint_cell.md) only: population-level heritability (cell-level residual removed from the denominator; see [Model](https://LidaWangPSU.github.io/scHINT/articles/model.md)). Pseudobulk output has no `h2`, its variances are already population-level |
 | `se`, `se_h2` | jackknife standard errors (only with `jackknife = TRUE`) |
 
 **`fit$coefficients`** – one row per HE-regression term:
@@ -163,8 +163,8 @@ coef(fit)                      # named vector of regression coefficients
 #> -0.008875315  0.206576226  0.076689304  0.007037744  0.163913313  0.010251003 
 #>          pc2          age          sex        batch 
 #>  0.010026416  0.002508032  0.013092156  0.007724064
-subset(fit$summary, term %in% c("G", "GxC"), select = c(term, h2, se_h2))
-#>   term        h2      se_h2
-#> 1    G 0.4141675 0.08192123
-#> 2  GxC 0.3291968 0.04975201
+subset(fit$summary, term %in% c("G", "GxC"), select = c(term, variance, h2, se_h2))
+#>   term  variance        h2      se_h2
+#> 1    G 0.2054834 0.4141675 0.08192123
+#> 2  GxC 0.1633264 0.3291968 0.04975201
 ```

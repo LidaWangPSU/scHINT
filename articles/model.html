@@ -405,7 +405,8 @@ component vectors.</p>
 also the fraction of the variance of expression). Single-cell variance
 contains a large cell-specific part that averaging over cells removes.
 To make the estimates comparable to population-level heritability,
-<code>h2</code> removes the cell-level residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> from the
+<code>h2</code> (cell-level models only; pseudobulk variances are
+already population-level) removes the cell-level residual <span class="math inline">\(\sigma_\varepsilon^2\)</span> from the
 denominator:</p>
 <p><span class="math display">\[
 h^2_G=\frac{\sigma_G^2}{\sigma_G^2+\sigma^2_{G\times
