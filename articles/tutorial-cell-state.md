@@ -43,11 +43,28 @@ fitA
 ```
 
 `G` is the genetic variance present in every cell, `GxC` the genetic
-variance that varies with `state`, and `G_total` their sum. `h2` is the
-population-level heritability (cell-level residual removed from the
-denominator; see
+variance that varies with `state`, and `G_total` their sum.
+
+**Two scales.** The `variance` column holds the variance components of
+**cell-level expression**. Expression is standardized to variance 1, so
+each component is the share of the total single-cell variance; what is
+left over is the cell-level residual (noise), which is not shown. The
+`h2` column is the **normalized, population-level heritability**: each
+component divided by the variance explained by all components, with the
+cell-level residual removed from the denominator. Cell-level noise
+averages out when cells are pooled, so `h2` is comparable to the
+heritability estimated from pseudobulk or population-level data (see
 [Model](https://LidaWangPSU.github.io/scHINT/articles/model.md), section
 7).
+
+``` r
+
+s <- fitA$summary
+c(cell_level_G = s$variance[s$term == "G"],
+  h2_G = s$variance[s$term == "G"] / s$variance[s$term == "total_explained"])
+#> cell_level_G         h2_G 
+#>    0.2054834    0.4141675
+```
 
 ## 2. Is there G×Cell-State heritability?
 

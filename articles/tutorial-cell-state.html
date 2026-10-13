@@ -140,16 +140,31 @@ interaction</li>
 <span><span class="co">#&gt; Standard errors: jackknife over 400 donor blocks</span></span></code></pre></div>
 <p><code>G</code> is the genetic variance present in every cell,
 <code>GxC</code> the genetic variance that varies with
-<code>state</code>, and <code>G_total</code> their sum. <code>h2</code>
-is the population-level heritability (cell-level residual removed from
-the denominator; see <a href="model.html">Model</a>, section 7).</p>
+<code>state</code>, and <code>G_total</code> their sum.</p>
+<p><strong>Two scales.</strong> The <code>variance</code> column holds
+the variance components of <strong>cell-level expression</strong>.
+Expression is standardized to variance 1, so each component is the share
+of the total single-cell variance; what is left over is the cell-level
+residual (noise), which is not shown. The <code>h2</code> column is the
+<strong>normalized, population-level heritability</strong>: each
+component divided by the variance explained by all components, with the
+cell-level residual removed from the denominator. Cell-level noise
+averages out when cells are pooled, so <code>h2</code> is comparable to
+the heritability estimated from pseudobulk or population-level data (see
+<a href="model.html">Model</a>, section 7).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="va">fitA</span><span class="op">$</span><span class="va">summary</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cell_level_G <span class="op">=</span> <span class="va">s</span><span class="op">$</span><span class="va">variance</span><span class="op">[</span><span class="va">s</span><span class="op">$</span><span class="va">term</span> <span class="op">==</span> <span class="st">"G"</span><span class="op">]</span>,</span>
+<span>  h2_G <span class="op">=</span> <span class="va">s</span><span class="op">$</span><span class="va">variance</span><span class="op">[</span><span class="va">s</span><span class="op">$</span><span class="va">term</span> <span class="op">==</span> <span class="st">"G"</span><span class="op">]</span> <span class="op">/</span> <span class="va">s</span><span class="op">$</span><span class="va">variance</span><span class="op">[</span><span class="va">s</span><span class="op">$</span><span class="va">term</span> <span class="op">==</span> <span class="st">"total_explained"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; cell_level_G         h2_G </span></span>
+<span><span class="co">#&gt;    0.2054834    0.4141675</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="is-there-gcell-state-heritability">2. Is there G×Cell-State heritability?<a class="anchor" aria-label="anchor" href="#is-there-gcell-state-heritability"></a>
 </h2>
 <p>Compare the interaction estimate and its jackknife standard error
 across genes:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GENE_A"</span>, <span class="st">"GENE_B"</span>, <span class="st">"GENE_C"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="va">g</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, context <span class="op">=</span> <span class="st">"state"</span>,</span>
 <span>                   covariates <span class="op">=</span> <span class="va">covs</span>, jackknife <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -175,7 +190,7 @@ only.</p>
 <p><code>context</code> accepts several columns, each with its own main
 and G× term. Here the categorical <code>subtype</code> is added as a
 second context (one pooled “same subtype” component):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>,</span>
 <span>                  context <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"subtype"</span><span class="op">)</span>, covariates <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
 <span><span class="va">f2</span><span class="op">$</span><span class="va">summary</span></span>
@@ -206,7 +221,7 @@ only. To mirror a typical analysis, put the leading state PCs (say 5) in
 <div class="section level2">
 <h2 id="multiple-grms">5. Multiple GRMs<a class="anchor" aria-label="anchor" href="#multiple-grms"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">grms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/split_snps.html">split_snps</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, <span class="fl">3</span>, by <span class="op">=</span> <span class="st">"maf"</span><span class="op">)</span>, <span class="va">make_grm</span><span class="op">)</span>   <span class="co"># a list of GRMs</span></span>
 <span><span class="va">f3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, grm <span class="op">=</span> <span class="va">grms</span>,</span>
 <span>                  context <span class="op">=</span> <span class="st">"state"</span>, covariates <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
@@ -233,7 +248,7 @@ matrices, or of GRMs, to split by any annotation.</p>
 <div class="section level2">
 <h2 id="pre-computed-grms">6. Pre-computed GRMs<a class="anchor" aria-label="anchor" href="#pre-computed-grms"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_grm.html">make_grm</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">geno</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, grm <span class="op">=</span> <span class="va">K</span>, context <span class="op">=</span> <span class="st">"state"</span>,</span>
 <span>                           covariates <span class="op">=</span> <span class="va">covs</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -247,7 +262,7 @@ matrices, or of GRMs, to split by any annotation.</p>
 large cohorts); <code>seed</code> controls the assignment. The per-block
 estimates are in <code>fit$jackknife$estimates</code>, from which the
 standard error of any function of the components can be computed.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schint_cell.html">schint_cell</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">cell</span>, <span class="st">"GENE_A"</span>, <span class="st">"donor"</span>, geno <span class="op">=</span> <span class="va">ex</span><span class="op">$</span><span class="va">geno</span>, context <span class="op">=</span> <span class="st">"state"</span>,</span>
 <span>                  covariates <span class="op">=</span> <span class="va">covs</span>, jackknife <span class="op">=</span> <span class="cn">TRUE</span>, n_blocks <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="va">B</span>  <span class="op">&lt;-</span> <span class="va">jk</span><span class="op">$</span><span class="va">jackknife</span><span class="op">$</span><span class="va">estimates</span></span>
