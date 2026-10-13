@@ -148,10 +148,7 @@ of the total single-cell variance; what is left over is the cell-level
 residual (noise), which is not shown. The <code>h2</code> column is the
 <strong>normalized, population-level heritability</strong>: each
 component divided by the variance explained by all components, with the
-cell-level residual removed from the denominator. Cell-level noise
-averages out when cells are pooled, so <code>h2</code> is comparable to
-the heritability estimated from pseudobulk or population-level data (see
-<a href="model.html">Model</a>, section 7).</p>
+cell-level residual removed from the denominator.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="va">fitA</span><span class="op">$</span><span class="va">summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cell_level_G <span class="op">=</span> <span class="va">s</span><span class="op">$</span><span class="va">variance</span><span class="op">[</span><span class="va">s</span><span class="op">$</span><span class="va">term</span> <span class="op">==</span> <span class="st">"G"</span><span class="op">]</span>,</span>

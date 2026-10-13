@@ -51,11 +51,7 @@ each component is the share of the total single-cell variance; what is
 left over is the cell-level residual (noise), which is not shown. The
 `h2` column is the **normalized, population-level heritability**: each
 component divided by the variance explained by all components, with the
-cell-level residual removed from the denominator. Cell-level noise
-averages out when cells are pooled, so `h2` is comparable to the
-heritability estimated from pseudobulk or population-level data (see
-[Model](https://LidaWangPSU.github.io/scHINT/articles/model.md), section
-7).
+cell-level residual removed from the denominator.
 
 ``` r
 
