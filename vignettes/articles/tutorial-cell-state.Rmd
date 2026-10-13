@@ -39,9 +39,7 @@ expression**. Expression is standardized to variance 1, so each component is the
 the total single-cell variance; what is left over is the cell-level residual (noise), which
 is not shown. The `h2` column is the **normalized, population-level heritability**: each
 component divided by the variance explained by all components, with the cell-level
-residual removed from the denominator. Cell-level noise averages out when cells are
-pooled, so `h2` is comparable to the heritability estimated from pseudobulk or
-population-level data (see [Model](model.html), section 7).
+residual removed from the denominator.
 
 ```{r h2-by-hand}
 s <- fitA$summary
